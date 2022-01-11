@@ -23,10 +23,8 @@ git remote add vogsphere https://github.com/GlaceCoding/exemple_rendu_vogsphere.
 
 # Projet testé via :
 
- - test/test.c
- _ https://github.com/vfurmane/pipex-tester
+ - `sh test/test.sh`
 
 # Documentation :
 
- - https://www.youtube.com/watch?v=6xbLgZpOBi8
- - https://www.youtube.com/watch?v=cex9XrZCU14&list=PLfqABt5AS4FkW5mOn2Tn9ZZLLDwA3kZUY
+ - 
