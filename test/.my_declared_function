@@ -1,0 +1,15 @@
+#declared function
+
+main.c:ft_putstr
+main.c:main
+minishell.c:ma_fonction_exemple
+minishell.c:minishell
+app.c:get_app
+app.c:handle_app
+app.c: 00000000000000e8 b _handle_app.app
+list.c:list_data_eq
+list.c:list_dtoi
+list.c:list_free_data
+list.c:list_get_int_index
+list.c:list_init_data
+ft_strlen.c:ft_strlen
