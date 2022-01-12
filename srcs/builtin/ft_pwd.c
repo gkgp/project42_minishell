@@ -1,34 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   app.c                                              :+:      :+:    :+:   */
+/*   ft_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/11 10:50:45 by gkgpteam          #+#    #+#             */
-/*   Updated: 2022/01/12 20:50:41 by gphilipp         ###   ########.fr       */
+/*   Created: 2022/01/12 12:14:24 by gkgpteam          #+#    #+#             */
+/*   Updated: 2022/01/12 20:32:02 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <unistd.h>
 #include <stdlib.h>
+#include <limits.h>
 
-t_app	*handle_app(t_app *abc)
+char	*ft_pwd(void)
 {
-	static t_app	*app = NULL;
+	char		cwd[PATH_MAX];
 
-	if (abc)
-		app = abc;
-	return (app);
-}
-
-t_app	*get_app(void)
-{
-	return (handle_app(NULL));
-}
-
-void	init_app(t_app *app)
-{
-	app->workdir = ft_pwd();
-	(void)app;
+	if (getcwd(cwd, PATH_MAX) != NULL)
+		return (ft_strdup(cwd));
+	return (NULL);
 }

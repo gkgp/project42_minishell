@@ -1,34 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   app.c                                              :+:      :+:    :+:   */
+/*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/11 10:50:45 by gkgpteam          #+#    #+#             */
-/*   Updated: 2022/01/12 20:50:41 by gphilipp         ###   ########.fr       */
+/*   Created: 2022/01/12 12:14:24 by gkgpteam          #+#    #+#             */
+/*   Updated: 2022/01/12 21:29:18 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include <stdlib.h>
+#include <unistd.h>
+#include <errno.h>
 
-t_app	*handle_app(t_app *abc)
+int	ft_cd(char *path)
 {
-	static t_app	*app = NULL;
-
-	if (abc)
-		app = abc;
-	return (app);
-}
-
-t_app	*get_app(void)
-{
-	return (handle_app(NULL));
-}
-
-void	init_app(t_app *app)
-{
-	app->workdir = ft_pwd();
-	(void)app;
+	if (chdir(path) != 0)
+		return (errno);
+	app_refresh_workdir();
+	return (0);
 }
