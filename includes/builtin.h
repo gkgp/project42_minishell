@@ -1,34 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   app.c                                              :+:      :+:    :+:   */
+/*   builtin.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/11 10:50:45 by gkgpteam          #+#    #+#             */
-/*   Updated: 2022/01/12 20:50:41 by gphilipp         ###   ########.fr       */
+/*   Created: 2022/01/12 20:29:15 by gkgpteam          #+#    #+#             */
+/*   Updated: 2022/01/12 21:22:27 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include <stdlib.h>
+#ifndef BUILTIN_H
+# define BUILTIN_H
 
-t_app	*handle_app(t_app *abc)
-{
-	static t_app	*app = NULL;
+int			ft_cd(char *path);
+char		*ft_pwd(void);
 
-	if (abc)
-		app = abc;
-	return (app);
-}
-
-t_app	*get_app(void)
-{
-	return (handle_app(NULL));
-}
-
-void	init_app(t_app *app)
-{
-	app->workdir = ft_pwd();
-	(void)app;
-}
+#endif
