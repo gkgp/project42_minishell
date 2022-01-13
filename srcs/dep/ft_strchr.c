@@ -1,35 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   app.c                                              :+:      :+:    :+:   */
+/*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/11 10:50:45 by gkgpteam          #+#    #+#             */
-/*   Updated: 2022/01/13 14:52:02 by gphilipp         ###   ########.fr       */
+/*   Created: 2021/10/22 07:58:41 by gphilipp          #+#    #+#             */
+/*   Updated: 2022/01/13 14:40:49 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include <stdlib.h>
-
-t_app	*handle_app(t_app *abc)
+char	*ft_strchr(const char *s, int c)
 {
-	static t_app	*app = NULL;
+	char	*str;
 
-	if (abc)
-		app = abc;
-	return (app);
-}
-
-t_app	*get_app(void)
-{
-	return (handle_app(NULL));
-}
-
-void	init_app(t_app *app)
-{
-	app->workdir = ft_pwd();
-	app->env = NULL;
-	(void)app;
+	str = (char *) s;
+	while (*str != '\0')
+	{
+		if (*str == (char) c)
+			return (str);
+		str++;
+	}
+	if (c == '\0')
+		return (str);
+	return (0);
 }
