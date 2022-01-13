@@ -1,35 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   app.c                                              :+:      :+:    :+:   */
+/*   ft_strxcmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/11 10:50:45 by gkgpteam          #+#    #+#             */
-/*   Updated: 2022/01/13 14:52:02 by gphilipp         ###   ########.fr       */
+/*   Created: 2021/09/09 09:42:42 by gphilipp          #+#    #+#             */
+/*   Updated: 2022/01/13 15:55:13 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include <stdlib.h>
-
-t_app	*handle_app(t_app *abc)
+int	ft_strcmp(const char *s1, const char *s2)
 {
-	static t_app	*app = NULL;
-
-	if (abc)
-		app = abc;
-	return (app);
+	while (*s1 && *s1 == *s2)
+	{
+		s1++;
+		s2++;
+	}
+	return ((unsigned char) *s1 - (unsigned char) *s2);
 }
 
-t_app	*get_app(void)
+int	ft_strncmp(const char *s1, const char *s2, int n)
 {
-	return (handle_app(NULL));
-}
-
-void	init_app(t_app *app)
-{
-	app->workdir = ft_pwd();
-	app->env = NULL;
-	(void)app;
+	while (n > 0)
+	{
+		if (*s1 != *s2)
+			return ((unsigned char) *s1 - (unsigned char) *s2);
+		s1++;
+		s2++;
+		n--;
+	}
+	return (0);
 }

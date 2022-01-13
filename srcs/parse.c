@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: min-kang <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 13:24:50 by min-kang          #+#    #+#             */
-/*   Updated: 2022/01/13 13:24:52 by min-kang         ###   ########.fr       */
+/*   Updated: 2022/01/13 19:18:22 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void    parse_input(char *r_data, t_cmd *cmd)
+/*void    parse_input(char *r_data, t_cmd *cmd)
 {
     cmd->args = ft_split(r_data, ' ');
     cmd->cmd_path = define_path(cmd->args[0], cmd->path);
@@ -47,5 +47,4 @@ char	**parse_path(char **envp)
 		i++;
 	path_tab = ft_split(envp[i] + 5, ':');
 	return (path_tab);
-}
-
+}*/

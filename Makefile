@@ -6,20 +6,25 @@
 #    By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/18 14:24:46 by gkgpteam          #+#    #+#              #
-#    Updated: 2022/01/12 21:26:33 by gphilipp         ###   ########.fr        #
+#    Updated: 2022/01/13 19:16:30 by gphilipp         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # <!-- pre='srcs/' path='./' match='*.c' exclude='main.c' pos='1' template='		{0} \' -->
 SRC	  = main.c \
-		dep/ft_strlen.c \
-		dep/ft_strdup.c \
 		builtin/ft_cd.c \
 		builtin/ft_pwd.c \
-		list.c \
-		app_refresh.c \
+		dep/ft_strchr.c \
+		dep/ft_strdup.c \
+		dep/ft_strlen.c \
+		dep/ft_strxcmp.c \
 		app.c \
+		app_refresh.c \
+		env.c \
+		execute.c \
+		list.c \
 		minishell.c \
+		parse.c \
 
 
 # <!-- pre='includes/' path='./' match='*.h' exclude='minishell.h' pos='1' template='		{0} \' -->

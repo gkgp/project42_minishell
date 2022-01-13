@@ -6,7 +6,7 @@
 /*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 10:49:04 by gkgpteam          #+#    #+#             */
-/*   Updated: 2022/01/12 21:36:11 by gphilipp         ###   ########.fr       */
+/*   Updated: 2022/01/13 19:19:45 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 			#include <stdio.h>
 
-int	minishell(int argc, char const *argv[])
+int	minishell(int argc, char const *argv[], char *const envp[])
 {
 	t_app			app;
 
@@ -29,12 +29,19 @@ int	minishell(int argc, char const *argv[])
 	// variable static dans).
 	//							(tu peux supprimer le commentaire une fois lu)
 	init_app(&app);
+	init_env(envp);
+
+
+
 
 	//>> test
 	printf("working directory: %s\n", app.workdir);
 	ft_cd("./test/");
 	printf("cd ./test\nworking directory: %s\n", app.workdir);
+
+	printf("%s\n", ft_getenv("PATH"));
 	// <<
+
 	(void) argv;
 	return (0);
 }
