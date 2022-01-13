@@ -11,7 +11,9 @@
 /* ************************************************************************** */
 
 #include <unistd.h>
-#include "minishell.h"
+#include <readline/readline.h>
+#include <readline/history.h>
+#include "../includes/minishell.h"
 
 void	ft_putstr(char *s)
 {
@@ -19,7 +21,22 @@ void	ft_putstr(char *s)
 		write(1, s++, 1);
 }
 
-int	main(int argc, char const *argv[])
+int	main(int argc, char const *argv[], char const *envp[])
 {
+	t_cmd	cmd; 
+    char    *r_data;
+	char	**path;
+	char	*cmd;
+
+    if (argc != 1)
+        return (0);
+	cmd.envp = envp;
+	cmd.path = parse_path(envp);
+    r_data = readline("");
+    while (r_data)
+    {
+        parse_input(r_data, &cmd);
+		execute(cmd);
+    }
 	return (minishell(argc - 1, &argv[1]));
 }
