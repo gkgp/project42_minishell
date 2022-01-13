@@ -22,10 +22,30 @@
 ** ft_strlen
 */
 
+#include <stdio.h>
+#include <unistd.h>
+#include <stdlib.h>
+
 typedef struct s_app
 {
 	char	*workdir;
 }			t_app;
+
+typedef struct s_cmd
+{
+   //char *cmd; je n'ai pas besoin pour l'instant car args[1] peut remplacer celle-ci
+   char	*cmd_path; // command with its path
+   char **args; // split arguments (including filename)
+   char **envp; // envp
+   char	**path; // Possible command paths
+
+   // variables pas encore utilisees
+   char *redirect_input; // NULL ou la valeur
+   char *redirect_output; // NULL ou la valeur
+   int read_input; // 0 ou 1 pour <<
+   int append_mod; // 0 ou 1 pour >>
+   char *pipes; // right part
+} t_cmd;
 
 /* prototypes */
 int			minishell(int argc, char const *argv[]);
@@ -41,5 +61,12 @@ void		app_refresh_workdir(void);
 void		ft_putstr(char *s);
 int			ft_strlen(const char *s);
 char		*ft_strdup(const char *s1);
+int			ft_strncmp(char *s1, char *s2, int n);
+char		*ft_strjoin(char *s1, char *s2);
+void    	ft_putstr_fd(char *s, int fd);
+
+/* parse */
+void    parse_input(char *r_data, t_cmd *cmd);
+char	**parse_path(char **envp);
 
 #endif
