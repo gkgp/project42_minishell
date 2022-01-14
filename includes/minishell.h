@@ -35,18 +35,23 @@ typedef struct s_keyval
 
 typedef struct s_cmd
 {
-	//char *cmd; je n'ai pas besoin pour l'instant car args[1] peut remplacer celle-ci
-	char		*cmd_path; // command with its path
-	char		**args; // split arguments (including filename)
-	char		**envp; // envp
-	char		**path; // Possible command paths
+	char		*cmd_path;
+	char		**args;
+	char		**envp;
+	char		**path;
+}			t_cmd;
+
+/*
+	//char *cmd; je n'ai pas besoin pour l'instant car args[1] peut
+	             remplacer celle-ci
+
 	// variables pas encore utilisees
 	char		*redirect_input; // NULL ou la valeur
 	char		*redirect_output; // NULL ou la valeur
 	int			read_input; // 0 ou 1 pour <<
 	int			append_mod; // 0 ou 1 pour >>
 	char		*pipes; // right part
-}			t_cmd;
+*/
 
 /* prototypes */
 int			minishell(int argc, char const *argv[], char *const envp[]);

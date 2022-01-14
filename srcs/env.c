@@ -12,8 +12,6 @@
 
 #include "minishell.h"
 
-			#include <stdio.h>
-
 void	init_env(char *const envp[])
 {
 	int			i;
