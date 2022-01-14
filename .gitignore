@@ -5,6 +5,7 @@
 /minishell
 /minishell_debug
 /minishell_sanitize
+/minishell_leaks
 /minishell-tester
 /*.txt
 .tmp_*

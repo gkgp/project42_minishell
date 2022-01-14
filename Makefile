@@ -6,7 +6,7 @@
 #    By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/18 14:24:46 by gkgpteam          #+#    #+#              #
-#    Updated: 2022/01/13 19:16:30 by gphilipp         ###   ########.fr        #
+#    Updated: 2022/01/14 17:27:04 by gphilipp         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -86,15 +86,33 @@ $(NAME)_debug: $(SRCS) $(HDEPS)
 $(NAME)_sanitize: $(SRCS) $(HDEPS)
 	$(CC) $(CFLAGS) -fsanitize=address -g -o $(NAME)_sanitize -I $(HEAD) $(COMPILEFLAGS) $(SRCS)
 
+MAIN_PATH=srcs/main.c
+$(NAME)_leaks: $(OBJS) $(HDEPS)
+	$(eval main_proto=$(shell grep 'int\tmain' $(MAIN_PATH)))
+	$(eval leaks_proto=$(shell echo '$(main_proto)' | sed 's/main/leaks_tester/'))
+	$(eval call_main=$(shell echo '$(main_proto)' | sed -E "s/(int| |\*|char|const|\[|\])//g"))
+	echo '#include "stdlib.h"\n\n\
+	$(main_proto);\n\n\
+	$(leaks_proto) {\n\
+		\tint exitcode = $(call_main);\n\
+		\tsystem("leaks $(NAME)_leaks");\n\
+		\treturn (exitcode);\n\
+	}' > .tmp_leaks.c
+	$(CC) $(CFLAGS) -o $(NAME)_leaks $(COMPILEFLAGS) .tmp_leaks.c $(OBJS) -e_leaks_tester
+	#rm .tmp_leaks.c
+
 debug: $(NAME)_debug
 
 sanitize: $(NAME)_sanitize
+
+leaks: $(NAME)_leaks
 
 dclean: fclean
 	rm -f *.out
 	rm -rf *.dSYM
 	rm -f $(NAME)_debug
 	rm -f $(NAME)_sanitize
+	rm -f $(NAME)_leaks
 	find . -iname "*.o" -exec rm -i {} ";"
 
 clean:
@@ -108,4 +126,4 @@ fclean: libs_fclean clean
 
 re: fclean all
 
-.PHONY: all clean dclean fclean debug sanitize libs list libs_clean libs_fclean re
+.PHONY: all clean dclean fclean debug sanitize leaks libs list libs_clean libs_fclean re
