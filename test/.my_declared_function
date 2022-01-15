@@ -8,12 +8,10 @@ env.c:ft_unsetenv
 env.c:init_env
 env.c:list_env_to_2d
 list2.c:list_free_keyval
+minishell.c:ft_readline
 minishell.c:minishell
 minishell.c:test
 app.c:free_app
-app.c:get_app
-app.c:handle_app
-app.c: 00000000000001e0 b _handle_app.app
 app.c:init_app
 list.c:list_data_eq
 list.c:list_dtoi
@@ -25,6 +23,7 @@ ft_strlen.c:ft_strlen
 ft_strchr.c:ft_strchr
 ft_strxcmp.c:ft_strcmp
 ft_strxcmp.c:ft_strncmp
+ft_strcat.c:ft_strcat
 app_refresh.c:app_refresh_workdir
 ft_unset.c:ft_unset
 ft_cd.c:ft_cd

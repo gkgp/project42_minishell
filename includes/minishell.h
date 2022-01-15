@@ -6,7 +6,7 @@
 /*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 10:50:45 by gkgpteam          #+#    #+#             */
-/*   Updated: 2022/01/15 13:00:11 by gphilipp         ###   ########.fr       */
+/*   Updated: 2022/01/15 17:43:15 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,23 +53,23 @@ typedef struct s_cmd
 int			minishell(int argc, char const *argv[], char *const envp[]);
 
 /* app.c */
-t_app		*handle_app(t_app *abc);
-t_app		*get_app(void);
 void		init_app(t_app *app);
 void		free_app(t_app *app);
 /* app_refresh.c */
-void		app_refresh_workdir(void);
+void		app_refresh_workdir(t_app *app);
 
 /* builtin/….c utils*/
 char		*ft_getcwd(void);
 
 /* env.c */
-void		init_env(char *const envp[]);
-char		*ft_getenv(char *key);
-int			ft_setenv(char *key, char *val);
-int			ft_unsetenv(char *key);
+void		init_env(t_app *app, char *const envp[]);
+char		*ft_getenv(t_app *app, char *key);
+int			ft_setenv(t_app *app, char *key, char *val);
+int			ft_unsetenv(t_app *app, char *key);
+char		**list_env_to_2d(t_app *app);
+
+/* lisr2.c */
 void		list_free_keyval(void *data);
-char		**list_env_to_2d(void);
 
 /* dep */
 void		ft_putstr(char *s);

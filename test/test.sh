@@ -1,7 +1,7 @@
 #!/bin/sh
 
 HEAD="./includes/"
-LIBS="-Lvendor/liblist/ -llist"
+LIBS="-Lvendor/liblist/ -llist -lreadline"
 
 make
 if [[ $? == 0 ]]; then
