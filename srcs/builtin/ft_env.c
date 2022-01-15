@@ -6,19 +6,17 @@
 /*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/15 11:40:03 by gphilipp          #+#    #+#             */
-/*   Updated: 2022/01/15 11:43:45 by gphilipp         ###   ########.fr       */
+/*   Updated: 2022/01/15 17:34:36 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_env(void)
+int	ft_env(t_app *app)
 {
 	t_list		**plist;
 	t_keyval	*keyval;
-	t_app		*app;
 
-	app = get_app();
 	plist = &app->env;
 	while (*plist)
 	{	

@@ -6,7 +6,7 @@
 #    By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/18 14:24:46 by gkgpteam          #+#    #+#              #
-#    Updated: 2022/01/15 12:58:26 by gphilipp         ###   ########.fr        #
+#    Updated: 2022/01/15 17:52:48 by gphilipp         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -54,7 +54,7 @@ CC    = gcc
 
 CFLAGS = -Wall -Wextra -Werror
 
-COMPILEFLAGS = -L$(LIBLIST) -llist
+COMPILEFLAGS = -L$(LIBLIST) -llist -lreadline
 
 all: libs $(NAME)
 

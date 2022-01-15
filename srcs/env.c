@@ -6,20 +6,18 @@
 /*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 13:24:44 by gkgpteam          #+#    #+#             */
-/*   Updated: 2022/01/15 13:23:04 by gphilipp         ###   ########.fr       */
+/*   Updated: 2022/01/15 17:46:32 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	init_env(char *const envp[])
+void	init_env(t_app *app, char *const envp[])
 {
 	int			i;
 	char		*x;
 	t_keyval	*keyval;
-	t_app		*app;
 
-	app = get_app();
 	i = -1;
 	while (envp[++i])
 	{
@@ -39,12 +37,10 @@ void	init_env(char *const envp[])
 	}
 }
 
-char	*ft_getenv(char *key)
+char	*ft_getenv(t_app *app, char *key)
 {
 	t_list		**plist;
-	t_app		*app;
 
-	app = get_app();
 	plist = &app->env;
 	while (*plist)
 	{
@@ -55,13 +51,11 @@ char	*ft_getenv(char *key)
 	return (NULL);
 }
 
-int	ft_setenv(char *key, char *val)
+int	ft_setenv(t_app *app, char *key, char *val)
 {
 	t_list		**plist;
 	t_keyval	*keyval;
-	t_app		*app;
 
-	app = get_app();
 	plist = &app->env;
 	while (*plist)
 	{
@@ -80,12 +74,10 @@ int	ft_setenv(char *key, char *val)
 	return (1);
 }
 
-int	ft_unsetenv(char *key)
+int	ft_unsetenv(t_app *app, char *key)
 {
 	t_list		**plist;
-	t_app		*app;
 
-	app = get_app();
 	plist = &app->env;
 	while (*plist)
 	{
@@ -99,7 +91,7 @@ int	ft_unsetenv(char *key)
 	return (0);
 }
 
-char	**list_env_to_2d(void)
+char	**list_env_to_2d(t_app *app)
 {
 	char		**envp;
 	int			*length;
@@ -107,7 +99,7 @@ char	**list_env_to_2d(void)
 	t_list		**plist;
 	t_keyval	*keyval;
 
-	plist = &get_app()->env;
+	plist = &app->env;
 	envp = malloc(sizeof(char *) * (list_length(*plist) + 1));
 	i = 0;
 	while (*plist)
