@@ -6,7 +6,7 @@
 /*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 10:50:45 by gkgpteam          #+#    #+#             */
-/*   Updated: 2022/01/13 19:20:32 by gphilipp         ###   ########.fr       */
+/*   Updated: 2022/01/15 13:00:11 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,6 @@
 // Reproduction des fonctions bashs (echo, cd, pwd…)
 # include "builtin.h"
 # include "list.h"
-
-# include <stdio.h>
-# include <unistd.h>
-# include <stdlib.h>
 
 typedef struct s_app
 {
@@ -60,15 +56,24 @@ int			minishell(int argc, char const *argv[], char *const envp[]);
 t_app		*handle_app(t_app *abc);
 t_app		*get_app(void);
 void		init_app(t_app *app);
+void		free_app(t_app *app);
 /* app_refresh.c */
 void		app_refresh_workdir(void);
 
-/* env.c*/
+/* builtin/….c utils*/
+char		*ft_getcwd(void);
+
+/* env.c */
 void		init_env(char *const envp[]);
-char		*ft_getenv(char *path);
+char		*ft_getenv(char *key);
+int			ft_setenv(char *key, char *val);
+int			ft_unsetenv(char *key);
+void		list_free_keyval(void *data);
+char		**list_env_to_2d(void);
 
 /* dep */
 void		ft_putstr(char *s);
+char		*ft_strcat(char *dest, char *src);
 char		*ft_strchr(const char *s, int c);
 char		*ft_strdup(const char *s1);
 int			ft_strlen(const char *s);

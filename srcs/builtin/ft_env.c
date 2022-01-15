@@ -1,40 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   app.c                                              :+:      :+:    :+:   */
+/*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/11 10:50:45 by gkgpteam          #+#    #+#             */
-/*   Updated: 2022/01/15 11:02:13 by gphilipp         ###   ########.fr       */
+/*   Created: 2022/01/15 11:40:03 by gphilipp          #+#    #+#             */
+/*   Updated: 2022/01/15 11:43:45 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include <stdlib.h>
 
-t_app	*handle_app(t_app *abc)
+int	ft_env(void)
 {
-	static t_app	*app = NULL;
+	t_list		**plist;
+	t_keyval	*keyval;
+	t_app		*app;
 
-	if (abc)
-		app = abc;
-	return (app);
-}
-
-t_app	*get_app(void)
-{
-	return (handle_app(NULL));
-}
-
-void	init_app(t_app *app)
-{
-	app->workdir = ft_getcwd();
-	app->env = NULL;
-}
-
-void	free_app(t_app *app)
-{
-	free(app->workdir);
-	list_clear(&app->env, list_free_keyval);
+	app = get_app();
+	plist = &app->env;
+	while (*plist)
+	{	
+		keyval = (t_keyval *)(*plist)->data;
+		ft_putstr(keyval->key);
+		ft_putstr("=");
+		ft_putstr(keyval->val);
+		ft_putstr("\n");
+		plist = &((*plist)->next);
+	}
+	return (0);
 }

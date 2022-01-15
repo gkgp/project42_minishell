@@ -1,40 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   app.c                                              :+:      :+:    :+:   */
+/*   list2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/11 10:50:45 by gkgpteam          #+#    #+#             */
-/*   Updated: 2022/01/15 11:02:13 by gphilipp         ###   ########.fr       */
+/*   Created: 2022/01/15 08:20:03 by gkgpteam          #+#    #+#             */
+/*   Updated: 2022/01/15 08:28:16 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include <stdlib.h>
 
-t_app	*handle_app(t_app *abc)
+void	list_free_keyval(void *data)
 {
-	static t_app	*app = NULL;
+	t_keyval		*keyval;
 
-	if (abc)
-		app = abc;
-	return (app);
-}
-
-t_app	*get_app(void)
-{
-	return (handle_app(NULL));
-}
-
-void	init_app(t_app *app)
-{
-	app->workdir = ft_getcwd();
-	app->env = NULL;
-}
-
-void	free_app(t_app *app)
-{
-	free(app->workdir);
-	list_clear(&app->env, list_free_keyval);
+	keyval = (t_keyval *)data;
+	free(keyval->key);
+	free(keyval->val);
+	free(keyval);
 }

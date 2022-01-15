@@ -7,20 +7,21 @@ function _in {
 	return 1
 }
 
-ARG1="$1"
-ARG2="$2"
-./minishell .tmp_in "$ARG1" "$ARG2" .tmp_out_minishell
-< .tmp_in $ARG1 | $ARG2 > .tmp_out_sh
-DIFF=$(diff -u .tmp_out_sh .tmp_out_minishell)
+./rendu > .tmp_out_rendu
+echo -n "$ARG1" > .tmp_out_sh
+DIFF=$(diff -u .tmp_out_sh .tmp_out_rendu)
 if $(_in "--print" $@); then
-	cat .tmp_out_minishell
+	cat .tmp_out_rendu
 fi
 if [[ $DIFF ]]; then
-	echo "\033[0;31m===== ERROR DIFF! =====\033[0m"
-	echo "$DIFF"
-	echo "\033[0;31m=======================\033[0m"
+	echo -e "\033[0;31m===== ERROR DIFF! =====\033[0m"
+	echo -e "$DIFF"
+	echo -e "\033[0;31m=======================\033[0m"
 fi
 if $(_in "--rm" $@); then
-	rm .tmp_out_minishell
+	rm .tmp_out_rendu
 	rm .tmp_out_sh
+fi
+if [[ $DIFF ]]; then
+	exit 1;
 fi

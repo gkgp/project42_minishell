@@ -6,25 +6,30 @@
 #    By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/18 14:24:46 by gkgpteam          #+#    #+#              #
-#    Updated: 2022/01/14 17:27:04 by gphilipp         ###   ########.fr        #
+#    Updated: 2022/01/15 12:58:26 by gphilipp         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # <!-- pre='srcs/' path='./' match='*.c' exclude='main.c' pos='1' template='		{0} \' -->
 SRC	  = main.c \
-		builtin/ft_cd.c \
-		builtin/ft_pwd.c \
-		dep/ft_strchr.c \
-		dep/ft_strdup.c \
 		dep/ft_strlen.c \
+		dep/ft_strchr.c \
+		dep/ft_strcat.c \
 		dep/ft_strxcmp.c \
-		app.c \
+		dep/ft_strdup.c \
+		builtin/ft_cd.c \
+		builtin/ft_unset.c \
+		builtin/ft_env.c \
+		builtin/ft_pwd.c \
+		builtin/ft_export.c \
+		list.c \
+		execute.c \
 		app_refresh.c \
 		env.c \
-		execute.c \
-		list.c \
-		minishell.c \
+		list2.c \
 		parse.c \
+		app.c \
+		minishell.c \
 
 
 # <!-- pre='includes/' path='./' match='*.h' exclude='minishell.h' pos='1' template='		{0} \' -->
@@ -71,27 +76,23 @@ libs_clean:
 libs_fclean: libs_clean
 	make -C $(LIBLIST) fclean
 
-maps:
-	curl https://projects.intra.42.fr/uploads/document/document/6530/maps.zip > maps.zip
-	tar -xf maps.zip
-	chmod -x test_maps/*.fdf
-	rm maps.zip
-
 $(NAME): $(OBJS) $(HDEPS)
 	$(CC) $(CFLAGS) -o $(NAME) $(COMPILEFLAGS) $(OBJS)
 
+# Usage: make debug && lldb minishell_debug -o run
 $(NAME)_debug: $(SRCS) $(HDEPS)
 	$(CC) $(CFLAGS) -g -o $(NAME)_debug -I $(HEAD) $(COMPILEFLAGS) $(SRCS)
 
 $(NAME)_sanitize: $(SRCS) $(HDEPS)
 	$(CC) $(CFLAGS) -fsanitize=address -g -o $(NAME)_sanitize -I $(HEAD) $(COMPILEFLAGS) $(SRCS)
 
+# Usage: make leaks && ./minishell_leaks
 MAIN_PATH=srcs/main.c
 $(NAME)_leaks: $(OBJS) $(HDEPS)
 	$(eval main_proto=$(shell grep 'int\tmain' $(MAIN_PATH)))
 	$(eval leaks_proto=$(shell echo '$(main_proto)' | sed 's/main/leaks_tester/'))
-	$(eval call_main=$(shell echo '$(main_proto)' | sed -E "s/(int| |\*|char|const|\[|\])//g"))
-	echo '#include "stdlib.h"\n\n\
+	$(eval call_main=$(shell echo '$(main_proto)' | sed -E "s/(int| |\*|char|const|void|\[|\])//g"))
+	@echo '#include "stdlib.h"\n\n\
 	$(main_proto);\n\n\
 	$(leaks_proto) {\n\
 		\tint exitcode = $(call_main);\n\
@@ -99,7 +100,7 @@ $(NAME)_leaks: $(OBJS) $(HDEPS)
 		\treturn (exitcode);\n\
 	}' > .tmp_leaks.c
 	$(CC) $(CFLAGS) -o $(NAME)_leaks $(COMPILEFLAGS) .tmp_leaks.c $(OBJS) -e_leaks_tester
-	#rm .tmp_leaks.c
+	@rm .tmp_leaks.c
 
 debug: $(NAME)_debug
 
