@@ -1,27 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strchr.c                                        :+:      :+:    :+:   */
+/*   ft_strcat.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/22 07:58:41 by gkgpteam          #+#    #+#             */
-/*   Updated: 2022/01/13 14:40:49 by gphilipp         ###   ########.fr       */
+/*   Created: 2022/01/11 10:49:04 by gkgpteam          #+#    #+#             */
+/*   Updated: 2022/01/15 12:57:38 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-char	*ft_strchr(const char *s, int c)
+char	*ft_strcat(char *dest, char *src)
 {
-	char	*str;
+	char	*pt_dest;
 
-	str = (char *) s;
-	while (*str != '\0')
+	pt_dest = dest;
+	while (*dest != '\0')
+		dest++;
+	while (*src != '\0')
 	{
-		if (*str == (char) c)
-			return (str);
-		str++;
+		*dest = *src;
+		dest++;
+		src++;
 	}
-	if (c == '\0')
-		return (str);
-	return (0);
+	*dest = '\0';
+	return (pt_dest);
 }

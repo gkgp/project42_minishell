@@ -1,27 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strchr.c                                        :+:      :+:    :+:   */
+/*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/22 07:58:41 by gkgpteam          #+#    #+#             */
-/*   Updated: 2022/01/13 14:40:49 by gphilipp         ###   ########.fr       */
+/*   Created: 2022/01/15 11:40:03 by gphilipp          #+#    #+#             */
+/*   Updated: 2022/01/15 11:43:45 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-char	*ft_strchr(const char *s, int c)
-{
-	char	*str;
+#include "minishell.h"
 
-	str = (char *) s;
-	while (*str != '\0')
-	{
-		if (*str == (char) c)
-			return (str);
-		str++;
+int	ft_env(void)
+{
+	t_list		**plist;
+	t_keyval	*keyval;
+	t_app		*app;
+
+	app = get_app();
+	plist = &app->env;
+	while (*plist)
+	{	
+		keyval = (t_keyval *)(*plist)->data;
+		ft_putstr(keyval->key);
+		ft_putstr("=");
+		ft_putstr(keyval->val);
+		ft_putstr("\n");
+		plist = &((*plist)->next);
 	}
-	if (c == '\0')
-		return (str);
 	return (0);
 }

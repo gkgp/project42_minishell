@@ -2,14 +2,33 @@
 
 main.c:ft_putstr
 main.c:main
-minishell.c:ma_fonction_exemple
+env.c:ft_getenv
+env.c:ft_setenv
+env.c:ft_unsetenv
+env.c:init_env
+env.c:list_env_to_2d
+list2.c:list_free_keyval
 minishell.c:minishell
+minishell.c:test
+app.c:free_app
 app.c:get_app
 app.c:handle_app
-app.c: 00000000000000e8 b _handle_app.app
+app.c: 00000000000001e0 b _handle_app.app
+app.c:init_app
 list.c:list_data_eq
 list.c:list_dtoi
 list.c:list_free_data
 list.c:list_get_int_index
 list.c:list_init_data
+ft_strdup.c:ft_strdup
 ft_strlen.c:ft_strlen
+ft_strchr.c:ft_strchr
+ft_strxcmp.c:ft_strcmp
+ft_strxcmp.c:ft_strncmp
+app_refresh.c:app_refresh_workdir
+ft_unset.c:ft_unset
+ft_cd.c:ft_cd
+ft_pwd.c:ft_getcwd
+ft_pwd.c:ft_pwd
+ft_env.c:ft_env
+ft_export.c:ft_export
