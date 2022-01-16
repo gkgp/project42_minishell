@@ -16,6 +16,12 @@
 // Reproduction des fonctions bashs (echo, cd, pwd…)
 # include "builtin.h"
 # include "list.h"
+#include <stdio.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <signal.h>
+#include <fcntl.h>
+#include <sys/stat.h>
 
 typedef struct s_app
 {
@@ -31,26 +37,19 @@ typedef struct s_keyval
 
 typedef struct s_cmd
 {
-	char		*cmd_path;
-	char		**args;
-	char		**envp;
-	char		**path;
-}			t_cmd;
-
-/*
-	//char *cmd; je n'ai pas besoin pour l'instant car args[1] peut
-	             remplacer celle-ci
-
-	// variables pas encore utilisees
-	char		*redirect_input; // NULL ou la valeur
-	char		*redirect_output; // NULL ou la valeur
-	int			read_input; // 0 ou 1 pour <<
-	int			append_mod; // 0 ou 1 pour >>
-	char		*pipes; // right part
-*/
+   //char *cmd; je n'ai pas besoin pour l'instant car args[1] peut remplacer celle-ci
+   char  *cmd_path; // command with its path
+   char  **args; // split arguments (including filename)
+   char  **envp; // envp
+   char  **path; // Possible command paths
+   int   in;      // file descriptor en cas de redirecton input (!= 0)
+   int   out;     // file descriptor en cas de redirection output (!= 1)
+   char  *limiter; // limiter en cas de <<
+   struct s_cmd   *next; // en cas de presence de pipes
+} t_cmd;
 
 /* prototypes */
-int			minishell(int argc, char const *argv[], char *const envp[]);
+int			minishell(int argc, char *argv[]);
 
 /* app.c */
 void		init_app(t_app *app);

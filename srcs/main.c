@@ -13,10 +13,13 @@
 #include <unistd.h>
 #include "minishell.h"
 
-void	ft_putstr(char *s)
+void	cmd_init(t_cmd **cmd, char **envp)
 {
-	while (s && *s)
-		write(1, s++, 1);
+	(*cmd)->envp = envp;
+	(*cmd)->path = parse_path(envp);
+	(*cmd)->in = 0;
+	(*cmd)->out = 1;
+	(*cmd)->next = NULL;
 }
 
 int	main(int argc, char const *argv[], char *const envp[])

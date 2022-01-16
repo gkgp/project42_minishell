@@ -12,10 +12,87 @@
 
 #include "minishell.h"
 
-/*void    parse_input(char *r_data, t_cmd *cmd)
+char	***pipe_split(char *input)
 {
-    cmd->args = ft_split(r_data, ' ');
-    cmd->cmd_path = define_path(cmd->args[0], cmd->path);
+	int 	count;
+	int		i;
+	char	***result;
+	char	**pipe_div;
+	
+	pipe_div = ft_split(input, '|');
+}
+
+int	parse_arg(t_cmd **cmd, char **input, int start, int end)
+{
+	int	i;
+	int	index;
+
+	
+	if (!ft_strcmp(input[end], ">") || !ft_strcmp(input[end], ">>"))
+	{}
+	else if (!ft_strcmp(input[end], "|"))
+	{}
+	else if (!ft_strcmp(input[end], "<"))
+	{
+		(*cmd)->in = open(input[end - 1], O_RDONLY, 0777);
+
+	}
+	else if (!ft_strcmp(input[end], "<<"))
+	{
+		(*cmd)->limiter = ft_strdup(input[end + 1]);
+		return (end + 2);
+	}
+	else
+	{
+		ft_putstr("Command name error.");
+		return (-1);
+	}
+
+
+	(*cmd)->args = malloc(sizeof(char *) * (end - start));
+	i = start;
+	index = 0;
+	while (i < end)
+		(*cmd)->args[index++] = input[i++];
+	(*cmd)->cmd_path = define_path((*cmd)->args[0], (*cmd)->path);
+
+	if (!ft_strchr(input[end], "|"))
+	{
+		(*cmd) = (*cmd)->next;
+		*cmd = malloc(sizeof(t_cmd));
+		return (end + 1);
+	}
+	else if (!ft_strchr(input[end], ">"))
+	{
+		(*cmd)->out = open(input[end + 1], O_CREAT | O_WRONLY | O_TRUNC, 0777);
+	}
+	else if (!ft_strchr(input[end], ">>"))
+	{
+		(*cmd)->out = open(input[end + 1], O_CREAT | O_WRONLY | O_APPEND, 0777);
+	}
+}
+
+t_cmd	*parse_input(char *r_data, t_cmd **cmd)
+{
+	char	**input;
+	int		i;
+	int		j;	
+	char	*set;
+	t_cmd	*begin;
+
+	begin = *cmd;
+	input = ft_split(r_data, ' ');
+	i = -1;
+	j = 0;
+	while (input[++i])
+	{
+		if (ft_strchr(input[i], set))
+		{
+			i = parse_arg(cmd, input, j, i);
+			j = i + 1;
+		}
+	}
+	return (begin);
 }
 
 char	*define_path(char *cmd, char **paths)
@@ -27,8 +104,9 @@ char	*define_path(char *cmd, char **paths)
     path_cmd = NULL;
 	while (paths[++i])
 	{
-		path_cmd = ft_strjoin(paths[i], "/");
-		path_cmd = ft_strjoin(cmd, cmd);
+		path_cmd = ft_strjoin(paths[i], "/", 0);
+		path_cmd = ft_strjoin(path_cmd, cmd, 1);
+		printf("%s\n", path_cmd);
 		if (!access(path_cmd, F_OK))
 			return (path_cmd);
 		else
