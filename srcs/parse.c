@@ -12,17 +12,131 @@
 
 #include "minishell.h"
 
-char	***pipe_split(char *input)
+char	**split_combine(char **s1, char **s2)
 {
-	int 	count;
+	int	i;
+	int count;
+	char	**result;
+
+	i = 0;
+	count = 0;
+	if (!s1)
+		return (s2);
+	if (!s2)
+		return (s1);
+	while (s1[i])
+		count++;
+	i = 0;
+	while (s2[i])
+		count++;
+	result = malloc(sizeof(char *) * (count + 1));
+	i = -1;
+	while (s1[++i])
+		result[i] = s1[i];
+	j = -1;
+	while (s2[++j])
+		result[i + j] = s2[j];
+	result[i + j] = 0;
+	free(s1);
+	free(s2);
+	return (result);
+}
+
+
+char	*between_quote(char *input, int start)
+{
+	int		end;
+	char	*result;
+	int		i;	
+	if (input[start] == '\'')
+		end = ft_strchr(input + start + 1, '\'');
+	else if (input[start] == '\"')
+		end = ft_strchr(input + start + 1, '\"');
+	result = malloc(sizeof(char) * (end - start - 1));
+	i = 0;
+	while (++start < end)
+		result[i++] = input[start];
+	result[i] = '\0';
+	return (result);
+}
+
+void parse_redir_input(t_cmd **cmd, int input, int index)
+{
+	int	i;
+	char	*tmp;
+	char	*filename;
+	char	*quote;
+	
+	quote = ft_strdup("\"\'");
+	if (input[index + 1] == '<')
+	{
+		tmp = ft_substr(input, 0, index);
+		(*cmd)->args = ft_split(tmp);
+		free(tmp);
+		if (ft_strchar_set(input + index + 1, quote))
+		{
+			(*cmd)->limiter = between_quote(input, ft_strchar_set(input + index + 1, quote));
+			index += ft_strlen((*cmd)->limiter) + 2;
+		}
+		tmp = ft_split(input + index + 1, ' ');
+		(*cmd)->limiter = tmp[0];
+		(*cmd)->args = split_combien((*cmd)->args, ++tmp);
+		free(--tmp);
+	}
+	else
+	{
+		tmp = ft_substr(input, 0 , index);
+		(*cmd)->args = ft_split(tmp);
+		free(tmp);
+		if (ft_strchar_set(input + index + 1, quote))
+		{
+			filename = between_quote(input, ft_strchar_set(input + index + 1, quote));
+			index += ft_strlen(filename) + 2;
+		tmp = ft_split(input + index + 1, ' ');
+		filename = tmp[0];
+		(*cmd)->args = split_combien((*cmd)->args, ++tmp);
+		free(--tmp);
+	}
+	free(quote);
+}
+
+void	parse_redir_output(t_cmd **cmd, int input, int index)
+{
+
+}
+
+void	parse_arg(t_cmd **cmd, char *input)
+{
+	char	**args;
 	int		i;
-	char	***result;
+	int		j;
+
+	if (ft_strchr(input, '<') >= 0)
+		parse_redir_input(cmd, input, ft_strchr(input, '<'));
+	else if (ft_strchr(input, '>') >= 0)
+		parse_redir_output(cmd, input, ft_strchr(input, '>'));
+	else
+		args = ft_split(input, ' ');
+	i = 0;
+	j = 0;
+	while (s[i])
+
+	*cmd = (*cmd)->next;
+}
+
+char	***pipe_split(t_cmd **cmd, char *input)
+{
+	int		i;
 	char	**pipe_div;
 	
 	pipe_div = ft_split(input, '|');
+	i = 0;
+	while (pipe_div[i])
+		parse_arg(cmd, pipe_div[i++]);
+
 }
 
-int	parse_arg(t_cmd **cmd, char **input, int start, int end)
+/*int	parse_arg(t_cmd **cmd, char **input, int start, int end)
 {
 	int	i;
 	int	index;
@@ -70,7 +184,7 @@ int	parse_arg(t_cmd **cmd, char **input, int start, int end)
 	{
 		(*cmd)->out = open(input[end + 1], O_CREAT | O_WRONLY | O_APPEND, 0777);
 	}
-}
+}*/
 
 t_cmd	*parse_input(char *r_data, t_cmd **cmd)
 {

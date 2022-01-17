@@ -34,6 +34,19 @@ void    redir_input(t_cmd **cmd, char *limiter)
 	free(r_data);
 }
 
+void	pipe_define(t_cmd *cmd, int fd_in, int *fd)
+{
+    if (cmd->in)
+		dup2(cmd->in, 0);
+	else
+		dup2(fd_in, 0);
+	if (cmd->next)
+		dup2(fd[1], 1);
+	else
+		dup2(cmd->out, 1);
+	close(fd[0]);
+}
+
 void    execute_loop(t_cmd *cmd)
 {
 	int		fd[2];
@@ -47,15 +60,7 @@ void    execute_loop(t_cmd *cmd)
 		pid = fork();
 		if (pid == 0)
 		{
-            if (cmd->in)
-                dup2(cmd->in, 0);
-            else
-			    dup2(fd_in, 0);
-            if (cmd->next)
-                dup2(fd[1], 1);
-            else
-	            dup2(cmd->out, 1);
-            close(fd[0]);
+			pipe_define(cmd, fd_in, fd);
 			execve(cmd->cmd_path, cmd->args, cmd->envp);
 			exit(0);
 		}
@@ -68,7 +73,6 @@ void    execute_loop(t_cmd *cmd)
 		}
 	}
 }
-
 
 void    execute(t_cmd *cmd)
 {

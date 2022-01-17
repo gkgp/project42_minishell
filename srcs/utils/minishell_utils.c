@@ -57,7 +57,7 @@ int	ft_strncmp(char *s1, char *s2, int n)
 }
 
 
-char	*ft_strjoin(char *s1, char *s2)
+char	*ft_strjoin(char *s1, char *s2, int flag)
 {
 	int		i;
 	int		j;
@@ -75,6 +75,118 @@ char	*ft_strjoin(char *s1, char *s2)
 	while (s2[++j])
 		result[i + j] = s2[j];
 	result[i + j] = '\0';
-	free(s1);
+	if (flag)
+		free(s1);
+	return (result);
+}
+
+static int	index_count(char const *s, char c)
+{
+	size_t	i;
+	size_t	count;
+
+	i = 0;
+	count = 0;
+	while (s[i])
+	{
+		if (s[i] != c)
+		{
+			count++;
+			while (s[i] && s[i] != c)
+				i++;
+		}
+		i++;
+	}
+	return (count);
+}
+
+char	**ft_split(char const *s, char c)
+{
+	char		**result;
+	char const	*start;
+	int			i;
+	int			len;
+
+	if (!s)
+		return (NULL);
+	i = 0;
+	result = malloc(sizeof(char *) * (index_count(s, c) + 1));
+	if (!result)
+		return (NULL);
+	while (*s)
+	{
+		while (*s && *s == c)
+			s++;
+		start = s;
+		len = 0;
+		while (*s && *s != c && len++ != -1)
+			s++;
+		if (*(s - 1) != c)
+			result[i++] = ft_substr(start, 0, len);
+	}
+	result[i] = 0;
+	return (result);
+}
+
+int	ft_strcmp(char *s1, char *s2)
+{
+	int	i;
+
+	i = 0;
+	while (s1[i] && s2[i] && s1[i] == s2[i])
+		i++;
+	return (s1[i] - s2[i]);
+}
+
+int	ft_strchr_set(char *s, char *set)
+{
+	int	i;
+	int	j;
+
+	i = -1;
+	while (s[++i])
+	{
+		j = 0;
+		while (set[j])
+			if (s[i] == set[j++])
+				return (i);
+	}
+	return (-1);
+}
+
+int	ft_strchr(char *s, char c)
+{
+	int	i;
+
+	i = -1;
+	while (s[++i])
+	{
+		if (s[i] == c)
+			return (i);
+	}
+	return (-1);
+}
+
+char	*ft_substr(char *s, int start, int len)
+{
+	int		i;
+	char	*result;
+
+	if (!s)
+		return (NULL);
+	if (ft_strlen(s + start) < len)
+		len = ft_strlen(s + start);
+	if (ft_strlen(s) <= start)
+		return (ft_strdup(""));
+	result = malloc(len + 1);
+	if (!result)
+		return (NULL);
+	i = 0;
+	while (s[start + i] && i < len)
+	{
+		result[i] = s[start + i];
+		i++;
+	}
+	result[i] = '\0';
 	return (result);
 }
