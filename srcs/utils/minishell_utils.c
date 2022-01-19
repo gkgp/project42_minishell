@@ -190,3 +190,44 @@ char	*ft_substr(char *s, int start, int len)
 	result[i] = '\0';
 	return (result);
 }
+
+int	ft_chr_count(char *s, char c)
+{
+	int	i;
+	int	count;
+
+	i = -1;
+	count = 0;
+	while (s[++i])
+		if (s[i] == c)
+			count++;
+	return (count);
+}
+
+char	*quote_cut(char *s, int start)
+{
+	int	end;
+	char	*result;
+	int		i;
+
+	end = ft_strchr(s + start + 1, s[start]);
+	result = malloc(sizeof(char) * (end - start));
+	i = 0;
+	while (++start < end)
+		result[i++] = s[start];
+	result[i] = '\0';
+	return (result);
+}
+
+char	*ft_cut(char *s, int start)
+{
+	int	i;
+	char	*result;
+
+	i = start;
+	while (s[i] == ' ')
+		i++;
+	if (s[i] == '\"' || s[i] == '\'')
+		return (quote_cut(s, i));
+	
+}

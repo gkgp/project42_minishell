@@ -31,9 +31,36 @@ typedef struct s_app
 
 typedef struct s_keyval
 {
-	char		*key;
-	char		*val;
-}			t_keyval;
+   char     *key;
+   char     *val;
+}        t_keyval;
+
+typedef struct s_list {
+   
+   struct s_list *next;
+   struct s_list *prev;
+} t_list;
+
+typedef struct s_tree {
+   int   value;
+   struct s_tree *left;
+   struct s_tree *right;
+} t_tree;
+
+typedef enum s_token {
+   BEGIN,
+   CMD,
+   ARGS,
+   INPUT,
+   OUTPUT_T,
+   OUTPUT_A,
+   HEREDOC,
+   LIMITER,
+   OR,
+   AND,
+   PARENTHESE_O,
+   PARENTHESE_C
+}  t_token;
 
 typedef struct s_cmd
 {

@@ -42,7 +42,6 @@ char	**split_combine(char **s1, char **s2)
 	return (result);
 }
 
-
 char	*between_quote(char *input, int start)
 {
 	int		end;
@@ -60,10 +59,22 @@ char	*between_quote(char *input, int start)
 	return (result);
 }
 
-void parse_redir_input(t_cmd **cmd, int input, int index)
+void	parse_redir(t_cmd **cmd, char **input, int index, char *symbol)
 {
-	int	i;
+	int		i;
 	char	*tmp;
+	char	**tmp_split;
+	char	*p;
+	char	*quote;	
+
+	
+}
+
+void parse_redir_input(t_cmd **cmd, char **input, int index)
+{
+	int		i;
+	char	*tmp;
+	char	**tmp_split;
 	char	*filename;
 	char	*quote;
 	
@@ -71,31 +82,32 @@ void parse_redir_input(t_cmd **cmd, int input, int index)
 	if (input[index + 1] == '<')
 	{
 		tmp = ft_substr(input, 0, index);
-		(*cmd)->args = ft_split(tmp);
+		(*cmd)->args = ft_split(tmp, ' ');
 		free(tmp);
 		if (ft_strchar_set(input + index + 1, quote))
 		{
 			(*cmd)->limiter = between_quote(input, ft_strchar_set(input + index + 1, quote));
 			index += ft_strlen((*cmd)->limiter) + 2;
 		}
-		tmp = ft_split(input + index + 1, ' ');
-		(*cmd)->limiter = tmp[0];
-		(*cmd)->args = split_combien((*cmd)->args, ++tmp);
-		free(--tmp);
+		tmp_split = ft_split(input + index + 1, ' ');
+		(*cmd)->limiter = tmp_split[0];
+		(*cmd)->args = split_combien((*cmd)->args, ++tmp_split);
+		free(--tmp_split);
 	}
 	else
 	{
 		tmp = ft_substr(input, 0 , index);
-		(*cmd)->args = ft_split(tmp);
+		(*cmd)->args = ft_split(tmp, ' ');
 		free(tmp);
 		if (ft_strchar_set(input + index + 1, quote))
 		{
 			filename = between_quote(input, ft_strchar_set(input + index + 1, quote));
 			index += ft_strlen(filename) + 2;
-		tmp = ft_split(input + index + 1, ' ');
-		filename = tmp[0];
-		(*cmd)->args = split_combien((*cmd)->args, ++tmp);
-		free(--tmp);
+		}
+		tmp_split = ft_split(input + index + 1, ' ');
+		filename = tmp_split[0];
+		(*cmd)->args = split_combien((*cmd)->args, ++tmp_split);
+		free(--tmp_split);
 	}
 	free(quote);
 }
