@@ -7,5 +7,6 @@
 /minishell_sanitize
 /minishell_leaks
 /minishell-tester
+/vendor/readline
 /*.txt
 .tmp_*

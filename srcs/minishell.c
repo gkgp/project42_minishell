@@ -6,15 +6,14 @@
 /*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 10:49:04 by gkgpteam          #+#    #+#             */
-/*   Updated: 2022/01/19 11:37:39 by gphilipp         ###   ########.fr       */
+/*   Updated: 2022/01/19 16:53:04 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <stdio.h>
 #include <readline/readline.h>
 #include <readline/history.h>
-
-			#include <stdio.h>
 
 void	test(t_app *app)
 {
@@ -52,8 +51,7 @@ static int	ft_readline(void)
 
 	while (1)
 	{
-		str = readline("\nminishell-1.0$ ");
-		printf("\n###v###\n%s\n###^###", str);
+		str = readline("minishell-1.0$ ");
 		/*
 		cmd.path = parse_path((char *) cmd.envp);
 		cmd.envp = (char *) list_env_to_2d();
@@ -62,14 +60,15 @@ static int	ft_readline(void)
 		while (envp[++i])
 			free(envp[i]);
 		*/
-		if (str)
+		if (str && *str)
+			add_history(str);
+		if (!str)
 		{
-			if (*str)
-				add_history(str);
-			free(str);
+			ft_putstr("\033[1Aminishell-1.0$ exit\n");
+			return (1);
 		}
-		if (str && ft_strcmp(str, "exit") == 0)
-			return (1); // temporaire
+		if (str)
+			free(str);
 	}
 }
 
@@ -86,6 +85,7 @@ int	minishell(int argc, char const *argv[], char *const envp[])
 	init_env(&app, envp);
 	(void) argv;
 	// test(&app);
+	init_signal();
 	ft_readline();
 	free_app(&app);
 	return (0);

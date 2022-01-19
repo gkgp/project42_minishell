@@ -6,7 +6,7 @@
 /*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 10:50:45 by gkgpteam          #+#    #+#             */
-/*   Updated: 2022/01/15 17:43:15 by gphilipp         ###   ########.fr       */
+/*   Updated: 2022/01/19 15:28:14 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,5 +86,8 @@ int			ft_strlen(const char *s);
 /* parse */
 void		parse_input(char *r_data, t_cmd *cmd);
 char		**parse_path(char **envp);
+
+/* signal */
+void			init_signal(void);
 
 #endif
