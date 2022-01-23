@@ -6,11 +6,11 @@
 /*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 13:24:50 by gkgpteam          #+#    #+#             */
-/*   Updated: 2022/01/14 13:50:30 by gphilipp         ###   ########.fr       */
+/*   Updated: 2022/01/23 08:02:31 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "minishell.h"
 
 /*void    parse_input(char *r_data, t_cmd *cmd)
 {
