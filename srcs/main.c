@@ -6,12 +6,12 @@
 /*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 10:49:04 by gkgpteam          #+#    #+#             */
-/*   Updated: 2022/01/15 13:47:08 by gphilipp         ###   ########.fr       */
+/*   Updated: 2022/01/23 08:02:24 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
-#include "../includes/minishell.h"
+#include "minishell.h"
 
 void	ft_putstr(char *s)
 {
