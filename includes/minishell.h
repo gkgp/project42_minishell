@@ -15,13 +15,7 @@
 
 // Reproduction des fonctions bashs (echo, cd, pwd…)
 # include "builtin.h"
-# include "list.h"
-#include <stdio.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <signal.h>
-#include <fcntl.h>
-#include <sys/stat.h>
+
 
 typedef struct s_app
 {
@@ -29,17 +23,7 @@ typedef struct s_app
 	t_list		*env;
 }			t_app;
 
-typedef struct s_keyval
-{
-   char     *key;
-   char     *val;
-}        t_keyval;
 
-typedef struct s_list {
-   
-   struct s_list *next;
-   struct s_list *prev;
-} t_list;
 
 typedef struct s_tree {
    int   value;
@@ -49,18 +33,28 @@ typedef struct s_tree {
 
 typedef enum s_token {
    BEGIN,
-   CMD,
-   ARGS,
+   ARG,
+   CHEVRON_I,
+   CHEVRON_O,
+   DOUBLE_CHEVRON_I,
+   DOUBLE_CHEVRON_O,
    INPUT,
    OUTPUT_T,
    OUTPUT_A,
-   HEREDOC,
    LIMITER,
+   PIPE,
    OR,
    AND,
    PARENTHESE_O,
    PARENTHESE_C
 }  t_token;
+
+typedef struct s_list {
+   enum s_token token;
+   char  *content;
+   struct s_list *next;
+   struct s_list *prev;
+} t_list;
 
 typedef struct s_cmd
 {
