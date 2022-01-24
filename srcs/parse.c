@@ -12,36 +12,39 @@
 
 #include "minishell.h"
 
-char	**split_combine(char **s1, char **s2)
+void	cmd_begin(t_cmd **cmd, char *s)
 {
-	int	i;
-	int count;
-	char	**result;
+	char	**split;
 
-	i = 0;
-	count = 0;
-	if (!s1)
-		return (s2);
-	if (!s2)
-		return (s1);
-	while (s1[i])
-		count++;
-	i = 0;
-	while (s2[i])
-		count++;
-	result = malloc(sizeof(char *) * (count + 1));
-	i = -1;
-	while (s1[++i])
-		result[i] = s1[i];
-	j = -1;
-	while (s2[++j])
-		result[i + j] = s2[j];
-	result[i + j] = 0;
-	free(s1);
-	free(s2);
-	return (result);
+	*cmd = malloc(sizeof(cmd));
+	split = malloc(sizeof(char *) * 2);
+	split[0] = s;
+	split[1] = NULL;
+	(*cmd)->args = split;
 }
 
+void	cmd_join(t_cmd **cmd, char *join)
+{
+	int		i;
+	int		j;	
+	int 	count;
+	char	**new;
+
+	i = -1;
+	count = 0;
+	while ((*cmd)->args[++i])
+		count++;
+	new = malloc(sizeof(char *) * (count + 2));
+	i = -1;
+	while ((*cmd)->args[++i])
+		new[i] = (*cmd)->args[i];
+	new[i++] = join;
+	new[i] = NULL;
+	free((*cmd)->args);
+	(*cmd)->args = new;
+}
+
+/*
 char	*between_quote(char *input, int start)
 {
 	int		end;
@@ -57,168 +60,6 @@ char	*between_quote(char *input, int start)
 		result[i++] = input[start];
 	result[i] = '\0';
 	return (result);
-}
-
-void	parse_redir(t_cmd **cmd, char **input, int index, char *symbol)
-{
-	int		i;
-	char	*tmp;
-	char	**tmp_split;
-	char	*p;
-	char	*quote;	
-
-	
-}
-
-void parse_redir_input(t_cmd **cmd, char **input, int index)
-{
-	int		i;
-	char	*tmp;
-	char	**tmp_split;
-	char	*filename;
-	char	*quote;
-	
-	quote = ft_strdup("\"\'");
-	if (input[index + 1] == '<')
-	{
-		tmp = ft_substr(input, 0, index);
-		(*cmd)->args = ft_split(tmp, ' ');
-		free(tmp);
-		if (ft_strchar_set(input + index + 1, quote))
-		{
-			(*cmd)->limiter = between_quote(input, ft_strchar_set(input + index + 1, quote));
-			index += ft_strlen((*cmd)->limiter) + 2;
-		}
-		tmp_split = ft_split(input + index + 1, ' ');
-		(*cmd)->limiter = tmp_split[0];
-		(*cmd)->args = split_combien((*cmd)->args, ++tmp_split);
-		free(--tmp_split);
-	}
-	else
-	{
-		tmp = ft_substr(input, 0 , index);
-		(*cmd)->args = ft_split(tmp, ' ');
-		free(tmp);
-		if (ft_strchar_set(input + index + 1, quote))
-		{
-			filename = between_quote(input, ft_strchar_set(input + index + 1, quote));
-			index += ft_strlen(filename) + 2;
-		}
-		tmp_split = ft_split(input + index + 1, ' ');
-		filename = tmp_split[0];
-		(*cmd)->args = split_combien((*cmd)->args, ++tmp_split);
-		free(--tmp_split);
-	}
-	free(quote);
-}
-
-void	parse_redir_output(t_cmd **cmd, int input, int index)
-{
-
-}
-
-void	parse_arg(t_cmd **cmd, char *input)
-{
-	char	**args;
-	int		i;
-	int		j;
-
-	if (ft_strchr(input, '<') >= 0)
-		parse_redir_input(cmd, input, ft_strchr(input, '<'));
-	else if (ft_strchr(input, '>') >= 0)
-		parse_redir_output(cmd, input, ft_strchr(input, '>'));
-	else
-		args = ft_split(input, ' ');
-	i = 0;
-	j = 0;
-	while (s[i])
-
-	*cmd = (*cmd)->next;
-}
-
-char	***pipe_split(t_cmd **cmd, char *input)
-{
-	int		i;
-	char	**pipe_div;
-	
-	pipe_div = ft_split(input, '|');
-	i = 0;
-	while (pipe_div[i])
-		parse_arg(cmd, pipe_div[i++]);
-
-}
-
-/*int	parse_arg(t_cmd **cmd, char **input, int start, int end)
-{
-	int	i;
-	int	index;
-
-	
-	if (!ft_strcmp(input[end], ">") || !ft_strcmp(input[end], ">>"))
-	{}
-	else if (!ft_strcmp(input[end], "|"))
-	{}
-	else if (!ft_strcmp(input[end], "<"))
-	{
-		(*cmd)->in = open(input[end - 1], O_RDONLY, 0777);
-
-	}
-	else if (!ft_strcmp(input[end], "<<"))
-	{
-		(*cmd)->limiter = ft_strdup(input[end + 1]);
-		return (end + 2);
-	}
-	else
-	{
-		ft_putstr("Command name error.");
-		return (-1);
-	}
-
-
-	(*cmd)->args = malloc(sizeof(char *) * (end - start));
-	i = start;
-	index = 0;
-	while (i < end)
-		(*cmd)->args[index++] = input[i++];
-	(*cmd)->cmd_path = define_path((*cmd)->args[0], (*cmd)->path);
-
-	if (!ft_strchr(input[end], "|"))
-	{
-		(*cmd) = (*cmd)->next;
-		*cmd = malloc(sizeof(t_cmd));
-		return (end + 1);
-	}
-	else if (!ft_strchr(input[end], ">"))
-	{
-		(*cmd)->out = open(input[end + 1], O_CREAT | O_WRONLY | O_TRUNC, 0777);
-	}
-	else if (!ft_strchr(input[end], ">>"))
-	{
-		(*cmd)->out = open(input[end + 1], O_CREAT | O_WRONLY | O_APPEND, 0777);
-	}
-}*/
-
-t_cmd	*parse_input(char *r_data, t_cmd **cmd)
-{
-	char	**input;
-	int		i;
-	int		j;	
-	char	*set;
-	t_cmd	*begin;
-
-	begin = *cmd;
-	input = ft_split(r_data, ' ');
-	i = -1;
-	j = 0;
-	while (input[++i])
-	{
-		if (ft_strchr(input[i], set))
-		{
-			i = parse_arg(cmd, input, j, i);
-			j = i + 1;
-		}
-	}
-	return (begin);
 }
 
 char	*define_path(char *cmd, char **paths)
@@ -252,3 +93,188 @@ char	**parse_path(char **envp)
 	path_tab = ft_split(envp[i] + 5, ':');
 	return (path_tab);
 }*/
+
+/*
+1 : <
+2 : <<
+3 : >
+4 : >>
+*/
+
+void	redir_input(t_cmd **cmd, char *s)
+{
+	t_redir	*redir;
+	
+	if (!*cmd)
+		cmd = malloc(sizeof(t_cmd));
+	redir = (*cmd)->redir;
+	if (!redir)
+	{
+		redir = malloc(sizeof(t_redir));
+		redir->in = NULL;
+	}
+	while (redir->in)
+		redir = redir->in;
+	redir->type = 1;
+	redir->filename = ft_strdup(s);
+	redir->in = malloc(sizeof(t_redir));
+	redir->in = NULL;
+}
+
+void	redir_heredoc(t_cmd **cmd, char *s)
+{
+	t_redir	*redir;
+
+	if (!*cmd)
+		cmd = malloc(sizeof(t_cmd));
+	redir = (*cmd)->redir;
+	if (!redir)
+	{
+		redir = malloc(sizeof(t_redir));
+		redir->in = NULL;
+	}
+	while (redir->in)
+		redir = redir->in;
+	redir->type = 2;
+	redir->filename = ft_strdup(s);
+	redir->in = malloc(sizeof(t_redir));
+	redir->in = NULL;
+}
+
+void	redir_output(t_cmd **cmd, char *s)
+{
+	t_redir	*redir;
+	
+	if (!*cmd)
+		cmd = malloc(sizeof(t_cmd));
+	redir = (*cmd)->redir;
+	if (!redir)
+	{
+		redir = malloc(sizeof(t_redir));
+		redir->out = NULL;
+	}
+	while (redir->out)
+		redir = redir->out;
+	redir->type = 3;
+	redir->filename = ft_strdup(s);
+	redir->out = malloc(sizeof(t_redir));
+	redir->out = NULL;
+}
+
+void	redir_output2(t_cmd **cmd, char *s)
+{
+	t_redir	*redir;
+	
+	if (!*cmd)
+		cmd = malloc(sizeof(t_cmd));
+	redir = (*cmd)->redir;
+	if (!redir)
+	{
+		redir = malloc(sizeof(t_redir));
+		redir->out = NULL;
+	}
+	while (redir->out)
+		redir = redir->out;
+	redir->type = 4;
+	redir->filename = ft_strdup(s);
+	redir->out = malloc(sizeof(t_redir));
+	redir->out = NULL;
+}
+
+void	parse_pipe(t_all **all)
+{
+	t_pipe	*pipe;
+	t_cmd	*new_cmd;
+
+	pipe = (*all)->pipe;
+	if (!pipe)
+	{
+		pipe = malloc(sizeof(t_pipe));
+		pipe->next = NULL;
+	}
+	while (pipe->cmd)
+		pipe = pipe->next;
+	pipe->cmd = (*all)->cmd;
+	new_cmd = NULL;
+	(*all)->cmd = new_cmd;
+}
+
+void	define_node(t_all **all)
+{
+	(*all)->node = malloc(sizeof(t_node));
+	if (!(*all)->pipe)
+		(*all)->node->cmd = (*all)->cmd;
+	else
+		(*all)->node->pipe = (*all)->pipe;
+	(*all)->pipe = NULL;
+	(*all)->cmd = NULL;
+}
+
+void	put_tree(t_all **all, int flag)
+{
+	t_tree	*tree;
+
+	tree = (*all)->tree;
+	if (!flag)
+		tree->left = (*all)->node;
+	else
+		tree->right = (*all)->node;
+	(*all)->node = NULL;
+}
+
+void	parse_logic(t_all **all, t_token *tokens, int flag)
+{
+	t_tree	*tree;
+	t_tree	*begin;
+
+	tree = (*all)->tree;
+	define_node(&all);
+	if (!tree)
+	{
+		tree = malloc(sizeof(t_tree));
+		tree->type = flag;
+		tree->left = NULL;
+		tree->right = NULL;
+	}
+	else
+	{
+		
+	}
+	if (!tree->left)
+		put_tree(&all, 0);
+	
+
+	
+}
+
+t_all	*parser(t_token *tokens, t_cmd *cmd)
+{
+	t_all	*all;
+	t_token	*begin;
+
+	begin = tokens;
+	all = malloc(sizeof(t_all));
+	while (tokens)
+	{
+		if (tokens->token == BEGIN)
+			cmd_begin(&all->cmd, tokens->content);
+		else if (tokens->token == ARG)
+			cmd_join(&all->cmd, tokens->content);
+		else if (tokens->token == CHEVRON_I)
+			redir_input(&all->cmd, tokens->content);
+		else if (tokens->token == DOUBLE_CHEVRON_I)
+			redir_heredoc(&all->cmd, tokens->content);
+		else if (tokens->token == CHEVRON_O)
+			redir_output(&all->cmd, tokens->content);
+		else if (tokens->token == DOUBLE_CHEVRON_O)
+			redir_output2(&all->cmd, tokens->content);
+		else if (tokens->token == PIPE)
+			parse_pipe(&all);
+		/* bonus
+		else if (tokens->token == OR)
+		*/
+		tokens = tokens->next;
+	}
+	free(tokens);
+	return (all);
+}

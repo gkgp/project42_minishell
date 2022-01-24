@@ -31,32 +31,64 @@ typedef struct s_tree {
    struct s_tree *right;
 } t_tree;
 
-typedef enum s_token {
+typedef enum e_token {
    BEGIN,
    ARG,
    CHEVRON_I,
    CHEVRON_O,
    DOUBLE_CHEVRON_I,
    DOUBLE_CHEVRON_O,
-   INPUT,
-   OUTPUT_T,
-   OUTPUT_A,
-   LIMITER,
    PIPE,
    OR,
    AND,
    PARENTHESE_O,
    PARENTHESE_C
-}  t_token;
+}  e_token;
 
-typedef struct s_list {
-   enum s_token token;
-   char  *content;
-   struct s_list *next;
-   struct s_list *prev;
-} t_list;
+typedef struct s_redir{
+   int           type;
+   char           *filename;
+   struct s_redir *in;
+   struct s_redir *out;
+}  t_redir;
 
-typedef struct s_cmd
+typedef struct s_cmd {
+   char  **args;
+   struct s_redir *redir;
+} t_cmd;
+
+typedef struct s_pipe {
+   struct s_cmd *cmd;
+   struct s_pipe *next;
+} t_pipe;
+
+typedef struct s_node {
+   struct s_cmd   *cmd;
+   struct s_pipe  *pipe;
+} t_node;
+
+typedef struct s_tree {
+   int         type;
+   struct s_node *left;
+   struct s_node *right;
+} t_tree;
+
+typedef struct s_token {
+   enum e_token   token;
+   char           *content;
+   struct s_token *next;
+   struct s_token *prev;
+} t_token;
+
+typedef struct s_all {
+   struct s_redir *redir;
+   struct s_cmd   *cmd;
+   struct s_pipe  *pipe;
+   struct s_node  *node;
+   struct s_tree  *tree;
+}  t_all;
+
+/*typedef struct s_cmd
 {
    //char *cmd; je n'ai pas besoin pour l'instant car args[1] peut remplacer celle-ci
    char  *cmd_path; // command with its path
@@ -67,7 +99,7 @@ typedef struct s_cmd
    int   out;     // file descriptor en cas de redirection output (!= 1)
    char  *limiter; // limiter en cas de <<
    struct s_cmd   *next; // en cas de presence de pipes
-} t_cmd;
+} t_cmd;*/
 
 /* prototypes */
 int			minishell(int argc, char *argv[]);

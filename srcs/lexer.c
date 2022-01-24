@@ -76,100 +76,100 @@ char	*put_arg(char *s, int index)
 	return (result);
 }
 
-int	redir_input(t_list **lst, char *s, int index)
+int	redir_input(t_token **tokens, char *s, int index)
 {
 	int	i;
 
 	i = index;
 	if (s[i + 1] = '<')
 	{
-		(*lst)->token = DOUBLE_CHEVRON_I;
-		*lst = (*lst)->next;
-		(*lst)->token = LIMITER;
-		(*lst)->content = put_arg(s, i + 2);
+		(*tokens)->token = DOUBLE_CHEVRON_I;
+		*tokens = (*tokens)->next;
+		(*tokens)->token = LIMITER;
+		(*tokens)->content = put_arg(s, i + 2);
 		i = arg_len(s, i + 2, 0);
 	}
 	else
 	{
-		(*lst)->token = CHEVRON_I;
-		*lst = (*lst)->next;
-		(*lst)->token = INPUT;
-		(*lst)->content = put_arg(s, i + 1);
+		(*tokens)->token = CHEVRON_I;
+		*tokens = (*tokens)->next;
+		(*tokens)->token = INPUT;
+		(*tokens)->content = put_arg(s, i + 1);
 		i = arg_len(s, i + 1, 0);
 	}
 	return (i);
 }
 
-int	redir_output(t_list **lst, char *s, int index)
+int	redir_output(t_token **tokens, char *s, int index)
 {
 	int	i;
 
 	i = index;
 	if (s[i + 1] = '>')
 	{
-		(*lst)->token = DOUBLE_CHEVRON_O;
-		*lst = (*lst)->next;
-		(*lst)->token = OUTPUT_A;
-		(*lst)->content = put_arg(s, i + 2);
+		(*tokens)->token = DOUBLE_CHEVRON_O;
+		*tokens = (*tokens)->next;
+		(*tokens)->token = OUTPUT_A;
+		(*tokens)->content = put_arg(s, i + 2);
 		i = arg_len(s, i + 2, 0);
 	}
 	else
 	{
-		(*lst)->token = CHEVRON_O;
-		*lst = (*lst)->next;
-		(*lst)->token = OUTPUT_T;
-		(*lst)->content = put_arg(s, i + 1);
+		(*tokens)->token = CHEVRON_O;
+		*tokens = (*tokens)->next;
+		(*tokens)->token = OUTPUT_T;
+		(*tokens)->content = put_arg(s, i + 1);
 		i = arg_len(s, i + 1, 0);
 	}
 	return (i);
 }
 
-int	give_token(t_list **lst, int token, int index)
+int	give_token(t_token **tokens, int token, int index)
 {
-	(*lst)->token = token;
-	(*lst)->next = malloc(sizeof(t_list));
-	*lst = (*lst)->next;
+	(*tokens)->token = token;
+	(*tokens)->next = malloc(sizeof(t_token));
+	*tokens = (*tokens)->next;
 	return (index);
 }
 
-int	get_arg(t_list **lst, char *s, int index)
+int	get_arg(t_token **tokens, char *s, int index)
 {
-	(*lst)->token = ARG;
-	(*lst)->content = put_arg(s, index);
-	(*lst)->next = malloc(sizeof(t_list));
-	*lst = (*lst)->next;
+	(*tokens)->token = ARG;
+	(*tokens)->content = put_arg(s, index);
+	(*tokens)->next = malloc(sizeof(t_token));
+	*tokens = (*tokens)->next;
 	return (arg_len(s, index, 0));
 }
 
 // a voir = lorsque la commande commence avec un quote
 
-void	lexer(char *s, t_list **lst)
+void	lexer(char *s, t_token **tokens)
 {
 	int	i;
-	t_list	*begin;
+	t_token	*begin;
 	
 	i = 0;
-	begin = *lst;
+	begin = *tokens;
 	while (s[i])	
 	{
 		while (s[i] == ' ')
 			i++;
 		if (is_alpha(s[i]))
-			i = get_arg(lst, s, i);
+			i = get_arg(tokens, s, i);
 		else if (s[i] == '<')
-			i = redir_input(lst, s, i);
+			i = redir_input(tokens, s, i);
 		else if (s[i] == '>')
-			i = redir_out(lst, s, i);
+			i = redir_out(tokens, s, i);
 		else if (s[i] == '|' && s[i + 1] != '|')
-			i = give_token(lst, PIPE, i);
+			i = give_token(tokens, PIPE, i);
 		else if (s[i] == '|' && s[i + 1] == '|')
-			i = give_token(lst, OR, i);
+			i = give_token(tokens, OR, i);
 		else if (s[i] == '&' && s[i + 1] == '&')
-			i = give_token(lst, AND, i);
+			i = give_token(tokens, AND, i);
 		else if (s[i] == '(')
-			i = give_token(lst, PARENTHESE_O, i);
+			i = give_token(tokens, PARENTHESE_O, i);
 		else if (s[i] == ')')
-			i = give_token(lst, PARENTHESE_C, i);
+			i = give_token(tokens, PARENTHESE_C, i);
 	}
-	*lst = begin;
+	*tokens = begin;
 }	
