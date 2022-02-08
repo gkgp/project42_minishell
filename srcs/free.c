@@ -12,13 +12,3 @@
 
 #include "../includes/minishell.h"
 
-void	free_split(char **split)
-{
-	
-}
-
-void	free_cmd(t_cmd *cmd)
-{
-	free(cmd->args);
-	free(cmd->cmd_path);
-}

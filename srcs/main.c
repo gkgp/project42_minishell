@@ -13,13 +13,20 @@
 #include <unistd.h>
 #include "minishell.h"
 
-void	cmd_init(t_cmd **cmd, char **envp)
+char	**get_env(char **envp)
 {
-	(*cmd)->envp = envp;
-	(*cmd)->path = parse_path(envp);
-	(*cmd)->in = 0;
-	(*cmd)->out = 1;
-	(*cmd)->next = NULL;
+	int	i;
+	char	**new;
+
+	i = 0;
+	while (envp[i])
+		i++;
+	new = malloc(sizeof(char *) * (i + 1));
+	i = -1;
+	while (envp[++i])
+		new[i] = ft_strdup(envp[i]);
+	new[i] = NULL;
+	return (new);
 }
 
 int	main(int argc, char const *argv[], char *const envp[])

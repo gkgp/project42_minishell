@@ -31,10 +31,12 @@ SRC	  = main.c \
 		parse.c \
 		app.c \
 		minishell.c \
-		parse.c		\
+		parser.c		\
 		execute.c	\
 		utils/minishell_utils.c	\
-		free.c
+		free.c	\
+		search.c	\
+		lexer.c
 
 
 # <!-- pre='includes/' path='./' match='*.h' exclude='minishell.h' pos='1' template='		{0} \' -->

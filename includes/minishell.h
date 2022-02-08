@@ -32,7 +32,6 @@ typedef struct s_tree {
 } t_tree;
 
 typedef enum e_token {
-   BEGIN,
    ARG,
    CHEVRON_I,
    CHEVRON_O,
@@ -41,68 +40,50 @@ typedef enum e_token {
    PIPE,
    OR,
    AND,
-   PARENTHESE_O,
-   PARENTHESE_C
+   P_OPEN,
+   P_CLOSE,
+   INPUT,
+   LIMITER,
+   OUTPUT_T,
+   OUTPUT_A,
+   DOLLAR,
+   VAR,
+   VAR_Q
 }  e_token;
 
-typedef struct s_redir{
-   int           type;
-   char           *filename;
-   struct s_redir *in;
-   struct s_redir *out;
-}  t_redir;
-
-typedef struct s_cmd {
-   char  **args;
-   struct s_redir *redir;
-} t_cmd;
-
-typedef struct s_pipe {
-   struct s_cmd *cmd;
-   struct s_pipe *next;
-} t_pipe;
+/*
+<NODE TYPES>
+0 : ARGS
+1 : REDIR
+2 : CMD
+3 : PIPE
+*/
 
 typedef struct s_node {
-   struct s_cmd   *cmd;
-   struct s_pipe  *pipe;
+   int            node_type;
+   char           **args;
+   int            *redir_type;
+   char           **redir_name;
+   char            **heredoc;
+   struct s_node  *left;
+   struct s_node  *right;
+   struct s_node  *root;
+   struct s_node  *current_cmd;
+   struct s_node  *current_pipe;
 } t_node;
-
-typedef struct s_tree {
-   int         type;
-   struct s_node *left;
-   struct s_node *right;
-} t_tree;
 
 typedef struct s_token {
    enum e_token   token;
+   int            begin;
+   int            index;
    char           *content;
    struct s_token *next;
-   struct s_token *prev;
 } t_token;
 
-typedef struct s_all {
-   struct s_redir *redir;
-   struct s_cmd   *cmd;
-   struct s_pipe  *pipe;
-   struct s_node  *node;
-   struct s_tree  *tree;
-}  t_all;
-
-/*typedef struct s_cmd
-{
-   //char *cmd; je n'ai pas besoin pour l'instant car args[1] peut remplacer celle-ci
-   char  *cmd_path; // command with its path
-   char  **args; // split arguments (including filename)
-   char  **envp; // envp
-   char  **path; // Possible command paths
-   int   in;      // file descriptor en cas de redirecton input (!= 0)
-   int   out;     // file descriptor en cas de redirection output (!= 1)
-   char  *limiter; // limiter en cas de <<
-   struct s_cmd   *next; // en cas de presence de pipes
-} t_cmd;*/
+/* global variable */
 
 /* prototypes */
-int			minishell(int argc, char *argv[]);
+int minishell(t_token *tokens, int index, char **envp);
 
 /* app.c */
 void		init_app(t_app *app);
@@ -134,10 +115,27 @@ int			ft_strncmp(const char *s1, const char *s2, int n);
 char		*ft_strjoin(char *s1, char *s2);
 void		ft_putstr_fd(char *s, int fd);
 int			ft_strlen(const char *s);
+char  *ft_substr(char *s, int start, int len);
+int   ft_strchr_set(char *s, char *set);
+int   ft_chr_count(char *s, char c);
+int   is_alpha(char c);
+void  ft_bzero(void *s, size_t n);
+void  *ft_calloc(size_t count, size_t size);
+
+/* lexer */
+t_token  *lexer(char *s);
 
 /* parse */
+t_node   *parser(t_token *tokens, int index);
 void		parse_input(char *r_data, t_cmd *cmd);
 char		**parse_path(char **envp);
+
+/* execute */
+int   execute(t_node *node, char **envp);
+int   cmd_execute(t_node *node, int fd_in, char **envp);
+
+/* free */
+void  free_tokens(t_token *tokens);
 
 /* signal */
 void			init_signal(void);

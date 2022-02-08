@@ -14,7 +14,34 @@ void    ft_putstr_fd(char *s, int fd)
         ft_putchar_fd(s[i++], fd);
 }
 
-/*
+void	ft_bzero(void *s, size_t n)
+{
+	int		i;
+	char	*str;
+
+	str = (char *) s;
+	i = 0;
+	while ((size_t) i < n)
+		str[i++] = '\0';
+}
+
+void	*ft_calloc(size_t count, size_t size)
+{
+	int		i;
+	char	*result;
+
+	result = malloc(count * size);
+	if (result == NULL)
+		return (NULL);
+	i = 0;
+	while ((size_t) i < size * count)
+	{
+		result[i] = '\0';
+		i++;
+	}
+	return (result);
+}
+
 int	ft_strlen(char *s)
 {
 	int	i;
@@ -42,7 +69,6 @@ char	*ft_strdup(char *s)
 	dup[i] = '\0';
 	return (dup);
 }
-*/
 
 int	ft_strncmp(char *s1, char *s2, int n)
 {
@@ -54,6 +80,36 @@ int	ft_strncmp(char *s1, char *s2, int n)
 	while (s1[i] && s2[i] && s1[i] == s2[i] && i < n)
 		i++;
 	return (s1[i] - s2[i]);
+}
+
+char	*ft_substr(char *s, int start, int len)
+{
+	int		i;
+	char	*result;
+
+	if (!s)
+		return (NULL);
+	if (ft_strlen(s + start) < len)
+		len = ft_strlen(s + start);
+	if (ft_strlen(s) <= start)
+		return (ft_strdup(""));
+	result = malloc(len + 1);
+	if (result == NULL)
+		return (NULL);
+	i = 0;
+	while (s[start + i] && i < len)
+	{
+		result[i] = s[start + i];
+		i++;
+	}
+	result[i] = '\0';
+	return (result);
+}
+
+void	ft_putstr(char *s)
+{
+	while (s && *s)
+		write(1, s++, 1);
 }
 
 
@@ -100,10 +156,10 @@ static int	index_count(char const *s, char c)
 	return (count);
 }
 
-char	**ft_split(char const *s, char c)
+char	**ft_split(char *s, char c)
 {
 	char		**result;
-	char const	*start;
+	char		*start;
 	int			i;
 	int			len;
 
@@ -167,30 +223,6 @@ int	ft_strchr(char *s, char c)
 	return (-1);
 }
 
-char	*ft_substr(char *s, int start, int len)
-{
-	int		i;
-	char	*result;
-
-	if (!s)
-		return (NULL);
-	if (ft_strlen(s + start) < len)
-		len = ft_strlen(s + start);
-	if (ft_strlen(s) <= start)
-		return (ft_strdup(""));
-	result = malloc(len + 1);
-	if (!result)
-		return (NULL);
-	i = 0;
-	while (s[start + i] && i < len)
-	{
-		result[i] = s[start + i];
-		i++;
-	}
-	result[i] = '\0';
-	return (result);
-}
-
 int	ft_chr_count(char *s, char c)
 {
 	int	i;
@@ -202,32 +234,4 @@ int	ft_chr_count(char *s, char c)
 		if (s[i] == c)
 			count++;
 	return (count);
-}
-
-char	*quote_cut(char *s, int start)
-{
-	int	end;
-	char	*result;
-	int		i;
-
-	end = ft_strchr(s + start + 1, s[start]);
-	result = malloc(sizeof(char) * (end - start));
-	i = 0;
-	while (++start < end)
-		result[i++] = s[start];
-	result[i] = '\0';
-	return (result);
-}
-
-char	*ft_cut(char *s, int start)
-{
-	int	i;
-	char	*result;
-
-	i = start;
-	while (s[i] == ' ')
-		i++;
-	if (s[i] == '\"' || s[i] == '\'')
-		return (quote_cut(s, i));
-	
 }

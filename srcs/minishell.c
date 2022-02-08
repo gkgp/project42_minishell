@@ -74,12 +74,16 @@ static int	ft_readline(void)
 
 int	minishell(int argc, char const *argv[], char *const envp[])
 {
-	t_app			app;
+	int	count;
 
-	if (argc != 1)
+	count = 1;
+	while (count)
 	{
-		ft_putstr("\033[0;33mUsage: ./minishell [cmd]\033[0m\n");
-		return (1);
+		tokens = tokens->next;
+		if (tokens->token == P_OPEN)
+			count++;
+		if (tokens->token == P_CLOSE)
+			count--;
 	}
 	init_app(&app);
 	init_env(&app, envp);
