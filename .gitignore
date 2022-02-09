@@ -2,6 +2,7 @@
 *.o
 *.a
 *.dSYM
+*.DS_Store
 /minishell
 /minishell_debug
 /minishell_sanitize

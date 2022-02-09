@@ -6,17 +6,17 @@
 #    By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/18 14:24:46 by gkgpteam          #+#    #+#              #
-#    Updated: 2022/01/19 14:29:30 by gphilipp         ###   ########.fr        #
+#    Updated: 2022/02/09 06:03:36 by gphilipp         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # <!-- pre='srcs/' path='./' match='*.c' exclude='main.c' pos='1' template='		{0} \' -->
 SRC	  = main.c \
-		dep/ft_strlen.c \
+		utils/minishell_utils.c \
 		dep/ft_strchr.c \
 		dep/ft_strcat.c \
 		dep/ft_strxcmp.c \
-		dep/ft_strdup.c \
+		dep/ft_strncmp.c \
 		builtin/ft_cd.c \
 		builtin/ft_unset.c \
 		builtin/ft_env.c \
@@ -25,10 +25,15 @@ SRC	  = main.c \
 		list.c \
 		execute.c \
 		app_refresh.c \
+		lexer.c \
+		search.c \
 		env.c \
+		free.c \
 		list2.c \
 		signal.c \
+		test.c \
 		parse.c \
+		parser.c \
 		app.c \
 		minishell.c \
 		parser.c		\
