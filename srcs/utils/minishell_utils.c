@@ -42,46 +42,6 @@ void	*ft_calloc(size_t count, size_t size)
 	return (result);
 }
 
-int	ft_strlen(char *s)
-{
-	int	i;
-
-	i = 0;
-	while (s[i])
-		i++;
-	return (i);
-}
-
-char	*ft_strdup(char *s)
-{
-	char	*dup;
-	int		i;
-
-	i = 0;
-	dup = malloc(ft_strlen(s) + 1);
-	if (!dup)
-		return (NULL);
-	while (s[i])
-	{
-		dup[i] = s[i];
-		i++;
-	}
-	dup[i] = '\0';
-	return (dup);
-}
-
-int	ft_strncmp(char *s1, char *s2, int n)
-{
-	int	i;
-
-	i = 0;
-	if (!n)
-		return (0);
-	while (s1[i] && s2[i] && s1[i] == s2[i] && i < n)
-		i++;
-	return (s1[i] - s2[i]);
-}
-
 char	*ft_substr(char *s, int start, int len)
 {
 	int		i;
