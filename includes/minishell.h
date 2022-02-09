@@ -15,7 +15,13 @@
 
 // Reproduction des fonctions bashs (echo, cd, pwd…)
 # include "builtin.h"
-
+# include "list.h"
+# include <stdio.h>
+# include <unistd.h>
+# include <stdlib.h>
+# include <signal.h>
+# include <fcntl.h>
+# include <sys/stat.h>
 
 typedef struct s_app
 {
@@ -23,7 +29,21 @@ typedef struct s_app
 	t_list		*env;
 }			t_app;
 
+typedef struct s_keyval
+{
+	char			*key;
+	char			*val;
+}			t_keyval;
 
+typedef struct s_cmd
+{
+	char			*cmd_path;
+	char			**args;
+	char			**envp;
+	char			**path;
+}			t_cmd;
+
+typedef struct s_tree		t_tree;
 
 typedef struct s_tree {
    int   value;
@@ -83,7 +103,7 @@ typedef struct s_token {
 /* global variable */
 
 /* prototypes */
-int minishell(t_token *tokens, int index, char **envp);
+int			minishell(int argc, char const *argv[], char *const envp[]);
 
 /* app.c */
 void		init_app(t_app *app);
