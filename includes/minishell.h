@@ -6,7 +6,7 @@
 /*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 10:50:45 by gkgpteam          #+#    #+#             */
-/*   Updated: 2022/01/19 15:28:14 by gphilipp         ###   ########.fr       */
+/*   Updated: 2022/02/09 06:57:21 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,30 +46,30 @@ typedef struct s_cmd
 typedef struct s_tree		t_tree;
 
 typedef struct s_tree {
-   int   value;
-   struct s_tree *left;
-   struct s_tree *right;
-} t_tree;
+	int			value;
+	t_tree		*left;
+	t_tree		*right;
+}			t_tree;
 
-typedef enum e_token {
-   ARG,
-   CHEVRON_I,
-   CHEVRON_O,
-   DOUBLE_CHEVRON_I,
-   DOUBLE_CHEVRON_O,
-   PIPE,
-   OR,
-   AND,
-   P_OPEN,
-   P_CLOSE,
-   INPUT,
-   LIMITER,
-   OUTPUT_T,
-   OUTPUT_A,
-   DOLLAR,
-   VAR,
-   VAR_Q
-}  e_token;
+enum {
+	ARG,
+	CHEVRON_I,
+	CHEVRON_O,
+	DOUBLE_CHEVRON_I,
+	DOUBLE_CHEVRON_O,
+	PIPE,
+	OR,
+	AND,
+	P_OPEN,
+	P_CLOSE,
+	INPUT,
+	LIMITER,
+	OUTPUT_T,
+	OUTPUT_A,
+	DOLLAR,
+	VAR,
+	VAR_Q
+};
 
 /*
 <NODE TYPES>
@@ -79,26 +79,30 @@ typedef enum e_token {
 3 : PIPE
 */
 
-typedef struct s_node {
-   int            node_type;
-   char           **args;
-   int            *redir_type;
-   char           **redir_name;
-   char            **heredoc;
-   struct s_node  *left;
-   struct s_node  *right;
-   struct s_node  *root;
-   struct s_node  *current_cmd;
-   struct s_node  *current_pipe;
-} t_node;
+typedef struct s_node		t_node;
 
-typedef struct s_token {
-   enum e_token   token;
-   int            begin;
-   int            index;
-   char           *content;
-   struct s_token *next;
-} t_token;
+struct s_node {
+	int			node_type;
+	char		**args;
+	int			*redir_type;
+	char		**redir_name;
+	char		**heredoc;
+	t_node		*left;
+	t_node		*right;
+	t_node		*root;
+	t_node		*current_cmd;
+	t_node		*current_pipe;
+};
+
+typedef struct s_node		t_token;
+
+struct s_token {
+	int			token;
+	int			begin;
+	int			index;
+	char		*content;
+	t_token		*next;
+};
 
 /* global variable */
 
@@ -132,32 +136,36 @@ char		*ft_strdup(const char *s1);
 int			ft_strlen(const char *s);
 int			ft_strcmp(const char *s1, const char *s2);
 int			ft_strncmp(const char *s1, const char *s2, int n);
-char		*ft_strjoin(char *s1, char *s2);
+
+/* utils/minishell_utils.c */
+void		ft_putchar_fd(char c, int fd);
 void		ft_putstr_fd(char *s, int fd);
-int			ft_strlen(const char *s);
-char  *ft_substr(char *s, int start, int len);
-int   ft_strchr_set(char *s, char *set);
-int   ft_chr_count(char *s, char c);
-int   is_alpha(char c);
-void  ft_bzero(void *s, size_t n);
-void  *ft_calloc(size_t count, size_t size);
+void		ft_bzero(void *s, size_t n);
+void		*ft_calloc(size_t count, size_t size);
+char		*ft_substr(char *s, int start, int len);
+void		ft_putstr(char *s);
+char		*ft_strjoin(char *s1, char *s2, int flag);
+char		**ft_split(char *s, char c);
+int			ft_strchr_set(char *s, char *set);
+int			ft_strchr_num(char *s, char c);
+int			ft_chr_count(char *s, char c);
 
 /* lexer */
-t_token  *lexer(char *s);
+t_token		*lexer(char *s);
 
 /* parse */
-t_node   *parser(t_token *tokens, int index);
+t_node		*parser(t_token *tokens, int index);
 void		parse_input(char *r_data, t_cmd *cmd);
 char		**parse_path(char **envp);
 
 /* execute */
-int   execute(t_node *node, char **envp);
-int   cmd_execute(t_node *node, int fd_in, char **envp);
+int			execute(t_node *node, char **envp);
+int			cmd_execute(t_node *node, int fd_in, char **envp);
 
 /* free */
-void  free_tokens(t_token *tokens);
+void		free_tokens(t_token *tokens);
 
 /* signal */
-void			init_signal(void);
+void		init_signal(void);
 
 #endif

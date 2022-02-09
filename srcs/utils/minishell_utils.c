@@ -1,17 +1,17 @@
 #include "minishell.h"
 
-void    ft_putchar_fd(char c, int fd)
+void	ft_putchar_fd(char c, int fd)
 {
-    write(fd, &c, 1);
+	write(fd, &c, 1);
 }
 
-void    ft_putstr_fd(char *s, int fd)
+void	ft_putstr_fd(char *s, int fd)
 {
-    int i;
+	int		i;
 
-    i = 0;
-    while (s[i])
-        ft_putchar_fd(s[i++], fd);
+	i = 0;
+	while (s[i])
+		ft_putchar_fd(s[i++], fd);
 }
 
 void	ft_bzero(void *s, size_t n)
@@ -71,7 +71,6 @@ void	ft_putstr(char *s)
 	while (s && *s)
 		write(1, s++, 1);
 }
-
 
 char	*ft_strjoin(char *s1, char *s2, int flag)
 {
@@ -142,16 +141,6 @@ char	**ft_split(char *s, char c)
 	}
 	result[i] = 0;
 	return (result);
-}
-
-int	ft_strcmp(char *s1, char *s2)
-{
-	int	i;
-
-	i = 0;
-	while (s1[i] && s2[i] && s1[i] == s2[i])
-		i++;
-	return (s1[i] - s2[i]);
 }
 
 int	ft_strchr_set(char *s, char *set)
