@@ -170,7 +170,7 @@ int	ft_strchr_set(char *s, char *set)
 	return (-1);
 }
 
-int	ft_strchr(char *s, char c)
+int	ft_strchr_num(char *s, char c)
 {
 	int	i;
 
