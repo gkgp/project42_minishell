@@ -6,7 +6,7 @@
 /*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 10:49:04 by gkgpteam          #+#    #+#             */
-/*   Updated: 2022/01/19 16:53:04 by gphilipp         ###   ########.fr       */
+/*   Updated: 2022/02/09 06:41:08 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,19 @@ static int	ft_readline(void)
 	char			**path;
 	int				i;*/
 	char			*str;
+	int				count;
 
 	while (1)
 	{
+		count = 1;
+		while (count)
+		{
+			tokens = tokens->next;
+			if (tokens->token == P_OPEN)
+				count++;
+			if (tokens->token == P_CLOSE)
+				count--;
+		}
 		str = readline("minishell-1.0$ ");
 		/*
 		cmd.path = parse_path((char *) cmd.envp);
@@ -74,16 +84,12 @@ static int	ft_readline(void)
 
 int	minishell(int argc, char const *argv[], char *const envp[])
 {
-	int	count;
+	t_app			app;
 
-	count = 1;
-	while (count)
+	if (argc != 1)
 	{
-		tokens = tokens->next;
-		if (tokens->token == P_OPEN)
-			count++;
-		if (tokens->token == P_CLOSE)
-			count--;
+		ft_putstr("\033[0;33mUsage: ./minishell [cmd]\033[0m\n");
+		return (1);
 	}
 	init_app(&app);
 	init_env(&app, envp);
