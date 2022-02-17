@@ -10,16 +10,58 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include "minishell.h"
+#include "../includes/minishell.h"
 
-void	ft_putstr(char *s)
+int	res_shell;
+
+char	**get_env(char **envp)
 {
-	while (s && *s)
-		write(1, s++, 1);
+	int	i;
+	char	**new;
+
+	i = 0;
+	while (envp[i])
+		i++;
+	new = malloc(sizeof(char *) * (i + 1));
+	i = -1;
+	while (envp[++i])
+		new[i] = ft_strdup(envp[i]);
+	new[i] = NULL;
+	return (new);
 }
 
-int	main(int argc, char const *argv[], char *const envp[])
+void	print_token(t_token *tokens)
 {
-	return (minishell(argc - 1, &argv[1], envp));
+	while (tokens)
+	{
+		printf("token number : %d===\n", tokens->token);
+		//printf("begin? ---- %d\n", tokens->begin);
+		if (tokens->content)
+			printf("token content : %s===\n", tokens->content);
+		printf("==============\n");
+		tokens = tokens->next;
+	}
+}
+
+int	main(int argc, char const *argv[], char **envp)
+{
+	char	*r;
+	t_token	*tokens;
+	char	**env;
+
+	(void) argv;
+	res_shell = 0;
+    if (argc != 1)
+        return (0);
+	env = get_env(envp);
+    while (1)
+    {
+		r = readline("input: ");
+		//add_history
+		tokens = lexer(r, env);
+		//print_token(tokens);
+		res_shell = minishell(tokens, 0, env);
+		free(r);
+    }
+	return (res_shell);
 }

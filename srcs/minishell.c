@@ -1,92 +1,86 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/11 10:49:04 by gkgpteam          #+#    #+#             */
-/*   Updated: 2022/01/19 16:53:04 by gphilipp         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+#include "../includes/minishell.h"
 
-#include "minishell.h"
-#include <stdio.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-
-void	test(t_app *app)
+int		p_couple(t_token *tokens)
 {
-	char			**envp;
-	int				i;
+	int	count;
 
-	printf("working directory: %s\n", app->workdir);
-	ft_cd(app, "./test/");
-	printf("cd ./test\nworking directory: %s\n", app->workdir);
-	printf("%s\n", ft_getenv(app, "USER"));
-	printf("%d\n", ft_setenv(app, "MOUSTACHE3", "TRUE"));
-	printf("%s\n", ft_getenv(app, "MOUSTACHE3"));
-	printf("%d\n", ft_export(app, "MOUSTACHE3=VALID"));
-	printf("%d\n", ft_unsetenv(app, "MOUSTACHE3"));
-	printf("%s\n", ft_getenv(app, "MOUSTACHE3"));
-	printf("%d\n", ft_export(app, "COUCOU=O/"));
-	ft_env(app);
-	printf("diff:\n");
-	envp = list_env_to_2d(app);
-	i = -1;
-	while (envp[++i])
+	count = 1;
+	while (count)
 	{
-		printf("%s\n", envp[i]);
-		free(envp[i]);
+		tokens = tokens->next;
+		if (tokens->token == P_OPEN)
+			count++;
+		if (tokens->token == P_CLOSE)
+			count--;
 	}
-	free(envp);
+	return (tokens->index);
 }
 
-static int	ft_readline(void)
+void    p_jump(t_token **tokens)
 {
-	/*t_cmd			cmd;
-	char			**path;
-	int				i;*/
-	char			*str;
-
-	while (1)
-	{
-		str = readline("minishell-1.0$ ");
-		/*
-		cmd.path = parse_path((char *) cmd.envp);
-		cmd.envp = (char *) list_env_to_2d();
-		parse_input(str, &cmd);
-		execute(cmd);
-		while (envp[++i])
-			free(envp[i]);
-		*/
-		if (str && *str)
-			add_history(str);
-		if (!str)
-		{
-			ft_putstr("\033[1Aminishell-1.0$ exit\n");
-			return (1);
-		}
-		if (str)
-			free(str);
-	}
+    int p_end;
+    
+    p_end = p_couple(*tokens);
+    while ((*tokens)->index != p_end)
+        *tokens = (*tokens)->next;
+    *tokens = (*tokens)->next;
 }
 
-int	minishell(int argc, char const *argv[], char *const envp[])
+int subshell(t_token *tokens, char **envp)
 {
-	t_app			app;
+    int     fd[2];
+    pid_t   pid;
+    int     p_end;
+    int     res;
 
-	if (argc != 1)
-	{
-		ft_putstr("\033[0;33mUsage: ./minishell [cmd]\033[0m\n");
-		return (1);
-	}
-	init_app(&app);
-	init_env(&app, envp);
-	(void) argv;
-	// test(&app);
-	init_signal();
-	ft_readline();
-	free_app(&app);
-	return (0);
+    pipe(fd);
+    pid = fork();
+    if (pid == 0)
+    {
+        p_end = p_couple(tokens);
+        res = minishell(tokens, p_end, envp);
+        write(fd[1], &res, sizeof(res));
+    }
+    else
+    {
+        wait(NULL);
+        res = read(fd[0], &res, sizeof(res));
+    }
+    return (res);
+}
+
+
+
+int minishell(t_token *tokens, int index, char **envp)
+{
+ 	t_node	*node;
+	t_token  *begin;
+    int     res;
+
+    while (tokens && (tokens->index < index || !index))
+    {
+        if (tokens->token == P_OPEN)
+        {
+            res = subshell(tokens, envp);
+            p_jump(&tokens);
+        }
+        else if (tokens->begin)
+            begin = tokens;
+        if (tokens->token == AND || tokens->token == OR || !tokens->next)
+        {
+            node = parser(begin, tokens->index);
+            res = execute(node, envp);
+            if (tokens->next && ((res && tokens->token == AND) || (!res && tokens->token == OR)))
+            {
+                tokens = tokens->next;
+                continue;
+            }
+            else
+                break;
+        }
+        tokens = tokens->next;
+    }
+    if (!index)
+        free_tokens(tokens);
+	return (res);
 }
