@@ -3,6 +3,7 @@
 		"minishell.h": "c",
 		"stat.h": "c",
 		"__locale": "c",
-		"bitset": "c"
+		"bitset": "c",
+		"chrono": "c"
 	}
 }

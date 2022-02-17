@@ -21,28 +21,33 @@ int    execute_loop(t_node *node, char **envp)
 	int		success;
 
 	fd_in = 0;
-	success = 0;
-	while (node)
+	success = 1;
+	while (node && node->node_type > 1)
 	{
 		pipe(fd);
 		pipe(res);
 		pid = fork();
 		if (pid == 0)
 		{
-			dup2(fd_in, 0);
-			if (node->right)
-				dup2(fd[1], 1);
 			close(fd[0]);
-			success = cmd_execute(node->left, fd_in, envp);
+			close(res[0]);
+			if (node->right && node->right->node_type > 1)
+				success = cmd_execute(node->left, fd_in, fd[1], envp);
+			else
+				success = cmd_execute(node, fd_in, 1, envp);
 			if (success == -1)
 				write(fd[1], "", 1);
-			write(res[1], &success, sizeof(success));
+			write(res[1], &success, sizeof(int));
 		}
 		else
 		{
 			wait(NULL);
 			close(fd[1]);
+			close(res[1]);
 			success = read(res[0], &success, sizeof(success));
+			if (!success)
+				success = 1;
+			close(res[0]);
 			fd_in = fd[0];
 	        node = node->right;
 		}
@@ -96,9 +101,9 @@ char	**possible_path(char **envp)
 	char	**result;
 
 	i = 0;
-	while (envp[i] && ft_strncmp(envp[i++], "PATH=", 5))
+	while (envp[i] && ft_strncmp(envp[i], "PATH=", 5))
 		i++;
-	result = ft_split(envp[i] + 5, ':');
+	result = ft_split(envp[i], ':');
 	return (result);
 }
 
@@ -107,7 +112,6 @@ char	*path_define(char *cmd, char **envp)
 	char	*cmd_path;
 	char	**paths;
 
-	printf("yoyo\n");
 	/*if (!ft_strcmp(cmd, "cd") || !ft_strcmp(cmd, "pwd") || !ft_strcmp(cmd, "unset") 
 	|| !ft_strcmp(cmd, "exit") || !ft_strcmp(cmd, "echo") || !ft_strcmp(cmd, "env")
 	|| !ft_strcmp(cmd, "export"))
@@ -117,43 +121,51 @@ char	*path_define(char *cmd, char **envp)
 	return (cmd_path);
 }
 
-int	cmd_execute(t_node *node, int fd_in, char **envp)
+t_redir	redir_initialize(int fd_in, int fd_out)
+{
+	t_redir	res;
+
+	res.input = 0;
+	res.output = 1;
+	if (fd_in)
+		res.input = fd_in;
+	if (fd_out)
+		res.output = fd_out;
+	return (res);
+}
+void	redir_define(t_redir *redir, char **name, int *type)
 {
 	int		i;
-	int		input;
-	int		output;
+
+	i = -1;
+	while (name[++i])
+	{
+		printf("show me the type------%d name -----%s\n", type[i], name[i]);
+		if (type[i] == CHEVRON_I)
+			redir->input = open(name[i], O_RDONLY);
+		else if (type[i] == CHEVRON_O)
+			redir->output = open(name[i], O_CREAT | O_WRONLY | O_TRUNC, S_IRUSR | S_IWUSR);
+		else if (type[i] == DOUBLE_CHEVRON_I)
+			redir->input = here_doc(name[i]);
+		else
+			redir->output = open(name[i], O_CREAT | O_WRONLY | O_APPEND);
+		printf("so now what ???? INPUT %d OUTPUT %d\n", redir->input, redir->output);
+		if (redir->input == -1 || redir->output == -1)
+			ft_putstr_fd("Error.", 2); // allez on va revoir ce truc
+	}
+}
+
+int	cmd_execute(t_node *node, int fd_in, int fd_out, char **envp)
+{
+	t_redir	redir;
 	char	*cmd_path;
 	
-	i = -1;
-	dup2(fd_in, 0);
-	input = 0;
-	output = 0;
-	printf("bubu\n");
+	redir = redir_initialize(fd_in, fd_out);
 	if (node->right)
-	{
-		while (node->right->redir_type[++i])
-		{
-			if (node->right->redir_type[i] == CHEVRON_I)
-				input = open(node->right->redir_name[i], O_RDONLY);
-			else if (node->right->redir_type[i] == CHEVRON_O)
-				output = open(node->right->redir_name[i], O_CREAT | O_WRONLY | O_TRUNC);
-			else if (node->right->redir_type[i] == DOUBLE_CHEVRON_I)
-				input = here_doc(node->right->redir_name[i]);
-			else
-				output = open(node->right->redir_name[i], O_CREAT | O_WRONLY | O_APPEND);
-			if (input == -1 || output == -1)
-			{
-				ft_putstr_fd("Error.", 2);
-				return (0);
-			}
-		}
-	}
-	if (input)
-		dup2(input, 0);
-	if (output)
-		dup2(output, 1);
-	cmd_path = path_define(node->root->left->args[0], envp);
-	printf("lolo\n");
+		redir_define(&redir, node->right->redir_name, node->right->redir_type);
+	dup2(redir.input, 0);
+	dup2(redir.output, 1);
+	cmd_path = path_define(node->left->args[0], envp);
 	if (!cmd_path)
 		return (-1);
 	execve(cmd_path, node->left->args, envp);
@@ -164,10 +176,6 @@ int	execute(t_node *node, char **envp)
 {
 	int	success;
 
-	printf("bobo %d\n", node->root->node_type);
-	if (node->root->node_type == 3)
-		success = execute_loop(node, envp);
-	else
-		success = cmd_execute(node, 0, envp);
+	success = execute_loop(node->root, envp);
 	return (success);
 }
