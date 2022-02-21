@@ -1,34 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strxcmp.c                                       :+:      :+:    :+:   */
+/*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/09 09:42:42 by gkgpteam          #+#    #+#             */
-/*   Updated: 2022/01/13 15:55:13 by gphilipp         ###   ########.fr       */
+/*   Created: 2022/02/21 14:24:32 by min-kang          #+#    #+#             */
+/*   Updated: 2022/02/21 16:26:19 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_strcmp(const char *s1, const char *s2)
+#include "minishell.h"
+
+t_node	*last_node(t_node *node)
 {
-	while (*s1 && *s1 == *s2)
-	{
-		s1++;
-		s2++;
-	}
-	return ((unsigned char) *s1 - (unsigned char) *s2);
+	while (node->right)
+		node = node->right;
+	return (node);
 }
 
-int	ft_strncmp(const char *s1, const char *s2, int n)
+void	last_cmd(t_node **node)
 {
-	while (n > 0)
+	t_node	*current;
+
+	if ((*node)->current_cmd && ((*node)->current_pipe))
 	{
-		if (*s1 != *s2)
-			return ((unsigned char) *s1 - (unsigned char) *s2);
-		s1++;
-		s2++;
-		n--;
+		current = last_node((*node)->root);
+		current->right = (*node)->current_cmd;
+		(*node)->current_cmd = NULL;
 	}
-	return (0);
 }

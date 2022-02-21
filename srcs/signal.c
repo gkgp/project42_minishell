@@ -6,14 +6,14 @@
 /*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/19 09:17:56 by gkgpteam          #+#    #+#             */
-/*   Updated: 2022/01/19 16:28:47 by gphilipp         ###   ########.fr       */
+/*   Updated: 2022/02/21 17:19:07 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdio.h>
 #include <signal.h>
 #include <termios.h>
 #include <unistd.h>	
-			#include <stdio.h>	
 #include <readline/readline.h>
 #include <readline/history.h>
 
@@ -47,7 +47,6 @@ void	init_signal(void)
 {
 	struct termios		attributes;
 
-	//tcgetattr(STDIN_FILENO, &saved);
 	tcgetattr(STDIN_FILENO, &attributes);
 	attributes.c_lflag &= ~ECHOCTL;
 	tcsetattr(STDIN_FILENO, TCSAFLUSH, &attributes);

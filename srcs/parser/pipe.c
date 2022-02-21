@@ -1,23 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/11 10:50:45 by gkgpteam          #+#    #+#             */
-/*   Updated: 2022/01/11 11:31:42 by gphilipp         ###   ########.fr       */
+/*   Created: 2022/02/21 14:24:43 by min-kang          #+#    #+#             */
+/*   Updated: 2022/02/21 16:26:21 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_strlen(const char *s)
-{
-	int		i;
+#include "minishell.h"
 
-	i = 0;
-	while (s[i] != '\0')
+void	parse_pipe(t_node **node)
+{
+	t_node	*new;
+	t_node	*tmp;
+
+	new = ft_calloc(1, sizeof(t_node));
+	new->node_type = 3;
+	new->left = (*node)->current_cmd;
+	(*node)->current_cmd = NULL;
+	if ((*node)->current_pipe)
 	{
-		i++;
+		tmp = last_node((*node)->current_pipe);
+		tmp->right = new;
 	}
-	return (i);
+	else
+	{
+		(*node)->current_pipe = new;
+		if ((*node)->root->node_type < 3)
+			(*node)->root = (*node)->current_pipe;
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 10:49:04 by gkgpteam          #+#    #+#             */
-/*   Updated: 2022/01/19 16:53:04 by gphilipp         ###   ########.fr       */
+/*   Updated: 2022/02/21 17:56:25 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,24 +42,24 @@ void	test(t_app *app)
 	free(envp);
 }
 
-static int	ft_readline(void)
+static void	accept(t_app *app, char *str_cmd)
 {
-	/*t_cmd			cmd;
-	char			**path;
-	int				i;*/
+	char			**env;
+	t_token			*tokens;
+
+	env = list_env_to_2d(app);
+	tokens = lexer(str_cmd, env);
+	g_res = shell(tokens, 0, env);
+	free(env);
+}
+
+static int	ft_readline(t_app *app)
+{
 	char			*str;
 
 	while (1)
 	{
-		str = readline("minishell-1.0$ ");
-		/*
-		cmd.path = parse_path((char *) cmd.envp);
-		cmd.envp = (char *) list_env_to_2d();
-		parse_input(str, &cmd);
-		execute(cmd);
-		while (envp[++i])
-			free(envp[i]);
-		*/
+		str = readline("minshell-1.0$ ");
 		if (str && *str)
 			add_history(str);
 		if (!str)
@@ -67,6 +67,7 @@ static int	ft_readline(void)
 			ft_putstr("\033[1Aminishell-1.0$ exit\n");
 			return (1);
 		}
+		accept(app, str);
 		if (str)
 			free(str);
 	}
@@ -76,17 +77,14 @@ int	minishell(int argc, char const *argv[], char *const envp[])
 {
 	t_app			app;
 
-	if (argc != 1)
-	{
-		ft_putstr("\033[0;33mUsage: ./minishell [cmd]\033[0m\n");
-		return (1);
-	}
 	init_app(&app);
 	init_env(&app, envp);
 	(void) argv;
 	// test(&app);
 	init_signal();
-	ft_readline();
+	if (argc == 1)
+		accept(&app, (char *) argv[0]);
+	ft_readline(&app);
 	free_app(&app);
 	return (0);
 }

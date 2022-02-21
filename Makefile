@@ -6,37 +6,53 @@
 #    By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/18 14:24:46 by gkgpteam          #+#    #+#              #
-#    Updated: 2022/01/19 14:29:30 by gphilipp         ###   ########.fr        #
+#    Updated: 2022/02/21 17:38:37 by gphilipp         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # <!-- pre='srcs/' path='./' match='*.c' exclude='main.c' pos='1' template='		{0} \' -->
 SRC	  = main.c \
-		dep/ft_strlen.c \
-		dep/ft_strchr.c \
-		dep/ft_strcat.c \
-		dep/ft_strxcmp.c \
-		dep/ft_strdup.c \
 		builtin/ft_cd.c \
-		builtin/ft_unset.c \
 		builtin/ft_env.c \
-		builtin/ft_pwd.c \
 		builtin/ft_export.c \
-		list.c \
-		execute.c \
+		builtin/ft_pwd.c \
+		builtin/ft_unset.c \
+		dep/ft_strcat.c \
+		dep/ft_strchr.c \
+		execute/execute.c \
+		execute/free.c \
+		execute/path.c \
+		execute/redir.c \
+		lexer/arg.c \
+		lexer/free.c \
+		lexer/lexer.c \
+		lexer/lexer_utils.c \
+		lexer/redir.c \
+		lexer/var.c \
+		parser/arg.c \
+		parser/parser.c \
+		parser/parser_utils.c \
+		parser/pipe.c \
+		parser/redir.c \
+		utils/minishell_utils1.c \
+		utils/minishell_utils2.c \
+		utils/minishell_utils3.c \
+		utils/minishell_utils4.c \
+		app.c \
 		app_refresh.c \
 		env.c \
+		list.c \
 		list2.c \
-		signal.c \
-		parse.c \
-		app.c \
 		minishell.c \
+		shell.c \
+		signal.c \
 
 
 # <!-- pre='includes/' path='./' match='*.h' exclude='minishell.h' pos='1' template='		{0} \' -->
 HDEP  = minishell.h \
 		builtin.h \
 		list.h \
+		shell.h \
 
 
 HDEPS = $(addprefix $(HEAD), $(HDEP))
@@ -89,10 +105,10 @@ $(NAME): $(OBJS) $(HDEPS)
 
 # Usage: make debug && lldb minishell_debug -o run
 $(NAME)_debug: $(SRCS) $(HDEPS)
-	$(CC) $(CFLAGS) -g -o $(NAME)_debug -I$(HEAD) $(COMPILEFLAGS) $(SRCS)
+	$(CC) $(CFLAGS) -g -o $(NAME)_debug -I$(HEAD) -I$(READLINE_PATH)/include $(COMPILEFLAGS) $(SRCS)
 
 $(NAME)_sanitize: $(SRCS) $(HDEPS)
-	$(CC) $(CFLAGS) -fsanitize=address -g -o $(NAME)_sanitize -I$(HEAD) $(COMPILEFLAGS) $(SRCS)
+	$(CC) $(CFLAGS) -fsanitize=address -g -o $(NAME)_sanitize -I$(HEAD) -I$(READLINE_PATH)/include $(COMPILEFLAGS) $(SRCS)
 
 # Usage: make leaks && ./minishell_leaks
 MAIN_PATH=srcs/main.c

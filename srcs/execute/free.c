@@ -1,26 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execute.c                                          :+:      :+:    :+:   */
+/*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/14 13:30:18 by gkgpteam          #+#    #+#             */
-/*   Updated: 2022/01/23 08:02:40 by gphilipp         ###   ########.fr       */
+/*   Created: 2022/02/21 14:52:42 by min-kang          #+#    #+#             */
+/*   Updated: 2022/02/21 16:57:00 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/*void	execute(t_cmd cmd)
+void	preorder_traversal(t_node *node)
 {
-	//char		*cmd_path;
-
-	if (!cmd.cmd_path)
-	{
-		ft_putstr_fd("Command name error\n", 2);
-		return ;
-	}
-	execve(cmd.cmd_path, cmd.args, cmd.envp);
+	printf("====brrr===%d\n", node->node_type);
+	if (node->left)
+		preorder_traversal(node->left);
+	if (node->right)
+		preorder_traversal(node->right);
 }
-*/
+
+void	free_node(t_node *node)
+{
+	(void) node;
+}

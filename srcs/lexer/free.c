@@ -1,33 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/11 10:49:04 by gkgpteam          #+#    #+#             */
-/*   Updated: 2022/01/12 17:32:45 by gphilipp         ###   ########.fr       */
+/*   Created: 2022/02/21 14:58:04 by min-kang          #+#    #+#             */
+/*   Updated: 2022/02/21 16:26:06 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include <stdlib.h>
 
-char	*ft_strdup(const char *s1)
+void	*free_tokens(t_token *tokens)
 {
-	char	*dest;
-	char	*pt_dest;
+	t_token	*tmp;
 
-	dest = malloc(sizeof(char) * (ft_strlen(s1) + 1));
-	if (dest == NULL)
-		return (NULL);
-	pt_dest = dest;
-	while (*s1 != '\0')
+	while (tokens)
 	{
-		*dest = *s1;
-		dest++;
-		s1++;
+		tmp = tokens->next;
+		if (tokens->content)
+			free(tokens->content);
+		free(tokens);
+		tokens = tmp;
 	}
-	*dest = '\0';
-	return (pt_dest);
+	return (NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 10:50:45 by gkgpteam          #+#    #+#             */
-/*   Updated: 2022/01/19 15:28:14 by gphilipp         ###   ########.fr       */
+/*   Updated: 2022/02/21 16:53:48 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 // Reproduction des fonctions bashs (echo, cd, pwd…)
 # include "builtin.h"
+# include "shell.h"
 # include "list.h"
 
 typedef struct s_app
@@ -75,19 +76,12 @@ void		list_free_keyval(void *data);
 void		ft_putstr(char *s);
 char		*ft_strcat(char *dest, char *src);
 char		*ft_strchr(const char *s, int c);
-char		*ft_strdup(const char *s1);
-int			ft_strlen(const char *s);
-int			ft_strcmp(const char *s1, const char *s2);
-int			ft_strncmp(const char *s1, const char *s2, int n);
-char		*ft_strjoin(char *s1, char *s2);
-void		ft_putstr_fd(char *s, int fd);
-int			ft_strlen(const char *s);
 
 /* parse */
 void		parse_input(char *r_data, t_cmd *cmd);
 char		**parse_path(char **envp);
 
 /* signal */
-void			init_signal(void);
+void		init_signal(void);
 
 #endif
