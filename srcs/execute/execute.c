@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
+/*   By: min-kang <minguk.gaang@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/16 15:54:12 by min-kang          #+#    #+#             */
-/*   Updated: 2022/02/22 17:48:02 by gphilipp         ###   ########.fr       */
+/*   Updated: 2022/02/22 19:14:38 by min-kang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static int	cmd_execute(t_app *app, t_node *node, int *fd, char **envp)
 		redir_define(&redir, node->right->redir_name, node->right->redir_type);
 	dup2(redir.input, 0);
 	dup2(redir.output, 1);
-	if (builtin_execute(node->left, app) == 0)
+	if (!builtin_execute(node->left, app))
 		return (0);
 	cmd_path = path_define(node->left->args[0], envp);
 	if (!cmd_path)
@@ -68,7 +68,7 @@ int	execute(t_app *app, t_node *node, char **envp)
 {
 	int	success;
 
-	if (node->root->node_type == 2 && builtin_check(node->root->left))
+	if (node->root->node_type == 2 && builtin_check(node->root->left) != -1)
 		success = cmd_execute(app, node->root, (int [2]){0, 1}, envp);
 	else
 		success = execute_loop(app, node->root, envp, 0);
