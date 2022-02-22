@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
+/*   By: min-kang <minguk.gaang@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 10:50:45 by gkgpteam          #+#    #+#             */
-/*   Updated: 2022/02/22 10:04:12 by gphilipp         ###   ########.fr       */
+/*   Updated: 2022/02/22 14:14:03 by min-kang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,8 @@ void		ft_bzero(void *s, size_t n);
 void		*ft_calloc(size_t count, size_t size);
 char		*ft_strfcat(char *s, char c);
 char		*ft_itoa(int n);
+char		*to_lower(char *s);
+
 
 /* lexer */
 t_token		*lexer(char *s, char **envp);
@@ -143,5 +145,6 @@ char		*here_doc_join(char *txt, char *r);
 int			here_doc(char *limiter);
 t_redir		redir_initialize(int fd_in, int fd_out);
 void		redir_define(t_redir *redir, char **name, int *type);
+int			builtin_execute(t_node *node, t_app *app);
 
 #endif

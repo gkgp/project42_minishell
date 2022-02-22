@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_utils3.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
+/*   By: min-kang <minguk.gaang@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 16:55:02 by min-kang          #+#    #+#             */
-/*   Updated: 2022/02/21 16:37:30 by gphilipp         ###   ########.fr       */
+/*   Updated: 2022/02/22 14:13:23 by min-kang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,4 +69,15 @@ int	ft_strcmp(char *s1, char *s2)
 	while (s1[i] && s2[i] && s1[i] == s2[i])
 		i++;
 	return (s1[i] - s2[i]);
+}
+
+char	*to_lower(char *s)
+{
+	int	i;
+
+	i = 0;
+	while (s[i])
+		if (s[i] >= 'A' && s[i] <= 'Z')
+			s[i] += 32;
+	return (s);
 }

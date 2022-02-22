@@ -1,18 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_unset.c                                         :+:      :+:    :+:   */
+/*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: min-kang <minguk.gaang@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/15 10:52:52 by gkgpteam          #+#    #+#             */
-/*   Updated: 2022/02/22 14:10:10 by min-kang         ###   ########.fr       */
+/*   Created: 2022/02/22 14:02:10 by min-kang          #+#    #+#             */
+/*   Updated: 2022/02/22 14:02:44 by min-kang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-
-int	ft_unset(t_app *app, char **args)
+void	ft_exit(void)
 {
-	return (!ft_unsetenv(app, args));
+	exit(0);
 }

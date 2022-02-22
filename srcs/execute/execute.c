@@ -3,29 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
+/*   By: min-kang <minguk.gaang@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/16 15:54:12 by min-kang          #+#    #+#             */
-/*   Updated: 2022/02/22 12:45:58 by gphilipp         ###   ########.fr       */
+/*   Updated: 2022/02/22 14:15:15 by min-kang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static void	builtin_execute(t_app *app, t_node *node)
-{
-	
-	/*if (!ft_strcmp(cmd, "cd") || !ft_strcmp(cmd, "pwd") || !ft_strcmp(cmd, "unset") 
-	|| !ft_strcmp(cmd, "exit") || !ft_strcmp(cmd, "echo") || !ft_strcmp(cmd, "env")
-	|| !ft_strcmp(cmd, "export"))
-		return (ft_strjoin("../srcs/builtin/ft_", cmd, 0));*/
-	// guillaume a valider
-	if (ft_strcmp(node->left->args[0], "exit") == 0)
-	{
-		app->stay_alive = 0;
-		exit(127);
-	}
-}
 
 static int	cmd_execute(t_app *app, t_node *node, int *fd, char **envp)
 {
@@ -41,7 +26,8 @@ static int	cmd_execute(t_app *app, t_node *node, int *fd, char **envp)
 		redir_define(&redir, node->right->redir_name, node->right->redir_type);
 	dup2(redir.input, 0);
 	dup2(redir.output, 1);
-	builtin_execute(app, node);
+	if (builtin_execute(node->left, app))
+		return (0);
 	cmd_path = path_define(node->left->args[0], envp);
 	if (!cmd_path)
 		exit(127);
@@ -82,6 +68,7 @@ int	execute(t_app *app, t_node *node, char **envp)
 {
 	int	success;
 
+	if (node->root == 2)
 	success = execute_loop(app, node->root, envp, 0);
 	printf("ok");
 	unlink(HEREDOC);
