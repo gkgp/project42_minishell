@@ -6,7 +6,7 @@
 /*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 14:02:10 by min-kang          #+#    #+#             */
-/*   Updated: 2022/02/22 15:15:03 by gphilipp         ###   ########.fr       */
+/*   Updated: 2022/02/22 16:52:27 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 int	ft_exit(void)
 {
+	ft_putstr("exit\n");
 	exit(0);
 	return (0);
 }

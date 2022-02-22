@@ -6,7 +6,7 @@
 /*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/16 15:54:12 by min-kang          #+#    #+#             */
-/*   Updated: 2022/02/22 16:17:35 by gphilipp         ###   ########.fr       */
+/*   Updated: 2022/02/22 17:48:02 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static int	cmd_execute(t_app *app, t_node *node, int *fd, char **envp)
 		redir_define(&redir, node->right->redir_name, node->right->redir_type);
 	dup2(redir.input, 0);
 	dup2(redir.output, 1);
-	if (builtin_execute(node->left, app))
+	if (builtin_execute(node->left, app) == 0)
 		return (0);
 	cmd_path = path_define(node->left->args[0], envp);
 	if (!cmd_path)

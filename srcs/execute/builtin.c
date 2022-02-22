@@ -6,7 +6,7 @@
 /*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 13:27:48 by min-kang          #+#    #+#             */
-/*   Updated: 2022/02/22 15:13:11 by gphilipp         ###   ########.fr       */
+/*   Updated: 2022/02/22 17:45:47 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	builtin_check(t_node *node)
 	else if (!ft_strcmp("unset", to_lower(cmd)))
 		return (7);
 	else
-		return (0);
+		return (-1);
 }
 
 int	builtin_execute(t_node *node, t_app *app)
@@ -53,5 +53,5 @@ int	builtin_execute(t_node *node, t_app *app)
 	else if (!ft_strcmp("unset", to_lower(cmd)))
 		return (ft_unset(app, node->args));
 	else
-		return (0);
+		return (-1);
 }
