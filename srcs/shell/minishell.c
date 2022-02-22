@@ -6,7 +6,7 @@
 /*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 10:49:04 by gkgpteam          #+#    #+#             */
-/*   Updated: 2022/02/21 17:56:25 by gphilipp         ###   ########.fr       */
+/*   Updated: 2022/02/22 11:30:10 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static void	accept(t_app *app, char *str_cmd)
 
 	env = list_env_to_2d(app);
 	tokens = lexer(str_cmd, env);
-	g_res = shell(tokens, 0, env);
+	g_res = shell(app, tokens, 0, env);
 	free(env);
 }
 
@@ -57,20 +57,21 @@ static int	ft_readline(t_app *app)
 {
 	char			*str;
 
-	while (1)
+	while (app->stay_alive)
 	{
 		str = readline("minshell-1.0$ ");
 		if (str && *str)
 			add_history(str);
 		if (!str)
 		{
-			ft_putstr("\033[1Aminishell-1.0$ exit\n");
+			ft_putstr("\033[1Aminshell-1.0$ exit\n");
 			return (1);
 		}
 		accept(app, str);
 		if (str)
 			free(str);
 	}
+	return (0);
 }
 
 int	minishell(int argc, char const *argv[], char *const envp[])

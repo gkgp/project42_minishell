@@ -6,7 +6,7 @@
 /*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 14:23:42 by min-kang          #+#    #+#             */
-/*   Updated: 2022/02/21 16:26:01 by gphilipp         ###   ########.fr       */
+/*   Updated: 2022/02/22 12:45:52 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,6 @@ char	*path_define(char *cmd, char **envp)
 	char	*cmd_path;
 	char	**paths;
 
-	/*if (!ft_strcmp(cmd, "cd") || !ft_strcmp(cmd, "pwd") || !ft_strcmp(cmd, "unset") 
-	|| !ft_strcmp(cmd, "exit") || !ft_strcmp(cmd, "echo") || !ft_strcmp(cmd, "env")
-	|| !ft_strcmp(cmd, "export"))
-		return (ft_strjoin("../srcs/builtin/ft_", cmd, 0));*/
 	paths = possible_path(envp);
 	cmd_path = pathname_creator(cmd, paths);
 	return (cmd_path);

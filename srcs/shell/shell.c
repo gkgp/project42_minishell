@@ -6,13 +6,13 @@
 /*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 14:25:23 by min-kang          #+#    #+#             */
-/*   Updated: 2022/02/21 17:35:34 by gphilipp         ###   ########.fr       */
+/*   Updated: 2022/02/22 11:26:05 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	p_couple(t_token *tokens)
+static int	p_couple(t_token *tokens)
 {
 	int	count;
 
@@ -28,7 +28,7 @@ int	p_couple(t_token *tokens)
 	return (tokens->index);
 }
 
-void	p_jump(t_token **tokens)
+static void	p_jump(t_token **tokens)
 {
 	int	p_end;
 
@@ -38,7 +38,7 @@ void	p_jump(t_token **tokens)
 	*tokens = (*tokens)->next;
 }
 
-int	subshell(t_token *tokens, char **envp)
+static int	subshell(t_app *app, t_token *tokens, char **envp)
 {
 	pid_t	pid;
 	int		p_end;
@@ -48,7 +48,7 @@ int	subshell(t_token *tokens, char **envp)
 	if (pid == 0)
 	{
 		p_end = p_couple(tokens);
-		res = shell(tokens->next, p_end, envp);
+		res = shell(app, tokens->next, p_end, envp);
 		exit(res);
 	}
 	else
@@ -56,7 +56,7 @@ int	subshell(t_token *tokens, char **envp)
 	return (WEXITSTATUS(res));
 }
 
-int	shell(t_token *tokens, int index, char **envp)
+int	shell(t_app *app, t_token *tokens, int index, char **envp)
 {
 	t_node	*node;
 	t_token	*begin;
@@ -69,7 +69,7 @@ int	shell(t_token *tokens, int index, char **envp)
 		if (tokens->token == P_OPEN)
 		{
 			subsh = 0;
-			res = subshell(tokens, envp);
+			res = subshell(app, tokens, envp);
 			p_jump(&tokens);
 			subsh++;
 			if (!tokens)
@@ -90,7 +90,7 @@ int	shell(t_token *tokens, int index, char **envp)
 				continue ;
 			}
 			node = parser(begin, tokens->index);
-			res = execute(node, envp);
+			res = execute(app, node, envp);
 			if (!tokens->next || (res && tokens->token == AND)
 				|| (!res && tokens->token == OR))
 				break ;

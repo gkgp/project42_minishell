@@ -6,7 +6,7 @@
 /*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 10:50:45 by gkgpteam          #+#    #+#             */
-/*   Updated: 2022/02/21 17:29:06 by gphilipp         ###   ########.fr       */
+/*   Updated: 2022/02/22 10:04:12 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ typedef struct s_redir {
 /* global variable */
 
 /* prototypes */
-int			shell(t_token *tokens, int index, char **envp);
+int			shell(t_app *app, t_token *tokens, int index, char **envp);
 
 /* dep */
 void		ft_putstr(char *s);
@@ -135,7 +135,7 @@ char		**parse_path(char **envp);
 char		*define_path(char *cmd, char **paths);
 
 /* execute */
-int			execute(t_node *node, char **envp);
+int			execute(t_app *app, t_node *node, char **envp);
 char		*pathname_creator(char *s, char **paths);
 char		**possible_path(char **envp);
 char		*path_define(char *cmd, char **envp);

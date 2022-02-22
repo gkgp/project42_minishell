@@ -6,7 +6,7 @@
 /*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 16:54:34 by min-kang          #+#    #+#             */
-/*   Updated: 2022/02/21 17:29:45 by gphilipp         ###   ########.fr       */
+/*   Updated: 2022/02/22 10:23:50 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,4 +91,20 @@ char	*ft_strjoin(char *s1, char *s2, int flag)
 	if (flag)
 		free(s1);
 	return (result);
+}
+
+char	*ft_strchr(const char *s, int c)
+{
+	char	*str;
+
+	str = (char *) s;
+	while (*str != '\0')
+	{
+		if (*str == (char) c)
+			return (str);
+		str++;
+	}
+	if (c == '\0')
+		return (str);
+	return (0);
 }

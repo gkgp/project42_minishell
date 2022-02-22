@@ -6,7 +6,7 @@
 /*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 16:55:16 by min-kang          #+#    #+#             */
-/*   Updated: 2022/02/21 16:28:12 by gphilipp         ###   ########.fr       */
+/*   Updated: 2022/02/22 10:23:26 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,23 @@ int	ft_chr_count(char *s, char c)
 		if (s[i] == c)
 			count++;
 	return (count);
+}
+
+char	*ft_strcat(char *dest, char *src)
+{
+	char	*pt_dest;
+
+	pt_dest = dest;
+	while (*dest != '\0')
+		dest++;
+	while (*src != '\0')
+	{
+		*dest = *src;
+		dest++;
+		src++;
+	}
+	*dest = '\0';
+	return (pt_dest);
 }
 
 char	*ft_strfcat(char *s, char c)

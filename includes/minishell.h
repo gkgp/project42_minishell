@@ -6,7 +6,7 @@
 /*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 10:50:45 by gkgpteam          #+#    #+#             */
-/*   Updated: 2022/02/21 16:53:48 by gphilipp         ###   ########.fr       */
+/*   Updated: 2022/02/22 10:19:23 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ typedef struct s_app
 {
 	char		*workdir;
 	t_list		*env;
+	int			stay_alive;
 }			t_app;
 
 typedef struct s_keyval

@@ -6,7 +6,7 @@
 #    By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/18 14:24:46 by gkgpteam          #+#    #+#              #
-#    Updated: 2022/02/21 17:38:37 by gphilipp         ###   ########.fr        #
+#    Updated: 2022/02/22 10:25:44 by gphilipp         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,8 +17,6 @@ SRC	  = main.c \
 		builtin/ft_export.c \
 		builtin/ft_pwd.c \
 		builtin/ft_unset.c \
-		dep/ft_strcat.c \
-		dep/ft_strchr.c \
 		execute/execute.c \
 		execute/free.c \
 		execute/path.c \
@@ -34,18 +32,17 @@ SRC	  = main.c \
 		parser/parser_utils.c \
 		parser/pipe.c \
 		parser/redir.c \
+		shell/app.c \
+		shell/env.c \
+		shell/minishell.c \
+		shell/shell.c \
+		shell/signal.c \
+		utils/list.c \
+		utils/list2.c \
 		utils/minishell_utils1.c \
 		utils/minishell_utils2.c \
 		utils/minishell_utils3.c \
 		utils/minishell_utils4.c \
-		app.c \
-		app_refresh.c \
-		env.c \
-		list.c \
-		list2.c \
-		minishell.c \
-		shell.c \
-		signal.c \
 
 
 # <!-- pre='includes/' path='./' match='*.h' exclude='minishell.h' pos='1' template='		{0} \' -->
