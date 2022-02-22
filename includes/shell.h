@@ -6,7 +6,7 @@
 /*   By: min-kang <minguk.gaang@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 10:50:45 by gkgpteam          #+#    #+#             */
-/*   Updated: 2022/02/22 14:14:03 by min-kang         ###   ########.fr       */
+/*   Updated: 2022/02/22 15:01:35 by min-kang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,5 +146,6 @@ int			here_doc(char *limiter);
 t_redir		redir_initialize(int fd_in, int fd_out);
 void		redir_define(t_redir *redir, char **name, int *type);
 int			builtin_execute(t_node *node, t_app *app);
+int			builtin_check(t_node *node);
 
 #endif
