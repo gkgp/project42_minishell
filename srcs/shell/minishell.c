@@ -6,7 +6,7 @@
 /*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 10:49:04 by gkgpteam          #+#    #+#             */
-/*   Updated: 2022/02/22 11:30:10 by gphilipp         ###   ########.fr       */
+/*   Updated: 2022/02/22 15:42:09 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,10 @@ void	test(t_app *app)
 	printf("%s\n", ft_getenv(app, "USER"));
 	printf("%d\n", ft_setenv(app, "MOUSTACHE3", "TRUE"));
 	printf("%s\n", ft_getenv(app, "MOUSTACHE3"));
-	printf("%d\n", ft_export(app, "MOUSTACHE3=VALID"));
+	//printf("%d\n", ft_export(app, (int *[2]){"MOUSTACHE3=VALID", 0}));
 	printf("%d\n", ft_unsetenv(app, "MOUSTACHE3"));
 	printf("%s\n", ft_getenv(app, "MOUSTACHE3"));
-	printf("%d\n", ft_export(app, "COUCOU=O/"));
+	//printf("%d\n", ft_export(app, (int *[2]){"COUCOU=O/", 0}));
 	ft_env(app);
 	printf("diff:\n");
 	envp = list_env_to_2d(app);

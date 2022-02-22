@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: min-kang <minguk.gaang@gmail.com>          +#+  +:+       +#+        */
+/*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/15 10:52:52 by gkgpteam          #+#    #+#             */
-/*   Updated: 2022/02/22 14:10:10 by min-kang         ###   ########.fr       */
+/*   Updated: 2022/02/22 15:32:52 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,10 @@
 
 int	ft_unset(t_app *app, char **args)
 {
-	return (!ft_unsetenv(app, args));
+	int			i;
+
+	i = -1;
+	while (args[++i])
+		ft_unsetenv(app, args[++i]);
+	return (0);
 }

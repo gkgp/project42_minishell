@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: min-kang <minguk.gaang@gmail.com>          +#+  +:+       +#+        */
+/*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/14 14:06:21 by gphilipp          #+#    #+#             */
-/*   Updated: 2022/02/22 14:06:33 by min-kang         ###   ########.fr       */
+/*   Updated: 2022/02/22 15:32:30 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	ft_export(t_app *app, char **args)
 	int			added;
 	int			i;
 
-	i = 0;
+	i = -1;
 	while (args[++i])
 	{
 		str = ft_strdup(args[i]);

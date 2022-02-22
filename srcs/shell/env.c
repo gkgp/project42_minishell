@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: min-kang <minguk.gaang@gmail.com>          +#+  +:+       +#+        */
+/*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 13:24:44 by gkgpteam          #+#    #+#             */
-/*   Updated: 2022/02/22 14:11:39 by min-kang         ###   ########.fr       */
+/*   Updated: 2022/02/22 15:34:35 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,24 +74,19 @@ int	ft_setenv(t_app *app, char *key, char *val)
 	return (1);
 }
 
-int	ft_unsetenv(t_app *app, char **keys)
+int	ft_unsetenv(t_app *app, char *key)
 {
-	t_list	**plist;
-	int		i;
+	t_list		**plist;
 
-	i = 0;
-	while (keys[i])
+	plist = &app->env;
+	while (*plist)
 	{
-		plist = &app->env;
-		while (*plist)
+		if (ft_strcmp((*(t_keyval *)(*plist)->data).key, key) == 0)
 		{
-			if (ft_strcmp((*(t_keyval *)(*plist)->data).key, keys[i]) == 0)
-			{
-				list_free_keyval(list_shift(plist));
-				break ;
-			}
-			plist = &((*plist)->next);
+			list_free_keyval(list_shift(plist));
+			return (1);
 		}
+		plist = &((*plist)->next);
 	}
 	return (0);
 }

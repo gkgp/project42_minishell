@@ -10,3 +10,4 @@
 /vendor/readline
 /*.txt
 .tmp_*
+.vscode/

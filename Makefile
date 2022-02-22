@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: min-kang <minguk.gaang@gmail.com>          +#+  +:+       +#+         #
+#    By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/18 14:24:46 by gkgpteam          #+#    #+#              #
-#    Updated: 2022/02/22 14:03:00 by min-kang         ###   ########.fr        #
+#    Updated: 2022/02/22 15:13:59 by gphilipp         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,15 +14,15 @@
 SRC	  = main.c \
 		builtin/ft_cd.c \
 		builtin/ft_env.c \
+		builtin/ft_exit.c \
 		builtin/ft_export.c \
 		builtin/ft_pwd.c \
 		builtin/ft_unset.c \
-		builtin/ft_exit.c \
+		execute/builtin.c \
 		execute/execute.c \
 		execute/free.c \
 		execute/path.c \
 		execute/redir.c \
-		execute/builtin.c \
 		lexer/arg.c \
 		lexer/free.c \
 		lexer/lexer.c \

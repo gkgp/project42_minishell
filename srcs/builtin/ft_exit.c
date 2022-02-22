@@ -3,14 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: min-kang <minguk.gaang@gmail.com>          +#+  +:+       +#+        */
+/*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 14:02:10 by min-kang          #+#    #+#             */
-/*   Updated: 2022/02/22 14:02:44 by min-kang         ###   ########.fr       */
+/*   Updated: 2022/02/22 15:15:03 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-void	ft_exit(void)
+#include "minishell.h"
+
+int	ft_exit(void)
 {
 	exit(0);
+	return (0);
 }

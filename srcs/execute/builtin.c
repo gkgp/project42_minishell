@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: min-kang <minguk.gaang@gmail.com>          +#+  +:+       +#+        */
+/*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 13:27:48 by min-kang          #+#    #+#             */
-/*   Updated: 2022/02/22 15:01:44 by min-kang         ###   ########.fr       */
+/*   Updated: 2022/02/22 15:13:11 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	builtin_execute(t_node *node, t_app *app)
 	else if (!ft_strcmp("exit", to_lower(cmd)))
 		return (ft_exit());
 	else if (!ft_strcmp("export", to_lower(cmd)))
-		return (ft_export(app, ft_export(app, node->args)));
+		return (ft_export(app, node->args));
 	else if (!ft_strcmp("pwd", to_lower(cmd)))
 		return (ft_pwd());
 	else if (!ft_strcmp("unset", to_lower(cmd)))

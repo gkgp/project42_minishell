@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: min-kang <minguk.gaang@gmail.com>          +#+  +:+       +#+        */
+/*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 20:29:15 by gkgpteam          #+#    #+#             */
-/*   Updated: 2022/02/22 14:12:01 by min-kang         ###   ########.fr       */
+/*   Updated: 2022/02/22 15:14:50 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,5 +20,6 @@ int			ft_env(t_app *app);
 int			ft_export(t_app *app, char **args);
 int			ft_pwd(void);
 int			ft_unset(t_app *app, char **args);
+int			ft_exit(void);
 
 #endif

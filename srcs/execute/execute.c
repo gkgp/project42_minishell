@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: min-kang <minguk.gaang@gmail.com>          +#+  +:+       +#+        */
+/*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/16 15:54:12 by min-kang          #+#    #+#             */
-/*   Updated: 2022/02/22 15:01:55 by min-kang         ###   ########.fr       */
+/*   Updated: 2022/02/22 16:17:35 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,9 @@ int	execute(t_app *app, t_node *node, char **envp)
 	int	success;
 
 	if (node->root->node_type == 2 && builtin_check(node->root->left))
-		success = cmd_execute(app, node->root, (int [2]) {0, 1}, envp);
+		success = cmd_execute(app, node->root, (int [2]){0, 1}, envp);
 	else
 		success = execute_loop(app, node->root, envp, 0);
-	printf("ok");
 	unlink(HEREDOC);
 	// free_node(node);
 	return (success);
