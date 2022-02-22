@@ -6,7 +6,7 @@
 /*   By: min-kang <minguk.gaang@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/16 15:54:12 by min-kang          #+#    #+#             */
-/*   Updated: 2022/02/22 14:15:15 by min-kang         ###   ########.fr       */
+/*   Updated: 2022/02/22 15:01:55 by min-kang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,10 @@ int	execute(t_app *app, t_node *node, char **envp)
 {
 	int	success;
 
-	if (node->root == 2)
-	success = execute_loop(app, node->root, envp, 0);
+	if (node->root->node_type == 2 && builtin_check(node->root->left))
+		success = cmd_execute(app, node->root, (int [2]) {0, 1}, envp);
+	else
+		success = execute_loop(app, node->root, envp, 0);
 	printf("ok");
 	unlink(HEREDOC);
 	// free_node(node);
