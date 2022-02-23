@@ -6,7 +6,7 @@
 /*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 10:50:45 by gkgpteam          #+#    #+#             */
-/*   Updated: 2022/02/22 10:19:23 by gphilipp         ###   ########.fr       */
+/*   Updated: 2022/02/23 09:42:39 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,5 +60,8 @@ char		*ft_strchr(const char *s, int c);
 
 /* signal */
 void		init_signal(void);
+
+/* wildcard */
+char		**wildcard(char *dirname);
 
 #endif
