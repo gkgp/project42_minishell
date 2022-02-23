@@ -6,7 +6,7 @@
 /*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/23 08:37:45 by gkgpteam          #+#    #+#             */
-/*   Updated: 2022/02/23 09:26:19 by gphilipp         ###   ########.fr       */
+/*   Updated: 2022/02/23 15:35:59 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	ft_echo(char **args)
 	int			flag_n;
 	int			i;
 
-	if (!args)
+	if (!args || !*args)
 		return (0);
 	i = -1;
 	flag_n = (ft_strcmp("-n", args[i + 1]) == 0 && ++i >= 0);
