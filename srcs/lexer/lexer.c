@@ -6,7 +6,7 @@
 /*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/23 19:28:00 by min-kang          #+#    #+#             */
-/*   Updated: 2022/02/21 16:26:08 by gphilipp         ###   ########.fr       */
+/*   Updated: 2022/02/23 16:54:14 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,12 @@ t_token	*lexer(char *s, char **envp)
 			i = give_token(&tokens, P_OPEN, i);
 		else if (s[i] == ')')
 			i = give_token(&tokens, P_CLOSE, i);
+		else if (s[i] == '*')
+			i = rewrite_wildcard(&tokens, s, i);
 	}
 	if (!lexer_error(tokens))
 		return (free_tokens(tokens));
 	put_token_index(&tokens);
 	put_begin(&tokens);
 	return (tokens);
-}	
+}

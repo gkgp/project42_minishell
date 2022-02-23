@@ -6,7 +6,7 @@
 /*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 20:29:15 by gkgpteam          #+#    #+#             */
-/*   Updated: 2022/02/23 08:51:42 by gphilipp         ###   ########.fr       */
+/*   Updated: 2022/02/23 16:57:45 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 typedef struct s_app	t_app;
 
-int			ft_cd(t_app *app, char *path);
+int			ft_cd(char *path);
 int			ft_echo(char **args);
 int			ft_env(t_app *app);
 int			ft_export(t_app *app, char **args);

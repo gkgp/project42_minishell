@@ -6,7 +6,7 @@
 #    By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/18 14:24:46 by gkgpteam          #+#    #+#              #
-#    Updated: 2022/02/23 08:50:35 by gphilipp         ###   ########.fr        #
+#    Updated: 2022/02/23 16:24:55 by gphilipp         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,10 +18,12 @@ SRC	  = main.c \
 		lexer/var.c \
 		lexer/arg.c \
 		lexer/lexer_utils.c \
+		lexer/wildcard.c \
 		shell/shell.c \
 		shell/env.c \
 		shell/signal.c \
 		shell/app.c \
+		shell/wildcard.c \
 		shell/minishell.c \
 		utils/minishell_utils4.c \
 		utils/list.c \

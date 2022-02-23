@@ -6,7 +6,7 @@
 /*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 10:50:45 by gkgpteam          #+#    #+#             */
-/*   Updated: 2022/02/23 09:42:39 by gphilipp         ###   ########.fr       */
+/*   Updated: 2022/02/23 16:41:07 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@
 
 typedef struct s_app
 {
-	char		*workdir;
 	t_list		*env;
 	int			stay_alive;
 }			t_app;
@@ -37,8 +36,6 @@ int			minishell(int argc, char const *argv[], char *const envp[]);
 /* app.c */
 void		init_app(t_app *app);
 void		free_app(t_app *app);
-/* app_refresh.c */
-void		app_refresh_workdir(t_app *app);
 
 /* builtin/….c utils*/
 char		*ft_getcwd(void);

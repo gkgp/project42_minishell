@@ -6,7 +6,7 @@
 /*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 10:50:45 by gkgpteam          #+#    #+#             */
-/*   Updated: 2022/02/23 09:22:56 by gphilipp         ###   ########.fr       */
+/*   Updated: 2022/02/23 16:54:43 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,7 @@ int			lexer_error(t_token *tokens);
 void		*free_tokens(t_token *tokens);
 void		put_token_index(t_token **tokens);
 void		put_begin(t_token **tokens);
+int			rewrite_wildcard(t_token **tokens, char *s, int index);
 
 /* parser */
 void		parse_cmd(t_node **node, char *new_arg);

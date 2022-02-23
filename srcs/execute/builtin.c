@@ -6,7 +6,7 @@
 /*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 13:27:48 by min-kang          #+#    #+#             */
-/*   Updated: 2022/02/23 09:24:34 by gphilipp         ###   ########.fr       */
+/*   Updated: 2022/02/23 16:58:24 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	builtin_execute(t_node *node, t_app *app)
 
 	cmd = node->args[0];
 	if (!ft_strcmp("cd", to_lower(cmd)))
-		return (ft_cd(app, node->args[1]));
+		return (ft_cd(node->args[1]));
 	else if (!ft_strcmp("echo", to_lower(cmd)))
 		return (ft_echo(&node->args[1]));
 	else if (!ft_strcmp("env", to_lower(cmd)))
