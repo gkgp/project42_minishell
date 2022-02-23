@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: min-kang <minguk.gaang@gmail.com>          +#+  +:+       +#+        */
+/*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 10:50:45 by gkgpteam          #+#    #+#             */
-/*   Updated: 2022/02/22 15:01:35 by min-kang         ###   ########.fr       */
+/*   Updated: 2022/02/23 09:22:56 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,6 @@ void		*ft_calloc(size_t count, size_t size);
 char		*ft_strfcat(char *s, char c);
 char		*ft_itoa(int n);
 char		*to_lower(char *s);
-
 
 /* lexer */
 t_token		*lexer(char *s, char **envp);

@@ -6,7 +6,7 @@
 /*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/15 11:40:03 by gphilipp          #+#    #+#             */
-/*   Updated: 2022/01/15 17:34:36 by gphilipp         ###   ########.fr       */
+/*   Updated: 2022/02/23 09:14:38 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@ int	ft_env(t_app *app)
 	while (*plist)
 	{	
 		keyval = (t_keyval *)(*plist)->data;
-		ft_putstr(keyval->key);
-		ft_putstr("=");
-		ft_putstr(keyval->val);
-		ft_putstr("\n");
+		ft_putstr_fd(keyval->key, 1);
+		ft_putstr_fd("=", 1);
+		ft_putstr_fd(keyval->val, 1);
+		ft_putstr_fd("\n", 1);
 		plist = &((*plist)->next);
 	}
 	return (0);

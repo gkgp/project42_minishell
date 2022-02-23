@@ -70,7 +70,7 @@ int			ft_setenv(t_app *app, char *key, char *val);
 int			ft_unsetenv(t_app *app, char *key);
 char		**list_env_to_2d(t_app *app);
 
-/* lisr2.c */
+/* list2.c */
 void		list_free_keyval(void *data);
 
 /* dep */

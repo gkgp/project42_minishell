@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: min-kang <minguk.gaang@gmail.com>          +#+  +:+       +#+        */
+/*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 13:27:48 by min-kang          #+#    #+#             */
-/*   Updated: 2022/02/22 19:15:24 by min-kang         ###   ########.fr       */
+/*   Updated: 2022/02/23 09:24:34 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ int	builtin_check(t_node *node)
 	cmd = node->args[0];
 	if (!ft_strcmp("cd", to_lower(cmd)))
 		return (1);
-	/*else if (!ft_strcmp("echo", to_lower(cmd)))*/
+	else if (!ft_strcmp("echo", to_lower(cmd)))
+		return (2);
 	else if (!ft_strcmp("env", to_lower(cmd)))
 		return (3);
 	else if (!ft_strcmp("exit", to_lower(cmd)))
@@ -40,36 +41,19 @@ int	builtin_execute(t_node *node, t_app *app)
 
 	cmd = node->args[0];
 	if (!ft_strcmp("cd", to_lower(cmd)))
-	{
-		ft_cd(app, node->args[1]);
-		return (0);
-	}
-	/*else if (!ft_strcmp("echo", to_lower(cmd)))*/
+		return (ft_cd(app, node->args[1]));
+	else if (!ft_strcmp("echo", to_lower(cmd)))
+		return (ft_echo(&node->args[1]));
 	else if (!ft_strcmp("env", to_lower(cmd)))
-	{
-		ft_env(app);
-		return (0);
-	}
+		return (ft_env(app));
 	else if (!ft_strcmp("exit", to_lower(cmd)))
-	{
-		ft_exit();
-		return (0);
-	}
+		return (ft_exit());
 	else if (!ft_strcmp("export", to_lower(cmd)))
-	{
-		ft_export(app, node->args);
-		return (0);
-	}
+		return (ft_export(app, &node->args[1]));
 	else if (!ft_strcmp("pwd", to_lower(cmd)))
-	{
-		ft_pwd();
-		return (0);
-	}
+		return (ft_pwd());
 	else if (!ft_strcmp("unset", to_lower(cmd)))
-	{
-		ft_unset(app, node->args);
-		return (0);
-	}
+		return (ft_unset(app, &node->args[1]));
 	else
 		return (-1);
 }

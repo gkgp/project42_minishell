@@ -6,45 +6,46 @@
 #    By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/18 14:24:46 by gkgpteam          #+#    #+#              #
-#    Updated: 2022/02/22 15:13:59 by gphilipp         ###   ########.fr        #
+#    Updated: 2022/02/23 08:50:35 by gphilipp         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # <!-- pre='srcs/' path='./' match='*.c' exclude='main.c' pos='1' template='		{0} \' -->
 SRC	  = main.c \
-		builtin/ft_cd.c \
-		builtin/ft_env.c \
-		builtin/ft_exit.c \
-		builtin/ft_export.c \
-		builtin/ft_pwd.c \
-		builtin/ft_unset.c \
-		execute/builtin.c \
-		execute/execute.c \
-		execute/free.c \
-		execute/path.c \
-		execute/redir.c \
-		lexer/arg.c \
-		lexer/free.c \
 		lexer/lexer.c \
-		lexer/lexer_utils.c \
 		lexer/redir.c \
+		lexer/free.c \
 		lexer/var.c \
-		parser/arg.c \
-		parser/parser.c \
-		parser/parser_utils.c \
-		parser/pipe.c \
-		parser/redir.c \
-		shell/app.c \
-		shell/env.c \
-		shell/minishell.c \
+		lexer/arg.c \
+		lexer/lexer_utils.c \
 		shell/shell.c \
+		shell/env.c \
 		shell/signal.c \
+		shell/app.c \
+		shell/minishell.c \
+		utils/minishell_utils4.c \
 		utils/list.c \
+		utils/minishell_utils3.c \
+		utils/minishell_utils2.c \
 		utils/list2.c \
 		utils/minishell_utils1.c \
-		utils/minishell_utils2.c \
-		utils/minishell_utils3.c \
-		utils/minishell_utils4.c \
+		parser/pipe.c \
+		parser/redir.c \
+		parser/parser_utils.c \
+		parser/arg.c \
+		parser/parser.c \
+		execute/execute.c \
+		execute/redir.c \
+		execute/free.c \
+		execute/path.c \
+		execute/builtin.c \
+		builtin/ft_echo.c \
+		builtin/ft_cd.c \
+		builtin/ft_unset.c \
+		builtin/ft_env.c \
+		builtin/ft_pwd.c \
+		builtin/ft_exit.c \
+		builtin/ft_export.c \
 
 
 # <!-- pre='includes/' path='./' match='*.h' exclude='minishell.h' pos='1' template='		{0} \' -->

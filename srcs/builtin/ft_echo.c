@@ -1,26 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin.h                                          :+:      :+:    :+:   */
+/*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/12 20:29:15 by gkgpteam          #+#    #+#             */
-/*   Updated: 2022/02/23 08:51:42 by gphilipp         ###   ########.fr       */
+/*   Created: 2022/02/23 08:37:45 by gphilipp          #+#    #+#             */
+/*   Updated: 2022/02/23 09:26:19 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BUILTIN_H
-# define BUILTIN_H
+#include "minishell.h"
 
-typedef struct s_app	t_app;
+int	ft_echo(char **args)
+{
+	int			flag_n;
+	int			i;
 
-int			ft_cd(t_app *app, char *path);
-int			ft_echo(char **args);
-int			ft_env(t_app *app);
-int			ft_export(t_app *app, char **args);
-int			ft_pwd(void);
-int			ft_unset(t_app *app, char **args);
-int			ft_exit(void);
-
-#endif
+	if (!args)
+		return (0);
+	i = -1;
+	flag_n = (ft_strcmp("-n", args[i + 1]) == 0 && ++i >= 0);
+	while (args[++i])
+	{
+		if (i - flag_n > 0)
+			ft_putstr_fd(" ", 1);
+		ft_putstr_fd(args[i], 1);
+	}
+	if (!flag_n)
+		ft_putstr_fd("\n", 1);
+	return (0);
+}

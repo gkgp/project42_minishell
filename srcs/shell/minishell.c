@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: min-kang <minguk.gaang@gmail.com>          +#+  +:+       +#+        */
+/*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 10:49:04 by gkgpteam          #+#    #+#             */
-/*   Updated: 2022/02/22 19:03:45 by min-kang         ###   ########.fr       */
+/*   Updated: 2022/02/23 09:15:31 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,38 +15,13 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
-void	test(t_app *app)
-{
-	char			**envp;
-	int				i;
-
-	printf("working directory: %s\n", app->workdir);
-	ft_cd(app, "./test/");
-	printf("cd ./test\nworking directory: %s\n", app->workdir);
-	printf("%s\n", ft_getenv(app, "USER"));
-	printf("%d\n", ft_setenv(app, "MOUSTACHE3", "TRUE"));
-	printf("%s\n", ft_getenv(app, "MOUSTACHE3"));
-	//printf("%d\n", ft_export(app, (int *[2]){"MOUSTACHE3=VALID", 0}));
-	printf("%d\n", ft_unsetenv(app, "MOUSTACHE3"));
-	printf("%s\n", ft_getenv(app, "MOUSTACHE3"));
-	//printf("%d\n", ft_export(app, (int *[2]){"COUCOU=O/", 0}));
-	ft_env(app);
-	printf("diff:\n");
-	envp = list_env_to_2d(app);
-	i = -1;
-	while (envp[++i])
-	{
-		printf("%s\n", envp[i]);
-		free(envp[i]);
-	}
-	free(envp);
-}
-
 static void	accept(t_app *app, char *str_cmd)
 {
 	char			**env;
 	t_token			*tokens;
 
+	if (str_cmd && *str_cmd)
+		add_history(str_cmd);
 	env = list_env_to_2d(app);
 	tokens = lexer(str_cmd, env);
 	g_res = shell(app, tokens, 0, env);
@@ -60,8 +35,6 @@ static int	ft_readline(t_app *app)
 	while (app->stay_alive)
 	{
 		str = readline("minshell-1.0$ ");
-		if (str && *str)
-			add_history(str);
 		if (!str)
 		{
 			ft_putstr("\033[1Aminshell-1.0$ exit\n");

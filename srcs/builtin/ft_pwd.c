@@ -6,7 +6,7 @@
 /*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 12:14:24 by gkgpteam          #+#    #+#             */
-/*   Updated: 2022/02/22 17:34:02 by gphilipp         ###   ########.fr       */
+/*   Updated: 2022/02/23 09:12:04 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ int	ft_pwd(void)
 	pwd = ft_getcwd();
 	if (pwd == NULL)
 		return (1);
-	ft_putstr(pwd);
-	ft_putstr("\n");
+	ft_putstr_fd(pwd, 1);
+	ft_putstr_fd("\n", 1);
 	free(pwd);
 	return (0);
 }
