@@ -6,10 +6,11 @@
 /*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/19 09:17:56 by gkgpteam          #+#    #+#             */
-/*   Updated: 2022/02/22 17:11:27 by gphilipp         ###   ########.fr       */
+/*   Updated: 2022/03/09 23:51:31 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "minishell.h"
 #include <stdio.h>
 #include <signal.h>
 #include <termios.h>
@@ -19,12 +20,16 @@
 
 static void	ft_signal_handler(int sig)
 {
-	if (sig == 2)
+	if (sig == SIGINT)
 	{
 		rl_replace_line("", 0);
 		rl_done = 1;
 	}
-	(void) sig;
+	else if (sig == SIGQUIT)
+	{
+		ft_putstr(rl_prompt);
+		ft_putstr(rl_line_buffer);
+	}
 }
 
 /*
@@ -52,4 +57,5 @@ void	init_signal(void)
 	tcsetattr(STDIN_FILENO, TCSAFLUSH, &attributes);
 	rl_event_hook = ft_rl_event;
 	signal(SIGINT, ft_signal_handler);
+	signal(SIGQUIT, ft_signal_handler);
 }
