@@ -6,7 +6,7 @@
 /*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 10:50:45 by gkgpteam          #+#    #+#             */
-/*   Updated: 2022/02/23 16:54:43 by gphilipp         ###   ########.fr       */
+/*   Updated: 2022/03/09 21:42:01 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,8 +139,6 @@ char		*define_path(char *cmd, char **paths);
 
 /* execute */
 int			execute(t_app *app, t_node *node, char **envp);
-char		*pathname_creator(char *s, char **paths);
-char		**possible_path(char **envp);
 char		*path_define(char *cmd, char **envp);
 char		*here_doc_join(char *txt, char *r);
 int			here_doc(char *limiter);
