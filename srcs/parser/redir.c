@@ -6,19 +6,18 @@
 /*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 14:24:47 by min-kang          #+#    #+#             */
-/*   Updated: 2022/02/21 16:26:23 by gphilipp         ###   ########.fr       */
+/*   Updated: 2022/03/09 20:48:16 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	**heredoc_begin(char *redir_name)
+static void	heredoc_begin(t_node **right, char *redir_name)
 {
-	char	**new;
-
-	new = ft_calloc(1, sizeof(char *) * 2);
-	new[0] = ft_strdup(redir_name);
-	return (new);
+	(*right) = ft_calloc(1, sizeof(t_node));
+	(*right)->node_type = 1;
+	(*right)->heredoc = ft_calloc(1, sizeof(char *) * 2);
+	(*right)->heredoc[0] = ft_strdup(redir_name);
 }
 
 void	heredoc_join(t_node **node, char *join)
@@ -33,9 +32,7 @@ void	heredoc_join(t_node **node, char *join)
 			(*node)->current_cmd = ft_calloc(1, sizeof(t_node));
 			(*node)->current_cmd->node_type = 2;
 		}
-		(*node)->current_cmd->right = ft_calloc(1, sizeof(t_node));
-		(*node)->current_cmd->right->node_type = 1;
-		(*node)->current_cmd->right->heredoc = heredoc_begin(join);
+		heredoc_begin(&((*node)->current_cmd->right), join);
 		if (!(*node)->root)
 			(*node)->root = (*node)->current_cmd;
 		return ;
@@ -52,7 +49,7 @@ void	heredoc_join(t_node **node, char *join)
 	(*node)->current_cmd->left->args = new;
 }
 
-t_node	*redir_begin(int redir_type, char *redir_name)
+static t_node	*redir_begin(int redir_type, char *redir_name)
 {
 	int		*new_type;
 	char	**new_name;
@@ -71,34 +68,33 @@ t_node	*redir_begin(int redir_type, char *redir_name)
 	return (new);
 }
 
-void	redir_join(t_node **node, int redir_type, char *redir_name)
+static void	redir_join(t_node *right, int redir_type, char *redir_name)
 {
 	int		*new_type;
 	char	**new_name;
 	int		i;
 
 	i = 0;
-	while ((*node)->current_cmd->right->redir_type[i] != -1)
+	while (right->redir_type[i] != -1)
 		i++;
 	new_type = malloc(sizeof(int) * (i + 2));
 	i = 0;
-	while ((*node)->current_cmd->right->redir_name[i])
+	while (right->redir_name[i])
 		i++;
 	new_name = malloc(sizeof(char *) * (i + 2));
 	i = -1;
-	while ((*node)->current_cmd->right->redir_type[++i] != -1)
-		new_type[i] = (*node)->current_cmd->right->redir_type[i];
+	while (right->redir_type[++i] != -1)
+		new_type[i] = right->redir_type[i];
 	new_type[i++] = redir_type;
 	new_type[i] = -1;
 	i = -1;
-	while ((*node)->current_cmd->right->redir_name[++i])
-		new_name[i] = (*node)->current_cmd->right->redir_name[i];
+	while (right->redir_name[++i])
+		new_name[i] = right->redir_name[i];
 	new_name[i++] = ft_strdup(redir_name);
 	new_name[i] = NULL;
-	free((*node)->current_cmd->right->redir_type);
-	free((*node)->current_cmd->right->redir_name);
-	(*node)->current_cmd->right->redir_type = new_type;
-	(*node)->current_cmd->right->redir_name = new_name;
+	free2d(right->redir_type, right->redir_name);
+	right->redir_type = new_type;
+	right->redir_name = new_name;
 }
 
 void	parse_redir(t_node **node, t_token **tokens)
@@ -109,8 +105,10 @@ void	parse_redir(t_node **node, t_token **tokens)
 		(*node)->current_cmd->node_type = 2;
 	}
 	if (!(*node)->current_cmd->right)
-		(*node)->current_cmd->right = redir_begin((*tokens)->token, (*tokens)->next->content);
+		(*node)->current_cmd->right = redir_begin((*tokens)->token,
+				(*tokens)->next->content);
 	else
-		redir_join(node, (*tokens)->token, (*tokens)->next->content);
+		redir_join((*node)->current_cmd->right,
+			(*tokens)->token, (*tokens)->next->content);
 	*tokens = (*tokens)->next;
 }

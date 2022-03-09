@@ -103,6 +103,7 @@ void		*ft_calloc(size_t count, size_t size);
 char		*ft_strfcat(char *s, char c);
 char		*ft_itoa(int n);
 char		*to_lower(char *s);
+void		free2d(void *ptr, void *ptr2);
 
 /* lexer */
 t_token		*lexer(char *s, char **envp);

@@ -6,7 +6,7 @@
 /*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 16:55:02 by min-kang          #+#    #+#             */
-/*   Updated: 2022/02/22 16:25:54 by gphilipp         ###   ########.fr       */
+/*   Updated: 2022/03/09 20:38:20 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,4 +80,10 @@ char	*to_lower(char *s)
 		if (s[i] >= 'A' && s[i] <= 'Z')
 			s[i] += 32;
 	return (s);
+}
+
+void	free2d(void *ptr, void *ptr2)
+{
+	free(ptr);
+	free(ptr2);
 }

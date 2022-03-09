@@ -6,7 +6,7 @@
 /*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 10:49:04 by gkgpteam          #+#    #+#             */
-/*   Updated: 2022/02/23 09:15:31 by gphilipp         ###   ########.fr       */
+/*   Updated: 2022/03/09 20:22:00 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ int	minishell(int argc, char const *argv[], char *const envp[])
 	init_app(&app);
 	init_env(&app, envp);
 	(void) argv;
-	// test(&app);
 	init_signal();
 	if (argc == 1)
 		accept(&app, (char *) argv[0]);

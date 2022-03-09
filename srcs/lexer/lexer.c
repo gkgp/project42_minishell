@@ -6,16 +6,39 @@
 /*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/23 19:28:00 by min-kang          #+#    #+#             */
-/*   Updated: 2022/02/23 16:54:14 by gphilipp         ###   ########.fr       */
+/*   Updated: 2022/03/09 20:27:27 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static int	do_lexer(int i, char *s, char **envp, t_token	**tokens)
+{
+	if (is_arg(s[i]))
+		i = get_arg(tokens, s, i, envp);
+	else if (s[i] == '<')
+		i = redir_input(tokens, s, i);
+	else if (s[i] == '>')
+		i = redir_output(tokens, s, i);
+	else if (s[i] == '|' && s[i + 1] != '|')
+		i = give_token(tokens, PIPE, i);
+	else if (s[i] == '|' && s[i + 1] == '|')
+		i = give_token(tokens, OR, i);
+	else if (s[i] == '&' && s[i + 1] == '&')
+		i = give_token(tokens, AND, i);
+	else if (s[i] == '(')
+		i = give_token(tokens, P_OPEN, i);
+	else if (s[i] == ')')
+		i = give_token(tokens, P_CLOSE, i);
+	else if (s[i] == '*')
+		i = rewrite_wildcard(tokens, s, i);
+	return (i);
+}
+
 t_token	*lexer(char *s, char **envp)
 {
-	int		i;
-	t_token	*tokens;
+	int				i;
+	t_token			*tokens;
 
 	tokens = NULL;
 	i = 0;
@@ -23,24 +46,7 @@ t_token	*lexer(char *s, char **envp)
 	{
 		while (s[i] == ' ')
 			i++;
-		if (is_arg(s[i]))
-			i = get_arg(&tokens, s, i, envp);
-		else if (s[i] == '<')
-			i = redir_input(&tokens, s, i);
-		else if (s[i] == '>')
-			i = redir_output(&tokens, s, i);
-		else if (s[i] == '|' && s[i + 1] != '|')
-			i = give_token(&tokens, PIPE, i);
-		else if (s[i] == '|' && s[i + 1] == '|')
-			i = give_token(&tokens, OR, i);
-		else if (s[i] == '&' && s[i + 1] == '&')
-			i = give_token(&tokens, AND, i);
-		else if (s[i] == '(')
-			i = give_token(&tokens, P_OPEN, i);
-		else if (s[i] == ')')
-			i = give_token(&tokens, P_CLOSE, i);
-		else if (s[i] == '*')
-			i = rewrite_wildcard(&tokens, s, i);
+		i = do_lexer(i, s, envp, &tokens);
 	}
 	if (!lexer_error(tokens))
 		return (free_tokens(tokens));

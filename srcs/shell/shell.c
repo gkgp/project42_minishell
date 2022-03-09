@@ -6,7 +6,7 @@
 /*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 14:25:23 by min-kang          #+#    #+#             */
-/*   Updated: 2022/02/22 11:26:05 by gphilipp         ###   ########.fr       */
+/*   Updated: 2022/03/09 21:02:08 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,48 +56,62 @@ static int	subshell(t_app *app, t_token *tokens, char **envp)
 	return (WEXITSTATUS(res));
 }
 
-int	shell(t_app *app, t_token *tokens, int index, char **envp)
+typedef struct s_abc
 {
 	t_node	*node;
 	t_token	*begin;
 	int		res;
 	int		subsh;
+}			t_abc;
 
-	subsh = 0;
+static int	do_shell(t_abc *abc, t_app *app, t_token **tokens, char **envp)
+{
+	if ((*tokens)->begin)
+		abc->begin = (*tokens);
+	if ((*tokens)->token == AND || (*tokens)->token == OR
+		|| (*tokens)->token == P_CLOSE || !(*tokens)->next)
+	{
+		if (abc->subsh && ((abc->res && (*tokens)->token == AND)
+				|| (!abc->res && (*tokens)->token == OR)))
+			return (0);
+		else if (abc->subsh && ((!abc->res && (*tokens)->token == AND)
+				|| (abc->res && (*tokens)->token == OR)))
+		{
+			(*tokens) = (*tokens)->next;
+			return (1);
+		}
+		abc->node = parser(abc->begin, (*tokens)->index);
+		abc->res = execute(app, abc->node, envp);
+		if (!(*tokens)->next || (abc->res && (*tokens)->token == AND)
+			|| (!abc->res && (*tokens)->token == OR))
+			return (0);
+	}
+	(*tokens) = (*tokens)->next;
+	return (1);
+}
+
+int	shell(t_app *app, t_token *tokens, int index, char **envp)
+{
+	t_abc		abc;
+
+	abc.subsh = 0;
 	while (tokens && (tokens->index <= index || !index))
 	{
 		if (tokens->token == P_OPEN)
 		{
-			subsh = 0;
-			res = subshell(app, tokens, envp);
+			abc.subsh = 0;
+			abc.res = subshell(app, tokens, envp);
 			p_jump(&tokens);
-			subsh++;
+			abc.subsh++;
 			if (!tokens)
 				break ;
 		}
-		if (tokens->begin)
-			begin = tokens;
-		if (tokens->token == AND || tokens->token == OR
-			|| tokens->token == P_CLOSE || !tokens->next)
-		{
-			if (subsh && ((res && tokens->token == AND)
-					|| (!res && tokens->token == OR)))
-				break ;
-			else if (subsh && ((!res && tokens->token == AND)
-					|| (res && tokens->token == OR)))
-			{
-				tokens = tokens->next;
-				continue ;
-			}
-			node = parser(begin, tokens->index);
-			res = execute(app, node, envp);
-			if (!tokens->next || (res && tokens->token == AND)
-				|| (!res && tokens->token == OR))
-				break ;
-		}
-		tokens = tokens->next;
+		if (do_shell(&abc, app, &tokens, envp) == 1)
+			continue ;
+		else
+			break ;
 	}
 	if (!index)
 		free_tokens(tokens);
-	return (res);
+	return (abc.res);
 }

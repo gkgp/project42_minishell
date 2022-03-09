@@ -6,7 +6,7 @@
 /*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 17:02:06 by min-kang          #+#    #+#             */
-/*   Updated: 2022/02/21 16:28:25 by gphilipp         ###   ########.fr       */
+/*   Updated: 2022/03/09 20:32:30 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,52 +24,42 @@ int	is_arg(char c)
 	return (0);
 }
 
-int	arg_len(char *s, int index, int flag)
+int	arg_len(char *s, int i, int flag)
 {
-	int		i;
 	int		count;
+	int		quote;
 
-	i = index;
 	count = 0;
 	while (s[i] == ' ')
 		i++;
 	while (s[i] && s[i] != ' ' && is_arg(s[i]))
 	{
-		if (s[i] == '\'')
+		quote = 0;
+		if (s[i] == '\'' || s[i] == '\"')
+			quote = s[i];
+		if (quote == '\'')
 		{
-			while (s[++i] != '\'')
+			while (s[++i] != quote)
 				count++;
 			if (!s[++i] || s[i] == ' ')
 				break ;
 		}
-		if (s[i] == '\"')
-		{
-			while (s[++i] != '\"')
-				count++;
-			if (!s[++i] || s[i] == ' ')
-				break ;
-		}
-		else
-		{
-			i++;
+		else if (s[i++])
 			count++;
-		}
 	}
 	if (flag)
 		return (count);
 	return (i);
 }
 
-char	*put_arg(char *s, int index)
+char	*put_arg(char *s, int i)
 {
-	int		i;
 	int		j;
 	int		len;
 	char	*result;
 
-	len = arg_len(s, index, 1);
+	len = arg_len(s, i, 1);
 	result = ft_calloc(1, sizeof(char) * (len + 1));
-	i = index;
 	while (s[i] == ' ')
 		i++;
 	j = 0;
