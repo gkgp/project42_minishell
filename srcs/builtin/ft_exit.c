@@ -6,15 +6,16 @@
 /*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 14:02:10 by gkgpteam          #+#    #+#             */
-/*   Updated: 2022/02/23 15:35:52 by gphilipp         ###   ########.fr       */
+/*   Updated: 2022/03/09 22:46:03 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_exit(void)
+int	ft_exit(int pid)
 {
-	ft_putstr("exit\n");
+	if (pid != 0)
+		ft_putstr("exit\n");
 	exit(0);
 	return (0);
 }

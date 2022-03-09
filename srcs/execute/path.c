@@ -6,7 +6,7 @@
 /*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 14:23:42 by min-kang          #+#    #+#             */
-/*   Updated: 2022/03/09 21:50:03 by gphilipp         ###   ########.fr       */
+/*   Updated: 2022/03/09 23:08:18 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,9 @@ static char	*pathname_creator(char *s, char **paths)
 		else
 			free(cmd);
 	}
-	ft_putstr_fd("Error: command not found\n", 2);
+	ft_putstr_fd("minshell: ", 2);
+	ft_putstr_fd(s, 2);
+	ft_putstr_fd(": command not found\n", 2);
 	return (NULL);
 }
 

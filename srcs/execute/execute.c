@@ -6,7 +6,7 @@
 /*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/16 15:54:12 by min-kang          #+#    #+#             */
-/*   Updated: 2022/03/09 21:42:15 by gphilipp         ###   ########.fr       */
+/*   Updated: 2022/03/09 22:43:34 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,30 +14,28 @@
 
 static int	cmd_execute(t_app *app, t_node *node, int *fd, char **envp)
 {
-	t_redir	redir;
-	char	*cmd_path;
-	int		fd_in;
-	int		fd_out;
+	t_redir		redir;
+	char		*cmd_path;
+	int			exit_code;
 
-	fd_in = fd[0];
-	fd_out = fd[1];
-	redir = redir_initialize(fd_in, fd_out);
+	redir = redir_initialize(fd[0], fd[1]);
 	if (node->right)
 		redir_define(&redir, node->right->redir_name, node->right->redir_type);
 	dup2(redir.input, 0);
 	dup2(redir.output, 1);
-	if (builtin_execute(node->left, app) >= 0)
+	exit_code = builtin_execute(node->left, app, fd[2]);
+	if (exit_code >= 0)
 	{
 		if (fd[2])
-			return (0);
+			return (exit_code);
 		else
-			exit(0);
+			exit(exit_code);
 	}
 	cmd_path = path_define(node->left->args[0], envp);
 	if (!cmd_path)
 		exit(127);
 	execve(cmd_path, node->left->args, envp);
-	write(fd_out, "", 1);
+	write(fd[1], "", 1);
 	exit(127);
 }
 

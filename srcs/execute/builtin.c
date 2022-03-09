@@ -6,7 +6,7 @@
 /*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 13:27:48 by min-kang          #+#    #+#             */
-/*   Updated: 2022/03/09 20:24:07 by gphilipp         ###   ########.fr       */
+/*   Updated: 2022/03/09 22:45:38 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	builtin_check(t_node *node)
 		return (-1);
 }
 
-int	builtin_execute(t_node *node, t_app *app)
+int	builtin_execute(t_node *node, t_app *app, int pid)
 {
 	char	*cmd;
 
@@ -47,7 +47,7 @@ int	builtin_execute(t_node *node, t_app *app)
 	else if (!ft_strcmp("env", to_lower(cmd)))
 		return (ft_env(app));
 	else if (!ft_strcmp("exit", to_lower(cmd)))
-		return (ft_exit());
+		return (ft_exit(pid));
 	else if (!ft_strcmp("export", to_lower(cmd)))
 		return (ft_export(app, &node->args[1]));
 	else if (!ft_strcmp("pwd", to_lower(cmd)))

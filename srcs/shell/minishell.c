@@ -6,7 +6,7 @@
 /*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 10:49:04 by gkgpteam          #+#    #+#             */
-/*   Updated: 2022/03/09 20:22:00 by gphilipp         ###   ########.fr       */
+/*   Updated: 2022/03/09 23:49:06 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,9 @@ static int	ft_readline(t_app *app)
 		str = readline("minshell-1.0$ ");
 		if (!str)
 		{
-			ft_putstr("\033[1Aminshell-1.0$ exit\n");
+			ft_putstr("\033[1A");
+			ft_putstr(rl_prompt);
+			ft_putstr("exit\n");
 			return (1);
 		}
 		accept(app, str);
