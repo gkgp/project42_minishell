@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
+/*   By: min-kang <minguk.gaang@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 10:49:04 by gkgpteam          #+#    #+#             */
-/*   Updated: 2022/02/23 09:15:31 by gphilipp         ###   ########.fr       */
+/*   Updated: 2022/03/09 15:08:56 by min-kang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ int	minishell(int argc, char const *argv[], char *const envp[])
 	init_app(&app);
 	init_env(&app, envp);
 	(void) argv;
-	// test(&app);
 	init_signal();
 	if (argc == 1)
 		accept(&app, (char *) argv[0]);
