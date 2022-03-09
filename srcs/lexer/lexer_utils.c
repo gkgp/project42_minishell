@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
+/*   By: min-kang <minguk.gaang@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 16:56:28 by min-kang          #+#    #+#             */
-/*   Updated: 2022/02/21 16:26:09 by gphilipp         ###   ########.fr       */
+/*   Updated: 2022/03/09 14:59:40 by min-kang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,17 +28,27 @@ void	token_addback(t_token **tokens, t_token *new)
 	*tokens = begin;
 }
 
-int	give_token(t_token **tokens, int token, int index)
+int	give_token(t_token **tokens, char *s, int i)
 {
 	t_token	*new;
 
 	new = ft_calloc(1, sizeof(t_token));
-	new->token = token;
+	if (s[i] == '|' && s[i + 1] != '|')
+		new->token = PIPE;
+	else if (s[i] == '|' && s[i + 1] == '|')
+		new->token = OR;
+	else if (s[i] == '&' && s[i + 1] == '&')
+		new->token = AND;
+	else if (s[i] == '(')
+		new->token = P_OPEN;
+	else if (s[i] == ')')
+		new->token = P_CLOSE;
+	new->next = NULL;
 	token_addback(tokens, new);
-	if (token == OR || token == AND)
-		return (index + 2);
+	if (new->token == OR || new->token == AND)
+		return (i + 2);
 	else
-		return (index + 1);
+		return (i + 1);
 }
 
 int	lexer_error(t_token *tokens)
