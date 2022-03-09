@@ -6,7 +6,7 @@
 /*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 14:23:42 by min-kang          #+#    #+#             */
-/*   Updated: 2022/03/09 23:08:18 by gphilipp         ###   ########.fr       */
+/*   Updated: 2022/03/10 00:07:45 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,14 @@ static char	*pathname_creator(char *s, char **paths)
 	char	*cmd;
 	int		i;
 
-	if (access(s, F_OK) == 0)
+	if (access(s, X_OK) == 0)
 		return (s);
 	i = -1;
 	while (paths && paths[++i])
 	{
 		cmd = ft_strjoin(paths[i], "/", 0);
 		cmd = ft_strjoin(cmd, s, 1);
-		if (access(cmd, F_OK) == 0)
+		if (access(cmd, X_OK) == 0)
 			return (cmd);
 		else
 			free(cmd);
