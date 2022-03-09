@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_utils2.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
+/*   By: min-kang <minguk.gaang@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 16:54:34 by min-kang          #+#    #+#             */
-/*   Updated: 2022/02/22 10:23:50 by gphilipp         ###   ########.fr       */
+/*   Updated: 2022/03/09 15:05:23 by min-kang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	*ft_strdup(char *s)
 	int		i;
 
 	i = 0;
-	dup = malloc(sizeof(char) * (ft_strlen(s) + 1));
+	dup = malloc(ft_strlen(s) + 1);
 	if (!dup)
 		return (NULL);
 	while (s[i])
@@ -70,6 +70,12 @@ char	*ft_substr(char *s, int start, int len)
 	return (result);
 }
 
+void	ft_putstr(char *s)
+{
+	while (s && *s)
+		write(1, s++, 1);
+}
+
 char	*ft_strjoin(char *s1, char *s2, int flag)
 {
 	int		i;
@@ -91,20 +97,4 @@ char	*ft_strjoin(char *s1, char *s2, int flag)
 	if (flag)
 		free(s1);
 	return (result);
-}
-
-char	*ft_strchr(const char *s, int c)
-{
-	char	*str;
-
-	str = (char *) s;
-	while (*str != '\0')
-	{
-		if (*str == (char) c)
-			return (str);
-		str++;
-	}
-	if (c == '\0')
-		return (str);
-	return (0);
 }

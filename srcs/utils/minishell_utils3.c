@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_utils3.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
+/*   By: min-kang <minguk.gaang@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 16:55:02 by min-kang          #+#    #+#             */
-/*   Updated: 2022/02/22 16:25:54 by gphilipp         ###   ########.fr       */
+/*   Updated: 2022/03/09 15:06:44 by min-kang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,13 +71,31 @@ int	ft_strcmp(char *s1, char *s2)
 	return (s1[i] - s2[i]);
 }
 
-char	*to_lower(char *s)
+int	ft_strchr_set(char *s, char *set)
+{
+	int	i;
+	int	j;
+
+	i = -1;
+	while (s[++i])
+	{
+		j = 0;
+		while (set[j])
+			if (s[i] == set[j++])
+				return (i);
+	}
+	return (-1);
+}
+
+int	ft_strchr(char *s, char c)
 {
 	int	i;
 
 	i = -1;
 	while (s[++i])
-		if (s[i] >= 'A' && s[i] <= 'Z')
-			s[i] += 32;
-	return (s);
+	{
+		if (s[i] == c)
+			return (i);
+	}
+	return (-1);
 }

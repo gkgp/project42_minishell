@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_utils4.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
+/*   By: min-kang <minguk.gaang@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 16:55:16 by min-kang          #+#    #+#             */
-/*   Updated: 2022/02/22 10:23:26 by gphilipp         ###   ########.fr       */
+/*   Updated: 2022/03/09 15:06:53 by min-kang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,24 +25,7 @@ int	ft_chr_count(char *s, char c)
 	return (count);
 }
 
-char	*ft_strcat(char *dest, char *src)
-{
-	char	*pt_dest;
-
-	pt_dest = dest;
-	while (*dest != '\0')
-		dest++;
-	while (*src != '\0')
-	{
-		*dest = *src;
-		dest++;
-		src++;
-	}
-	*dest = '\0';
-	return (pt_dest);
-}
-
-char	*ft_strfcat(char *s, char c)
+char	*ft_strcat(char *s, char c)
 {
 	char	*new;
 	int		i;
