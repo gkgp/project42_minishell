@@ -6,22 +6,36 @@
 /*   By: min-kang <minguk.gaang@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 14:52:42 by min-kang          #+#    #+#             */
-/*   Updated: 2022/02/22 13:54:21 by min-kang         ###   ########.fr       */
+/*   Updated: 2022/03/09 14:55:52 by min-kang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	preorder_traversal(t_node *node)
-{
-	printf("====brrr===%d\n", node->node_type);
-	if (node->left)
-		preorder_traversal(node->left);
-	if (node->right)
-		preorder_traversal(node->right);
-}
-
 void	free_node(t_node *node)
 {
-	(void) node;
+	int	i;
+
+	if (node->left)
+		free_node(node->left);
+	if (node->right)
+		free_node(node->right);
+	if (node->node_type < 2)
+	{
+		if (!node->node_type)
+			free(node->args);
+		else
+		{
+			free(node->redir_type);
+			i = 0;
+			while (node->redir_name[i])
+				free(node->redir_name[i++]);
+			free(node->redir_name);
+			i = 0;
+			while (node->heredoc[i])
+				free(node->heredoc[i++]);
+			free(node->heredoc);
+		}
+	}
+	free(node);
 }
