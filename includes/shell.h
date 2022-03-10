@@ -6,7 +6,7 @@
 /*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 10:50:45 by gkgpteam          #+#    #+#             */
-/*   Updated: 2022/03/09 22:43:20 by gphilipp         ###   ########.fr       */
+/*   Updated: 2022/03/10 01:22:54 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,8 @@ char		*ft_strfcat(char *s, char c);
 char		*ft_itoa(int n);
 char		*to_lower(char *s);
 void		free2d(void *ptr, void *ptr2);
+void		dup2_2d(int stdin, int stdout);
+void		close_2d(int std1, int std2);
 
 /* lexer */
 t_token		*lexer(char *s, char **envp);

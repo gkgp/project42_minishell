@@ -6,7 +6,7 @@
 #    By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/18 14:24:46 by gkgpteam          #+#    #+#              #
-#    Updated: 2022/02/23 16:24:55 by gphilipp         ###   ########.fr        #
+#    Updated: 2022/03/10 01:23:58 by gphilipp         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,6 +30,7 @@ SRC	  = main.c \
 		utils/minishell_utils3.c \
 		utils/minishell_utils2.c \
 		utils/list2.c \
+		utils/minishell_utils5.c \
 		utils/minishell_utils1.c \
 		parser/pipe.c \
 		parser/redir.c \

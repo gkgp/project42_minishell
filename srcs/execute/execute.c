@@ -6,37 +6,52 @@
 /*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/16 15:54:12 by min-kang          #+#    #+#             */
-/*   Updated: 2022/03/09 22:43:34 by gphilipp         ###   ########.fr       */
+/*   Updated: 2022/03/10 01:32:10 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	cmd_execute(t_app *app, t_node *node, int *fd, char **envp)
+static int	do_cmd_execute(t_node *node, int *fd, char **envp)
 {
-	t_redir		redir;
 	char		*cmd_path;
-	int			exit_code;
 
-	redir = redir_initialize(fd[0], fd[1]);
-	if (node->right)
-		redir_define(&redir, node->right->redir_name, node->right->redir_type);
-	dup2(redir.input, 0);
-	dup2(redir.output, 1);
-	exit_code = builtin_execute(node->left, app, fd[2]);
-	if (exit_code >= 0)
-	{
-		if (fd[2])
-			return (exit_code);
-		else
-			exit(exit_code);
-	}
 	cmd_path = path_define(node->left->args[0], envp);
 	if (!cmd_path)
 		exit(127);
 	execve(cmd_path, node->left->args, envp);
 	write(fd[1], "", 1);
 	exit(127);
+	return (1);
+}
+
+/**
+ * STDIN_FILENO = 0, STDOUT_FILENO = 1
+ * 
+ * https://stackoverflow.com/a/9084222/
+ **/
+static int	cmd_execute(t_app *app, t_node *node, int *fd, char **envp)
+{
+	t_redir		redir;
+	int			exit_code;
+	int			copy[2];
+
+	copy[0] = dup(STDIN_FILENO);
+	copy[1] = dup(STDOUT_FILENO);
+	redir = redir_initialize(STDIN_FILENO, STDOUT_FILENO);
+	if (node->right)
+		redir_define(&redir, node->right->redir_name, node->right->redir_type);
+	dup2_2d(redir.input, redir.output);
+	exit_code = builtin_execute(node->left, app, fd[2]);
+	if (exit_code >= 0)
+	{
+		dup2_2d(copy[0], copy[1]);
+		if (fd[2])
+			return (exit_code);
+		else
+			exit(exit_code);
+	}
+	return (do_cmd_execute(node, fd, envp));
 }
 
 static int	execute_loop(t_app *app, t_node *node, char **envp, int fd_in)
@@ -54,7 +69,8 @@ static int	execute_loop(t_app *app, t_node *node, char **envp, int fd_in)
 			if (node->right && node->right->node_type > 1)
 				cmd_execute(app, node->left, (int [3]){fd_in, fd[1], 0}, envp);
 			else
-				cmd_execute(app, node, (int [3]){fd_in, 1, 0}, envp);
+				cmd_execute(app, node,
+					(int [3]){fd_in, STDOUT_FILENO, 0}, envp);
 		}
 		else
 		{
@@ -78,7 +94,8 @@ int	execute(t_app *app, t_node *node, char **envp)
 
 	if (node->root->node_type == 2 && builtin_check(node->root->left) != -1)
 	{
-		success = cmd_execute(app, node->root, (int [3]){0, 1, 1}, envp);
+		success = cmd_execute(app, node->root,
+				(int [3]){STDIN_FILENO, STDOUT_FILENO, 1}, envp);
 	}
 	else
 	{
