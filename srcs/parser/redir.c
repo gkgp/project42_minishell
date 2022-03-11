@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
+/*   By: min-kang <minguk.gaang@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 14:24:47 by min-kang          #+#    #+#             */
-/*   Updated: 2022/03/09 20:48:16 by gphilipp         ###   ########.fr       */
+/*   Updated: 2022/03/11 15:58:48 by min-kang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	heredoc_join(t_node **node, char *join)
 	while ((*node)->current_cmd->left->args[++i])
 		new[i] = (*node)->current_cmd->right->heredoc[i];
 	new[i++] = join;
-	free((*node)->current_cmd->left->args);
+	free_arg((*node)->current_cmd->left->args);
 	(*node)->current_cmd->left->args = new;
 }
 
