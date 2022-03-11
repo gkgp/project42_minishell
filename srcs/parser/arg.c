@@ -6,7 +6,7 @@
 /*   By: min-kang <minguk.gaang@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 14:24:20 by min-kang          #+#    #+#             */
-/*   Updated: 2022/03/11 15:57:08 by min-kang         ###   ########.fr       */
+/*   Updated: 2022/03/11 16:46:10 by min-kang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	arg_join(t_node **node, char *join)
 		new[i] = (*node)->current_cmd->left->args[i];
 	new[i++] = join;
 	new[i] = NULL;
-	free_args((*node)->current_cmd->left->args);
+	free((*node)->current_cmd->left->args);
 	(*node)->current_cmd->left->args = new;
 }
 

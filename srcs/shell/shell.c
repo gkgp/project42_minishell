@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
+/*   By: min-kang <minguk.gaang@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 14:25:23 by min-kang          #+#    #+#             */
-/*   Updated: 2022/03/09 21:02:08 by gphilipp         ###   ########.fr       */
+/*   Updated: 2022/03/11 16:39:35 by min-kang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,5 @@ int	shell(t_app *app, t_token *tokens, int index, char **envp)
 		else
 			break ;
 	}
-	if (!index)
-		free_tokens(tokens);
 	return (abc.res);
 }

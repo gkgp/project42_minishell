@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
+/*   By: min-kang <minguk.gaang@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 10:49:04 by gkgpteam          #+#    #+#             */
-/*   Updated: 2022/03/11 15:37:32 by gphilipp         ###   ########.fr       */
+/*   Updated: 2022/03/11 16:39:29 by min-kang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ static void	accept(t_app *app, char *str_cmd)
 	env = list_env_to_2d(app);
 	tokens = lexer(str_cmd, env);
 	g_res = shell(app, tokens, 0, env);
+	free(tokens);
 	i = -1;
 	while (env[++i])
 		free(env[i]);
