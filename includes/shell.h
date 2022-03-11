@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
+/*   By: min-kang <minguk.gaang@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 10:50:45 by gkgpteam          #+#    #+#             */
-/*   Updated: 2022/03/11 12:14:34 by gphilipp         ###   ########.fr       */
+/*   Updated: 2022/03/11 15:32:06 by min-kang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,6 @@ typedef struct s_redir {
 	int	output;
 }	t_redir;
 
-/* global variable */
-
 /* prototypes */
 int			shell(t_app *app, t_token *tokens, int index, char **envp);
 
@@ -147,5 +145,7 @@ t_redir		redir_initialize(int fd_in, int fd_out);
 int			redir_define(t_redir *redir, char **name, int *type, int pid);
 int			builtin_execute(t_node *node, t_app *app, int pid);
 int			builtin_check(t_node *node);
+void		free_node(t_node *node);
+
 
 #endif
