@@ -6,7 +6,7 @@
 /*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 10:49:04 by gkgpteam          #+#    #+#             */
-/*   Updated: 2022/03/09 23:49:06 by gphilipp         ###   ########.fr       */
+/*   Updated: 2022/03/11 15:37:32 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,16 @@ static void	accept(t_app *app, char *str_cmd)
 {
 	char			**env;
 	t_token			*tokens;
+	int				i;
 
 	if (str_cmd && *str_cmd)
 		add_history(str_cmd);
 	env = list_env_to_2d(app);
 	tokens = lexer(str_cmd, env);
 	g_res = shell(app, tokens, 0, env);
+	i = -1;
+	while (env[++i])
+		free(env[i]);
 	free(env);
 }
 
