@@ -6,7 +6,7 @@
 /*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/16 15:54:12 by min-kang          #+#    #+#             */
-/*   Updated: 2022/03/11 11:34:53 by gphilipp         ###   ########.fr       */
+/*   Updated: 2022/03/11 13:09:51 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,9 @@ static int	cmd_execute(t_app *app, t_node *node, int *fd, char **envp)
 	copy[0] = dup(STDIN_FILENO);
 	copy[1] = dup(STDOUT_FILENO);
 	redir = redir_initialize(STDIN_FILENO, STDOUT_FILENO);
-	if (node->right)
-		return (redir_define(&redir, node->right->redir_name,
-				node->right->redir_type, fd[2]));
+	if (node->right && (redir_define(&redir, node->right->redir_name,
+				node->right->redir_type, fd[2])))
+		return (1);
 	dup2_2d(redir.input, redir.output);
 	exit_code = builtin_execute(node->left, app, fd[2]);
 	if (exit_code >= 0)
