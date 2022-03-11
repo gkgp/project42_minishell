@@ -6,7 +6,7 @@
 /*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 14:23:47 by min-kang          #+#    #+#             */
-/*   Updated: 2022/02/21 16:26:02 by gphilipp         ###   ########.fr       */
+/*   Updated: 2022/03/11 11:35:28 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ t_redir	redir_initialize(int fd_in, int fd_out)
 	return (res);
 }
 
-void	redir_define(t_redir *redir, char **name, int *type)
+int	redir_define(t_redir *redir, char **name, int *type, int pid)
 {
 	int		i;
 
@@ -89,7 +89,11 @@ void	redir_define(t_redir *redir, char **name, int *type)
 		if (redir->input == -1 || redir->output == -1)
 		{
 			ft_putstr_fd("Error : Wrong filename.\n", 2);
-			exit(1);
+			if (pid)
+				return (1);
+			else
+				exit(1);
 		}
 	}
+	return (0);
 }

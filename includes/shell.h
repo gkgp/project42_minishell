@@ -6,7 +6,7 @@
 /*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 10:50:45 by gkgpteam          #+#    #+#             */
-/*   Updated: 2022/03/10 01:22:54 by gphilipp         ###   ########.fr       */
+/*   Updated: 2022/03/11 11:35:45 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,7 @@ char		*path_define(char *cmd, char **envp);
 char		*here_doc_join(char *txt, char *r);
 int			here_doc(char *limiter);
 t_redir		redir_initialize(int fd_in, int fd_out);
-void		redir_define(t_redir *redir, char **name, int *type);
+int			redir_define(t_redir *redir, char **name, int *type, int pid);
 int			builtin_execute(t_node *node, t_app *app, int pid);
 int			builtin_check(t_node *node);
 
