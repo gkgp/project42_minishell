@@ -6,7 +6,7 @@
 /*   By: min-kang <minguk.gaang@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 10:50:45 by gkgpteam          #+#    #+#             */
-/*   Updated: 2022/03/11 15:56:59 by min-kang         ###   ########.fr       */
+/*   Updated: 2022/03/11 15:59:24 by min-kang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,6 +147,6 @@ int			builtin_execute(t_node *node, t_app *app, int pid);
 int			builtin_check(t_node *node);
 void		free_node(t_node *node);
 void		free_args(char **args);
-
+void		free_redir(t_node *node);
 
 #endif
