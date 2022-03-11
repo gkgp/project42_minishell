@@ -6,7 +6,7 @@
 /*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 17:02:06 by gkgpteam          #+#    #+#             */
-/*   Updated: 2022/03/11 12:58:54 by gphilipp         ###   ########.fr       */
+/*   Updated: 2022/03/11 15:07:13 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,25 @@ static int	matching(char *pattern, char *file)
 	return (1);
 }
 
-int	rewrite_wildcard(t_token **tokens, char *str)
+static t_token	*create_arg_token(char *str)
 {
 	t_token		*new;
+
+	new = ft_calloc(1, sizeof(t_token));
+	new->token = ARG;
+	new->content = str;
+	return (new);
+}
+
+int	rewrite_wildcard(t_token **tokens, char *str)
+{
 	char		*pwd;
 	char		**args;
 	int			i;
+	int			l;
 
 	i = -1;
+	l = 0;
 	pwd = ft_getcwd();
 	args = wildcard(pwd);
 	while (args[++i])
@@ -46,11 +57,9 @@ int	rewrite_wildcard(t_token **tokens, char *str)
 			free(args[i]);
 			continue ;
 		}
-		new = ft_calloc(1, sizeof(t_token));
-		new->token = ARG;
-		new->content = args[i];
-		token_addback(tokens, new);
+		l++;
+		token_addback(tokens, create_arg_token(args[i]));
 	}
 	free2d(args, pwd);
-	return (1);
+	return (l);
 }
