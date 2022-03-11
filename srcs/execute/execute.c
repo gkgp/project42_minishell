@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
+/*   By: min-kang <minguk.gaang@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/16 15:54:12 by min-kang          #+#    #+#             */
-/*   Updated: 2022/03/11 13:09:51 by gphilipp         ###   ########.fr       */
+/*   Updated: 2022/03/11 14:56:51 by min-kang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,8 @@ static int	cmd_execute(t_app *app, t_node *node, int *fd, char **envp)
 {
 	t_redir		redir;
 	int			exit_code;
-	int			copy[2];
 
-	copy[0] = dup(STDIN_FILENO);
-	copy[1] = dup(STDOUT_FILENO);
-	redir = redir_initialize(STDIN_FILENO, STDOUT_FILENO);
+	redir = redir_initialize(fd[0], fd[1]);
 	if (node->right && (redir_define(&redir, node->right->redir_name,
 				node->right->redir_type, fd[2])))
 		return (1);
@@ -46,7 +43,7 @@ static int	cmd_execute(t_app *app, t_node *node, int *fd, char **envp)
 	exit_code = builtin_execute(node->left, app, fd[2]);
 	if (exit_code >= 0)
 	{
-		dup2_2d(copy[0], copy[1]);
+		dup2_2d(fd[0], fd[1]);
 		if (fd[2])
 			return (exit_code);
 		else

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   var.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
+/*   By: min-kang <minguk.gaang@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 16:56:06 by min-kang          #+#    #+#             */
-/*   Updated: 2022/02/21 16:28:32 by gphilipp         ###   ########.fr       */
+/*   Updated: 2022/03/11 15:09:46 by min-kang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ char	*get_var(char *s, int i, char **envp)
 	return (find_var(var_name, envp));
 }
 
-int	put_var(char **res, char *s, int i, char **envp)
+int	put_var(char **res, char *s, int *i, char **envp)
 {
 	char	*var;
 
@@ -80,16 +80,16 @@ int	put_var(char **res, char *s, int i, char **envp)
 	else if (s[i + 1] == '?')
 	{
 		var = ft_itoa(g_res);
-		i += 2;
+		*i += 2;
 		*res = ft_strjoin(*res, var, 0);
 		free(var);
 	}
 	else
 	{
-		var = get_var(s, i + 1, envp);
-		i = len_varname(s, i + 1);
+		var = get_var(s, *i + 1, envp);
+		*i = len_varname(s, i + 1);
 		*res = ft_strjoin(*res, var, 0);
 		free(var);
 	}
-	return (i - 1);
+	*i -= 1;
 }
