@@ -6,7 +6,7 @@
 /*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 17:02:06 by min-kang          #+#    #+#             */
-/*   Updated: 2022/03/11 15:21:26 by gphilipp         ###   ########.fr       */
+/*   Updated: 2022/03/11 15:50:27 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,18 @@ static char	*put_arg_n_var(char *s, int *index, char **envp, int *wflag)
 	return (res);
 }
 
+static t_token	*create_arg_token(char *str)
+{
+	t_token		*new;
+
+	new = ft_calloc(1, sizeof(t_token));
+	new->token = ARG;
+	new->content = str;
+	return (new);
+}
+
 int	get_arg(t_token **tokens, char *s, int index, char **envp)
 {
-	t_token			*new;
 	int				wflag;
 	char			*str;
 	int				len;
@@ -70,9 +79,6 @@ int	get_arg(t_token **tokens, char *s, int index, char **envp)
 			if (str[i] == -42)
 				str[i] = '*';
 	}
-	new = ft_calloc(1, sizeof(t_token));
-	new->token = ARG;
-	new->content = str;
-	token_addback(tokens, new);
+	token_addback(tokens, create_arg_token(str));
 	return (len);
 }
