@@ -6,7 +6,7 @@
 /*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/23 19:28:00 by min-kang          #+#    #+#             */
-/*   Updated: 2022/03/09 20:27:27 by gphilipp         ###   ########.fr       */
+/*   Updated: 2022/03/11 11:03:59 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,6 @@ static int	do_lexer(int i, char *s, char **envp, t_token	**tokens)
 		i = give_token(tokens, P_OPEN, i);
 	else if (s[i] == ')')
 		i = give_token(tokens, P_CLOSE, i);
-	else if (s[i] == '*')
-		i = rewrite_wildcard(tokens, s, i);
 	return (i);
 }
 

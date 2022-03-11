@@ -6,37 +6,42 @@
 /*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 17:02:06 by gkgpteam          #+#    #+#             */
-/*   Updated: 2022/02/23 17:22:01 by gphilipp         ###   ########.fr       */
+/*   Updated: 2022/03/11 12:58:54 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	ft_wordlen(char *s)
+static int	matching(char *pattern, char *file)
 {
-	int	i;
-
-	i = 0;
-	while (s[i] && s[i] != ' ')
-		i++;
-	return (i);
+	if (*pattern == -42)
+	{
+		if (!*file)
+			return (0);
+		else if (matching(pattern, file + 1))
+			return (1);
+	}
+	else if (*pattern != *file)
+		return (0);
+	if (*pattern)
+		return (matching(pattern + 1, file + 1));
+	return (1);
 }
 
-int	rewrite_wildcard(t_token **tokens, char *s, int index)
+int	rewrite_wildcard(t_token **tokens, char *str)
 {
 	t_token		*new;
 	char		*pwd;
 	char		**args;
-	char		length;
 	int			i;
 
 	i = -1;
 	pwd = ft_getcwd();
 	args = wildcard(pwd);
-	length = ft_wordlen(&s[index]);
 	while (args[++i])
 	{
-		if (length > 1 && ft_strncmp(&s[index + 1], args[i], length) != 0)
+		if (str[1] && (ft_strcmp(&str[1], args[i]) != 0
+				&& !matching(str, args[i])))
 		{
 			free(args[i]);
 			continue ;
@@ -46,7 +51,6 @@ int	rewrite_wildcard(t_token **tokens, char *s, int index)
 		new->content = args[i];
 		token_addback(tokens, new);
 	}
-	free(args);
-	free(pwd);
-	return (index + length);
+	free2d(args, pwd);
+	return (1);
 }

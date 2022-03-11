@@ -6,7 +6,7 @@
 /*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 10:50:45 by gkgpteam          #+#    #+#             */
-/*   Updated: 2022/03/11 11:35:45 by gphilipp         ###   ########.fr       */
+/*   Updated: 2022/03/11 12:14:34 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ int			lexer_error(t_token *tokens);
 void		*free_tokens(t_token *tokens);
 void		put_token_index(t_token **tokens);
 void		put_begin(t_token **tokens);
-int			rewrite_wildcard(t_token **tokens, char *s, int index);
+int			rewrite_wildcard(t_token **tokens, char *str);
 
 /* parser */
 void		parse_cmd(t_node **node, char *new_arg);
@@ -126,8 +126,7 @@ void		last_cmd(t_node **node);
 int			redir_input(t_token **tokens, char *s, int index);
 int			redir_output(t_token **tokens, char *s, int index);
 int			is_arg(char c);
-int			arg_len(char *s, int index, int flag);
-char		*put_arg(char *s, int index);
+char		*put_arg(char *s, int *index);
 int			get_arg(t_token **tokens, char *s, int index, char **envp);
 char		*get_var_arg(char *s);
 char		*find_var(char *s, char **envp);
