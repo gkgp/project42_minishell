@@ -6,7 +6,7 @@
 /*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 14:52:42 by min-kang          #+#    #+#             */
-/*   Updated: 2022/03/11 15:53:08 by gphilipp         ###   ########.fr       */
+/*   Updated: 2022/03/11 15:55:38 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	free_args(char **args)
 	int	i;
 
 	i = 0;
-	while (args[i])
+	while (args && args[i])
 		free(args[i++]);
 	free(args);
 }
