@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: min-kang <minguk.gaang@gmail.com>          +#+  +:+       +#+        */
+/*   By: mgk <mgk@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 10:50:45 by gkgpteam          #+#    #+#             */
-/*   Updated: 2022/03/11 15:59:24 by min-kang         ###   ########.fr       */
+/*   Updated: 2022/03/12 19:20:18 by mgk              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,7 @@ char		**parse_path(char **envp);
 char		*define_path(char *cmd, char **paths);
 
 /* execute */
-int			execute(t_app *app, t_node *node, char **envp);
+int			parse_execute(t_app *app, t_token *begin, int index, char **envp);
 char		*path_define(char *cmd, char **envp);
 char		*here_doc_join(char *txt, char *r);
 int			here_doc(char *limiter);

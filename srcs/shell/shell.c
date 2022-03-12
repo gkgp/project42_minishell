@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: min-kang <minguk.gaang@gmail.com>          +#+  +:+       +#+        */
+/*   By: mgk <mgk@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 14:25:23 by min-kang          #+#    #+#             */
-/*   Updated: 2022/03/11 16:39:35 by min-kang         ###   ########.fr       */
+/*   Updated: 2022/03/12 19:21:20 by mgk              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static void	p_jump(t_token **tokens)
 	*tokens = (*tokens)->next;
 }
 
-static int	subshell(t_app *app, t_token *tokens, char **envp)
+static int	subshell(t_app *app, t_token **tokens, char **envp)
 {
 	pid_t	pid;
 	int		p_end;
@@ -47,69 +47,48 @@ static int	subshell(t_app *app, t_token *tokens, char **envp)
 	pid = fork();
 	if (pid == 0)
 	{
-		p_end = p_couple(tokens);
-		res = shell(app, tokens->next, p_end, envp);
+		p_end = p_couple(*tokens);
+		res = shell(app, (*tokens)->next, p_end, envp);
 		exit(res);
 	}
 	else
 		waitpid(pid, &res, 0);
+	p_jump(tokens);
 	return (WEXITSTATUS(res));
 }
 
-typedef struct s_abc
+int	break_or_continue(int res, int token)
 {
-	t_node	*node;
-	t_token	*begin;
-	int		res;
-	int		subsh;
-}			t_abc;
-
-static int	do_shell(t_abc *abc, t_app *app, t_token **tokens, char **envp)
-{
-	if ((*tokens)->begin)
-		abc->begin = (*tokens);
-	if ((*tokens)->token == AND || (*tokens)->token == OR
-		|| (*tokens)->token == P_CLOSE || !(*tokens)->next)
-	{
-		if (abc->subsh && ((abc->res && (*tokens)->token == AND)
-				|| (!abc->res && (*tokens)->token == OR)))
-			return (0);
-		else if (abc->subsh && ((!abc->res && (*tokens)->token == AND)
-				|| (abc->res && (*tokens)->token == OR)))
-		{
-			(*tokens) = (*tokens)->next;
-			return (1);
-		}
-		abc->node = parser(abc->begin, (*tokens)->index);
-		abc->res = execute(app, abc->node, envp);
-		if (!(*tokens)->next || (abc->res && (*tokens)->token == AND)
-			|| (!abc->res && (*tokens)->token == OR))
-			return (0);
-	}
-	(*tokens) = (*tokens)->next;
-	return (1);
+	if ((res && token == AND) || (!res && token == OR))
+		return (0);
+	else
+		return (1);
 }
 
 int	shell(t_app *app, t_token *tokens, int index, char **envp)
 {
-	t_abc		abc;
+	t_token	*begin;
+	int		res;
 
-	abc.subsh = 0;
 	while (tokens && (tokens->index <= index || !index))
 	{
 		if (tokens->token == P_OPEN)
 		{
-			abc.subsh = 0;
-			abc.res = subshell(app, tokens, envp);
-			p_jump(&tokens);
-			abc.subsh++;
-			if (!tokens)
+			res = subshell(app, &tokens, envp);
+			if (!tokens || !break_or_continue(res, tokens->token))
+				break ;
+			tokens = tokens->next;
+		}
+		if (tokens->begin)
+			begin = tokens;
+		if (tokens->token == OR || tokens->token == AND
+			|| tokens->token == P_CLOSE || !tokens->next)
+		{
+			res = parse_execute(app, begin, tokens->index, envp);
+			if (!tokens->next || !break_or_continue(res, tokens->token))
 				break ;
 		}
-		if (do_shell(&abc, app, &tokens, envp) == 1)
-			continue ;
-		else
-			break ;
+		tokens = tokens->next;
 	}
-	return (abc.res);
+	return (res);
 }

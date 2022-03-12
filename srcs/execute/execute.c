@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mgk <mgk@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/16 15:54:12 by min-kang          #+#    #+#             */
-/*   Updated: 2022/03/11 15:44:44 by gphilipp         ###   ########.fr       */
+/*   Updated: 2022/03/12 19:45:48 by mgk              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,6 @@ static int	do_cmd_execute(t_node *node, int *fd, char **envp)
 	return (1);
 }
 
-/**
- * STDIN_FILENO = 0, STDOUT_FILENO = 1
- * 
- * https://stackoverflow.com/a/9084222/
- **/
 static int	cmd_execute(t_app *app, t_node *node, int *fd, char **envp)
 {
 	t_redir		redir;
@@ -87,25 +82,17 @@ static int	execute_loop(t_app *app, t_node *node, char **envp, int fd_in)
 	return (WEXITSTATUS(g_res));
 }
 
-/**
- * Il faut exécuter les builtins sans fork quand c'est une simple commande pour
- * que export fonctionne car l'impact du code est limité à la scope du fork…
- * Donc aucun changement sur les variables du main.
- **/
-int	execute(t_app *app, t_node *node, char **envp)
+int	parse_execute(t_app *app, t_token *begin, int index, char **envp)
 {
-	int	success;
+	t_node	*node;
+	int		res;
 
+	node = parser(begin, index);
 	if (node->root->node_type == 2 && builtin_check(node->root->left) != -1)
-	{
-		success = cmd_execute(app, node->root,
-				(int [3]){STDIN_FILENO, STDOUT_FILENO, 1}, envp);
-	}
+		res = cmd_execute(app, node->root, (int [3]){0, 1, 1}, envp);
 	else
-	{
-		success = execute_loop(app, node->root, envp, 0);
-	}
+		res = execute_loop(app, node->root, envp, 0);
 	free_node(node);
 	unlink(HEREDOC);
-	return (success);
+	return (res);
 }

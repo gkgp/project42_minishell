@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   var.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mgk <mgk@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 16:56:06 by min-kang          #+#    #+#             */
-/*   Updated: 2022/02/21 16:28:32 by gphilipp         ###   ########.fr       */
+/*   Updated: 2022/03/12 19:45:11 by mgk              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ char	*find_var(char *s, char **envp)
 
 int	len_varname(char *s, int i)
 {
-	while (s[i] && s[i] != ' ' && s[i] != '\"' && s[i] != '\'' && s[i] != '$')
+	while (s[i] && s[i] != ' ' && s[i] != '\"' && s[i] != '\'')
 		i++;
 	return (i);
 }
@@ -76,7 +76,10 @@ int	put_var(char **res, char *s, int i, char **envp)
 	char	*var;
 
 	if (!s[i + 1] || s[i + 1] == ' ')
+	{
 		*res = ft_strfcat(*res, '$');
+		return (i + 1);
+	}
 	else if (s[i + 1] == '?')
 	{
 		var = ft_itoa(g_res);
