@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgk <mgk@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: min-kang <minguk.gaang@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/16 15:54:12 by min-kang          #+#    #+#             */
-/*   Updated: 2022/03/12 19:45:48 by mgk              ###   ########.fr       */
+/*   Updated: 2022/03/12 20:13:39 by min-kang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,8 @@ int	parse_execute(t_app *app, t_token *begin, int index, char **envp)
 		res = cmd_execute(app, node->root, (int [3]){0, 1, 1}, envp);
 	else
 		res = execute_loop(app, node->root, envp, 0);
-	free_node(node);
+	free_node(node->root);
+	free(node);
 	unlink(HEREDOC);
 	return (res);
 }
