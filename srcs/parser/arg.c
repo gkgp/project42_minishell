@@ -6,20 +6,22 @@
 /*   By: min-kang <minguk.gaang@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 14:24:20 by min-kang          #+#    #+#             */
-/*   Updated: 2022/03/12 20:11:59 by min-kang         ###   ########.fr       */
+/*   Updated: 2022/03/13 13:38:13 by min-kang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	**arg_begin(char *s)
+t_node	*arg_begin(char *s)
 {
-	char	**new;
+	t_node	*nov;
 
-	new = malloc(sizeof(char *) * 2);
-	new[0] = s;
-	new[1] = NULL;
-	return (new);
+	nov = ft_calloc(1, sizeof(t_node));
+	nov->node_type = 0;
+	nov->args = malloc(sizeof(char *) * 2);
+	nov->args[0] = s;
+	nov->args[1] = NULL;
+	return (nov);
 }
 
 void	arg_join(t_node **node, char *join)
@@ -47,14 +49,17 @@ void	parse_cmd(t_node **node, char *new_arg)
 	t_node	*new;
 
 	if ((*node)->current_cmd)
-		arg_join(node, new_arg);
+	{
+		if ((*node)->current_cmd->left)
+			arg_join(node, new_arg);
+		else
+			(*node)->current_cmd->left = arg_begin(new_arg);
+	}
 	else
 	{
 		new = ft_calloc(1, sizeof(t_node));
 		new->node_type = 2;
-		new->left = ft_calloc(1, sizeof(t_node));
-		new->left->node_type = 0;
-		new->left->args = arg_begin(new_arg);
+		new->left = arg_begin(new_arg);
 		(*node)->current_cmd = new;
 		if (!(*node)->root)
 			(*node)->root = new;
