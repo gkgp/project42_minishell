@@ -6,7 +6,7 @@
 /*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/14 14:06:21 by gkgpteam          #+#    #+#             */
-/*   Updated: 2022/03/14 18:43:04 by gphilipp         ###   ########.fr       */
+/*   Updated: 2022/03/14 20:30:57 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,9 @@ int	ft_export(t_app *app, char **args)
 		x = ft_strchr(str, '=');
 		if (x == 0 || *(x + 1) == '\0' || x == str)
 		{
-			ft_putstr("bad key=value for ");
-			ft_putstr(str);
-			ft_putstr("\n");
+			ft_putstr_fd("bad key=value for ", 2);
+			ft_putstr_fd(str, 2);
+			ft_putstr_fd("\n", 2);
 			free(str);
 			return (1);
 		}
