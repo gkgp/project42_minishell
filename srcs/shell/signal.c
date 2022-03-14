@@ -6,7 +6,7 @@
 /*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/19 09:17:56 by gkgpteam          #+#    #+#             */
-/*   Updated: 2022/03/14 20:03:26 by gphilipp         ###   ########.fr       */
+/*   Updated: 2022/03/14 21:09:57 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ static void	ft_signal_handler(int sig)
 	if (sig == SIGINT)
 	{
 		ft_putstr("\n");
+		if (rl_done)
+			return ;
 		rl_replace_line("", 0);
 		rl_on_new_line();
 		rl_redisplay();

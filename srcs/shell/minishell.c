@@ -6,7 +6,7 @@
 /*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 10:49:04 by gkgpteam          #+#    #+#             */
-/*   Updated: 2022/03/14 19:52:52 by gphilipp         ###   ########.fr       */
+/*   Updated: 2022/03/14 20:57:43 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ static int	ft_readline(t_app *app)
 	struct termios	back_mode;
 
 	tcgetattr(STDIN_FILENO, &back_mode);
+	back_mode.c_lflag |= ECHOCTL;
 	minshell_mode = back_mode;
 	minshell_mode.c_lflag &= ~ECHOCTL;
 	while (app->stay_alive)
