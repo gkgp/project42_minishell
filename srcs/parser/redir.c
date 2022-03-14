@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: min-kang <minguk.gaang@gmail.com>          +#+  +:+       +#+        */
+/*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 14:24:47 by min-kang          #+#    #+#             */
-/*   Updated: 2022/03/13 13:39:32 by min-kang         ###   ########.fr       */
+/*   Updated: 2022/03/14 20:04:46 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ void	parse_redir(t_node **node, t_token **tokens)
 			redir_join(node, (*tokens)->token, (*tokens)->next->content);
 		else
 			(*node)->current_cmd->right = redir_begin((*tokens)->token,
-				(*tokens)->next->content);
+					(*tokens)->next->content);
 	}
 	else
 	{

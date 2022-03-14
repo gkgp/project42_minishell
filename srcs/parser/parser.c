@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: min-kang <minguk.gaang@gmail.com>          +#+  +:+       +#+        */
+/*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 13:24:50 by min-kang          #+#    #+#             */
-/*   Updated: 2022/03/12 20:56:06 by min-kang         ###   ########.fr       */
+/*   Updated: 2022/03/14 20:04:32 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 t_node	*parser(t_token *tokens, int index)
 {
 	t_node	*node;
-	
+
 	node = ft_calloc(1, sizeof(t_node));
 	while (tokens && (tokens->index <= index || index == -1))
 	{
