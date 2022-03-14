@@ -6,11 +6,30 @@
 /*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/14 14:06:21 by gkgpteam          #+#    #+#             */
-/*   Updated: 2022/02/23 15:35:45 by gphilipp         ###   ########.fr       */
+/*   Updated: 2022/03/14 18:43:04 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static int	ft_display(t_app *app)
+{
+	t_list		**plist;
+	t_keyval	*keyval;
+
+	plist = &app->env;
+	while (*plist)
+	{	
+		keyval = (t_keyval *)(*plist)->data;
+		ft_putstr_fd("declare -x ", 1);
+		ft_putstr_fd(keyval->key, 1);
+		ft_putstr_fd("=\"", 1);
+		ft_putstr_fd(keyval->val, 1);
+		ft_putstr_fd("\"\n", 1);
+		plist = &((*plist)->next);
+	}
+	return (0);
+}
 
 int	ft_export(t_app *app, char **args)
 {
@@ -19,6 +38,8 @@ int	ft_export(t_app *app, char **args)
 	int			added;
 	int			i;
 
+	if (!args[0])
+		return (ft_display(app));
 	i = -1;
 	while (args[++i])
 	{
