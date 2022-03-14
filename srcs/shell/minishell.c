@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: min-kang <minguk.gaang@gmail.com>          +#+  +:+       +#+        */
+/*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 10:49:04 by gkgpteam          #+#    #+#             */
-/*   Updated: 2022/03/12 19:58:50 by min-kang         ###   ########.fr       */
+/*   Updated: 2022/03/14 19:52:52 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <termios.h>
 #include <stdio.h>
 #include <readline/readline.h>
 #include <readline/history.h>
@@ -36,9 +37,15 @@ static void	accept(t_app *app, char *str_cmd)
 static int	ft_readline(t_app *app)
 {
 	char			*str;
+	struct termios	minshell_mode;
+	struct termios	back_mode;
 
+	tcgetattr(STDIN_FILENO, &back_mode);
+	minshell_mode = back_mode;
+	minshell_mode.c_lflag &= ~ECHOCTL;
 	while (app->stay_alive)
 	{
+		tcsetattr(STDIN_FILENO, TCSANOW, &minshell_mode);
 		str = readline("minshell-1.0$ ");
 		if (!str)
 		{
@@ -47,6 +54,7 @@ static int	ft_readline(t_app *app)
 			ft_putstr("exit\n");
 			return (1);
 		}
+		tcsetattr(STDIN_FILENO, TCSANOW, &back_mode);
 		accept(app, str);
 		if (str)
 			free(str);

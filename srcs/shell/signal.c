@@ -6,14 +6,13 @@
 /*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/19 09:17:56 by gkgpteam          #+#    #+#             */
-/*   Updated: 2022/03/09 23:51:31 by gphilipp         ###   ########.fr       */
+/*   Updated: 2022/03/14 20:03:26 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <stdio.h>
 #include <signal.h>
-#include <termios.h>
 #include <unistd.h>	
 #include <readline/readline.h>
 #include <readline/history.h>
@@ -22,25 +21,16 @@ static void	ft_signal_handler(int sig)
 {
 	if (sig == SIGINT)
 	{
+		ft_putstr("\n");
 		rl_replace_line("", 0);
-		rl_done = 1;
+		rl_on_new_line();
+		rl_redisplay();
 	}
 	else if (sig == SIGQUIT)
 	{
-		ft_putstr(rl_prompt);
-		ft_putstr(rl_line_buffer);
+		rl_on_new_line();
+		rl_redisplay();
 	}
-}
-
-/*
-** HACK: https://stackoverflow.com/a/53167525
-** Pour que rl_done soit pris on compte, on a besoin de faire:
-** rl_event_hook = ft_rl_event;
-** Periodically refresh readline instead to wait for a terminal input
-*/
-static int	ft_rl_event(void)
-{
-	return (0);
 }
 
 /*
@@ -50,12 +40,6 @@ static int	ft_rl_event(void)
 
 void	init_signal(void)
 {
-	struct termios		attributes;
-
-	tcgetattr(STDIN_FILENO, &attributes);
-	attributes.c_lflag &= ~ECHOCTL;
-	tcsetattr(STDIN_FILENO, TCSAFLUSH, &attributes);
-	rl_event_hook = ft_rl_event;
 	signal(SIGINT, ft_signal_handler);
 	signal(SIGQUIT, ft_signal_handler);
 }
