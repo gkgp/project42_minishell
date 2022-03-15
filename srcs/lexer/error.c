@@ -6,18 +6,35 @@
 /*   By: min-kang <minguk.gaang@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 21:18:47 by min-kang          #+#    #+#             */
-/*   Updated: 2022/03/15 21:19:57 by min-kang         ###   ########.fr       */
+/*   Updated: 2022/03/15 22:27:37 by min-kang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static int  p_check(t_token *tokens)
+{
+    int p_count;
+
+    p_count = 0;
+    while (tokens)
+    {
+        if (tokens->token == P_OPEN)
+            p_count++;
+        if (tokens->token == P_CLOSE)
+            p_count--;
+        tokens = tokens->next;
+    }
+    if (!p_count)
+        return (0);
+    return (1);
+}
+
 static int check_error(t_token *tokens)
 {
 	while (tokens)
 	{
-		if ((tokens->token >= CHEVRON_I && tokens->token <= P_OPEN)
-			&& !tokens->next)
+		if (p_check(tokens))
 			return (1);
 		if ((tokens->token >= PIPE && tokens->token <= AND)
 			&& (tokens->next->token >= PIPE && tokens->next->token <= AND))
