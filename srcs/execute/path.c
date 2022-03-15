@@ -3,20 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   path.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
+/*   By: min-kang <minguk.gaang@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 14:23:42 by min-kang          #+#    #+#             */
-/*   Updated: 2022/03/10 00:07:45 by gphilipp         ###   ########.fr       */
+/*   Updated: 2022/03/15 16:16:00 by min-kang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*pathname_creator(char *s, char **paths)
+static char	*get_pathname(char *s, char **paths)
 {
-	char	*cmd;
-	int		i;
+	char		*cmd;
+	struct stat	stats;
+	int			i;
 
+	if (stat(s, &stats) == 0 && S_ISDIR(stats.st_mode))
+	{
+		ft_putstr_fd(s, 2);
+		ft_putstr_fd(": is a directory\n", 2);
+		exit(126);
+	}
 	if (access(s, X_OK) == 0)
 		return (s);
 	i = -1;
@@ -31,11 +38,14 @@ static char	*pathname_creator(char *s, char **paths)
 	}
 	ft_putstr_fd("minshell: ", 2);
 	ft_putstr_fd(s, 2);
-	ft_putstr_fd(": command not found\n", 2);
-	return (NULL);
+	if (s[0] == '/')
+		ft_putstr_fd(": No such file or directory\n", 2);
+	else
+		ft_putstr_fd(": command not found\n", 2);
+	exit(127);
 }
 
-static char	**possible_path(char **envp)
+static char	**get_paths(char **envp)
 {
 	int		i;
 	char	**result;
@@ -49,10 +59,10 @@ static char	**possible_path(char **envp)
 
 char	*path_define(char *cmd, char **envp)
 {
-	char	*cmd_path;
+	char	*cmdpath;
 	char	**paths;
 
-	paths = possible_path(envp);
-	cmd_path = pathname_creator(cmd, paths);
-	return (cmd_path);
+	paths = get_paths(envp);
+	cmdpath = get_pathname(cmd, paths);
+	return (cmdpath);
 }

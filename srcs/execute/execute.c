@@ -6,7 +6,7 @@
 /*   By: min-kang <minguk.gaang@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/16 15:54:12 by min-kang          #+#    #+#             */
-/*   Updated: 2022/03/12 20:13:39 by min-kang         ###   ########.fr       */
+/*   Updated: 2022/03/15 16:15:13 by min-kang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@ static int	do_cmd_execute(t_node *node, int *fd, char **envp)
 	char		*cmd_path;
 
 	cmd_path = path_define(node->left->args[0], envp);
-	if (!cmd_path)
-		exit(127);
 	execve(cmd_path, node->left->args, envp);
 	write(fd[1], "", 1);
 	exit(127);
