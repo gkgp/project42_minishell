@@ -6,7 +6,7 @@
 /*   By: min-kang <minguk.gaang@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 14:23:42 by min-kang          #+#    #+#             */
-/*   Updated: 2022/03/15 17:17:06 by min-kang         ###   ########.fr       */
+/*   Updated: 2022/03/15 19:07:14 by min-kang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static char	*get_pathname(char *s, char **paths)
 	if (access(s, X_OK) == 0)
 		return (s);
 	i = -1;
-	while (paths && paths[++i])
+	while (paths && paths[++i] && s[0] != '/')
 	{
 		cmd = ft_strjoin(paths[i], "/", 0);
 		cmd = ft_strjoin(cmd, s, 1);
