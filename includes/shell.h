@@ -6,7 +6,7 @@
 /*   By: min-kang <minguk.gaang@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 10:50:45 by gkgpteam          #+#    #+#             */
-/*   Updated: 2022/03/15 16:13:03 by min-kang         ###   ########.fr       */
+/*   Updated: 2022/03/15 17:02:32 by min-kang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,11 @@ char		**parse_path(char **envp);
 char		*define_path(char *cmd, char **paths);
 
 /* execute */
-int			parse_execute(t_app *app, t_token *begin, int index, char **envp);
+int			parse_execute(t_app *app, t_token *begin, int index);
+int			cmd_execute(t_app *app, t_node *node, int *fd);
+int			execute_loop(t_app *app, t_node *node, int fd_in);
+void		proc_child(t_app *app, t_node *node, int fd_in, int *fd);
+int			proc_parent(t_app *app, t_node *node, int *fd, pid_t pid);
 char		*path_define(char *cmd, char **envp);
 char		*here_doc_join(char *txt, char *r);
 int			here_doc(char *limiter);

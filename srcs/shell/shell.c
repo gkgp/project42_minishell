@@ -6,7 +6,7 @@
 /*   By: min-kang <minguk.gaang@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 14:25:23 by min-kang          #+#    #+#             */
-/*   Updated: 2022/03/13 18:34:50 by min-kang         ###   ########.fr       */
+/*   Updated: 2022/03/15 17:04:09 by min-kang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int	shell(t_app *app, t_token *tokens, int index, char **envp)
 		if (tokens->token == OR || tokens->token == AND
 			|| tokens->token == P_CLOSE || !tokens->next)
 		{
-			res = parse_execute(app, begin, tokens->index, envp);
+			res = parse_execute(app, begin, tokens->index);
 			if (!tokens->next || !break_or_continue(res, tokens->token))
 				break ;
 		}

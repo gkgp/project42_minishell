@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+         #
+#    By: min-kang <minguk.gaang@gmail.com>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/18 14:24:46 by gkgpteam          #+#    #+#              #
-#    Updated: 2022/03/11 11:36:45 by gphilipp         ###   ########.fr        #
+#    Updated: 2022/03/15 17:00:13 by min-kang         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,6 +24,7 @@ SRC	  = main.c \
 		execute/free.c \
 		execute/path.c \
 		execute/redir.c \
+		execute/proc.c \
 		lexer/arg.c \
 		lexer/arg_utils.c \
 		lexer/free.c \

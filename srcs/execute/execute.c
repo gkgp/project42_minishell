@@ -6,7 +6,7 @@
 /*   By: min-kang <minguk.gaang@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/16 15:54:12 by min-kang          #+#    #+#             */
-/*   Updated: 2022/03/15 16:15:13 by min-kang         ###   ########.fr       */
+/*   Updated: 2022/03/15 17:02:23 by min-kang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static int	do_cmd_execute(t_node *node, int *fd, char **envp)
 	return (1);
 }
 
-static int	cmd_execute(t_app *app, t_node *node, int *fd, char **envp)
+int	cmd_execute(t_app *app, t_node *node, int *fd)
 {
 	t_redir		redir;
 	int			exit_code;
@@ -48,48 +48,38 @@ static int	cmd_execute(t_app *app, t_node *node, int *fd, char **envp)
 		else
 			exit(exit_code);
 	}
-	return (do_cmd_execute(node, fd, envp));
+	return (do_cmd_execute(node, fd, app->envp));
 }
 
-static int	execute_loop(t_app *app, t_node *node, char **envp, int fd_in)
+int	execute_loop(t_app *app, t_node *node, int fd_in)
 {
 	int		fd[2];
 	pid_t	pid;
+	int		res;
 
+	res = 0;
 	if (node && node->node_type > 1)
 	{
 		pipe(fd);
 		pid = fork();
 		if (pid == 0)
-		{
-			close(fd[0]);
-			if (node->right && node->right->node_type > 1)
-				cmd_execute(app, node->left, (int [3]){fd_in, fd[1], 0}, envp);
-			else
-				cmd_execute(app, node,
-					(int [3]){fd_in, STDOUT_FILENO, 0}, envp);
-		}
+			proc_child(app, node, fd_in, fd);
 		else
-		{
-			close(fd[1]);
-			execute_loop(app, node->right, envp, fd[0]);
-			close(fd[0]);
-			waitpid(pid, &g_res, 0);
-		}
+			res = proc_parent(app, node, fd, pid);
 	}
-	return (WEXITSTATUS(g_res));
+	return (res);
 }
 
-int	parse_execute(t_app *app, t_token *begin, int index, char **envp)
+int	parse_execute(t_app *app, t_token *begin, int index)
 {
 	t_node	*node;
 	int		res;
 
 	node = parser(begin, index);
 	if (node->root->node_type == 2 && builtin_check(node->root->left) != -1)
-		res = cmd_execute(app, node->root, (int [3]){0, 1, 1}, envp);
+		res = cmd_execute(app, node->root, (int [3]){0, 1, 1});
 	else
-		res = execute_loop(app, node->root, envp, 0);
+		res = execute_loop(app, node->root, 0);
 	free_node(node->root);
 	free(node);
 	unlink(HEREDOC);
