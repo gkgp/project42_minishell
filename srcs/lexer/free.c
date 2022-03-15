@@ -6,7 +6,7 @@
 /*   By: min-kang <minguk.gaang@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 14:58:04 by min-kang          #+#    #+#             */
-/*   Updated: 2022/03/15 20:43:27 by min-kang         ###   ########.fr       */
+/*   Updated: 2022/03/15 21:03:22 by min-kang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	*free_tokens(t_token *tokens)
 	while (tokens)
 	{
 		tmp = tokens->next;
-		if ((tokens->token >= INPUT && tokens->token <= OUTPUT_A))
+		if (tokens->token == ARG || (tokens->token >= INPUT && tokens->token <= OUTPUT_A))
 			free(tokens->content);
 		free(tokens);
 		tokens = tmp;

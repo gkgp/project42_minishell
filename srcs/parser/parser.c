@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
+/*   By: min-kang <minguk.gaang@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 13:24:50 by min-kang          #+#    #+#             */
-/*   Updated: 2022/03/14 20:04:32 by gphilipp         ###   ########.fr       */
+/*   Updated: 2022/03/15 21:02:28 by min-kang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ t_node	*parser(t_token *tokens, int index)
 	while (tokens && (tokens->index <= index || index == -1))
 	{
 		if (tokens->token == ARG)
-			parse_cmd(&node, tokens->content);
+			parse_cmd(&node, ft_strdup(tokens->content));
 		else if (tokens->token >= CHEVRON_I
 			&& tokens->token <= DOUBLE_CHEVRON_O)
 			parse_redir(&node, &tokens);
