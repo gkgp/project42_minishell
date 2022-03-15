@@ -6,7 +6,7 @@
 /*   By: min-kang <minguk.gaang@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 10:50:45 by gkgpteam          #+#    #+#             */
-/*   Updated: 2022/03/15 17:02:32 by min-kang         ###   ########.fr       */
+/*   Updated: 2022/03/15 19:39:34 by min-kang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ typedef struct s_node {
 	char			**args;
 	int				*redir_type;
 	char			**redir_name;
-	char			**heredoc;
 	struct s_node	*left;
 	struct s_node	*right;
 	struct s_node	*root;

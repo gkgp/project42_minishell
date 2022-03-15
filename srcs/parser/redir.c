@@ -3,61 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
+/*   By: min-kang <minguk.gaang@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 14:24:47 by min-kang          #+#    #+#             */
-/*   Updated: 2022/03/14 20:04:46 by gphilipp         ###   ########.fr       */
+/*   Updated: 2022/03/15 19:32:30 by min-kang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	heredoc_begin(t_node **node, char *redir_name)
-{
-	char	**new;
-
-	if (!(*node)->current_cmd)
-	{
-		(*node)->current_cmd = ft_calloc(1, sizeof(t_node));
-		(*node)->current_cmd->node_type = 2;
-	}
-	(*node)->current_cmd->right = ft_calloc(1, sizeof(t_node));
-	(*node)->current_cmd->right->node_type = 1;
-	new = ft_calloc(1, sizeof(char *) * 2);
-	new[0] = ft_strdup(redir_name);
-	(*node)->current_cmd->right->heredoc = new;
-	if (!(*node)->root)
-		(*node)->root = (*node)->current_cmd;
-}
-
-void	heredoc_join(t_node **node, char *join)
-{
-	int		i;
-	char	**new;
-
-	if (!(*node)->current_cmd || !(*node)->current_cmd->right)
-	{
-		if (!(*node)->current_cmd)
-		{
-			(*node)->current_cmd = ft_calloc(1, sizeof(t_node));
-			(*node)->current_cmd->node_type = 2;
-		}
-		heredoc_begin(&((*node)->current_cmd->right), join);
-		if (!(*node)->root)
-			(*node)->root = (*node)->current_cmd;
-		return ;
-	}
-	i = 0;
-	while ((*node)->current_cmd->left->heredoc[i])
-		i++;
-	new = ft_calloc(1, sizeof(char *) * (i + 2));
-	i = -1;
-	while ((*node)->current_cmd->left->args[++i])
-		new[i] = (*node)->current_cmd->right->heredoc[i];
-	new[i++] = join;
-	free((*node)->current_cmd->left->args);
-	(*node)->current_cmd->left->args = new;
-}
 
 static t_node	*redir_begin(int redir_type, char *redir_name)
 {
