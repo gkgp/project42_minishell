@@ -6,7 +6,7 @@
 /*   By: min-kang <minguk.gaang@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 14:24:47 by min-kang          #+#    #+#             */
-/*   Updated: 2022/03/15 19:32:30 by min-kang         ###   ########.fr       */
+/*   Updated: 2022/03/15 21:24:40 by min-kang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	redir_join(t_node **node, int redir_type, char *redir_name)
 	i = 0;
 	while ((*node)->current_cmd->right->redir_type[i] != -1)
 		i++;
-	new_type = malloc(sizeof(int) * (i + 1));
+	new_type = malloc(sizeof(int) * (i + 2));
 	i = 0;
 	while ((*node)->current_cmd->right->redir_name[i])
 		i++;
@@ -49,6 +49,7 @@ void	redir_join(t_node **node, int redir_type, char *redir_name)
 	while ((*node)->current_cmd->right->redir_type[++i] != -1)
 		new_type[i] = (*node)->current_cmd->right->redir_type[i];
 	new_type[i++] = redir_type;
+	new_type[i] = -1;
 	i = -1;
 	while ((*node)->current_cmd->right->redir_name[++i])
 		new_name[i] = (*node)->current_cmd->right->redir_name[i];

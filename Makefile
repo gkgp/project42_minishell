@@ -6,7 +6,7 @@
 #    By: min-kang <minguk.gaang@gmail.com>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/18 14:24:46 by gkgpteam          #+#    #+#              #
-#    Updated: 2022/03/15 17:00:13 by min-kang         ###   ########.fr        #
+#    Updated: 2022/03/15 21:19:18 by min-kang         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,6 +32,7 @@ SRC	  = main.c \
 		lexer/lexer_utils.c \
 		lexer/redir.c \
 		lexer/var.c \
+		lexer/error.c \
 		lexer/wildcard.c \
 		parser/arg.c \
 		parser/parser.c \

@@ -6,7 +6,7 @@
 /*   By: min-kang <minguk.gaang@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 14:25:23 by min-kang          #+#    #+#             */
-/*   Updated: 2022/03/15 20:47:23 by min-kang         ###   ########.fr       */
+/*   Updated: 2022/03/15 21:31:56 by min-kang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,11 @@ static int	p_couple(t_token *tokens)
 	count = 1;
 	while (count)
 	{
+		if (!tokens->next && tokens->token != P_CLOSE && count)
+		{
+			ft_putstr_fd("corresponding ) not found\n", 2);
+			return (-1);
+		}
 		tokens = tokens->next;
 		if (tokens->token == P_OPEN)
 			count++;
@@ -52,10 +57,13 @@ static int	subshell(t_app *app, t_token **tokens, char **envp)
 	int		p_end;
 	int		res;
 
+	p_end = p_couple(*tokens);
+	if (p_end < 0)
+		return (258);
 	pid = fork();
 	if (pid == 0)
 	{
-		p_end = p_couple(*tokens);
+
 		res = shell(app, (*tokens)->next, p_end, envp);
 		exit(res);
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
+/*   By: min-kang <minguk.gaang@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 16:56:28 by min-kang          #+#    #+#             */
-/*   Updated: 2022/02/21 16:26:09 by gphilipp         ###   ########.fr       */
+/*   Updated: 2022/03/15 21:18:43 by min-kang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,27 +39,6 @@ int	give_token(t_token **tokens, int token, int index)
 		return (index + 2);
 	else
 		return (index + 1);
-}
-
-int	lexer_error(t_token *tokens)
-{
-	while (tokens)
-	{
-		if ((tokens->token >= CHEVRON_I && tokens->token <= P_OPEN)
-			&& !tokens->next)
-		{
-			ft_putstr_fd("Syntax error.\n", 2);
-			return (0);
-		}
-		if ((tokens->token >= PIPE && tokens->token <= AND)
-			&& (tokens->next->token >= PIPE && tokens->next->token <= AND))
-		{
-			ft_putstr_fd("Syntax error.\n", 2);
-			return (0);
-		}
-		tokens = tokens->next;
-	}
-	return (1);
 }
 
 void	put_token_index(t_token **tokens)
