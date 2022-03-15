@@ -1,0 +1,9 @@
+Makefile
+README.md
+g
+hooks
+includes
+install_readline.sh
+minishell
+srcs
+vendor

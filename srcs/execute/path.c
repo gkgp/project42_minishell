@@ -6,7 +6,7 @@
 /*   By: min-kang <minguk.gaang@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 14:23:42 by min-kang          #+#    #+#             */
-/*   Updated: 2022/03/15 17:08:44 by min-kang         ###   ########.fr       */
+/*   Updated: 2022/03/15 17:17:06 by min-kang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ static char	*get_pathname(char *s, char **paths)
 	char		*cmd;
 	int			i;
 
+	check_isdir(s);
 	if (access(s, X_OK) == 0)
 		return (s);
 	i = -1;

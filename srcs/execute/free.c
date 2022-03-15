@@ -6,7 +6,7 @@
 /*   By: min-kang <minguk.gaang@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 14:52:42 by min-kang          #+#    #+#             */
-/*   Updated: 2022/03/12 20:10:23 by min-kang         ###   ########.fr       */
+/*   Updated: 2022/03/15 17:24:15 by min-kang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ void	free_redir(t_node *node)
 		free(node->redir_name[i++]);
 	free(node->redir_name);
 	i = 0;
-	while (node->heredoc[i])
-		free(node->heredoc[i++]);
+	/*while (node->heredoc[i])
+		free(node->heredoc[i++]);*/
 	free(node->heredoc);
 }
 
