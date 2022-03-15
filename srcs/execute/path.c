@@ -6,17 +6,15 @@
 /*   By: min-kang <minguk.gaang@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 14:23:42 by min-kang          #+#    #+#             */
-/*   Updated: 2022/03/15 16:16:00 by min-kang         ###   ########.fr       */
+/*   Updated: 2022/03/15 17:08:44 by min-kang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*get_pathname(char *s, char **paths)
+static void	check_isdir(char *s)
 {
-	char		*cmd;
 	struct stat	stats;
-	int			i;
 
 	if (stat(s, &stats) == 0 && S_ISDIR(stats.st_mode))
 	{
@@ -24,6 +22,13 @@ static char	*get_pathname(char *s, char **paths)
 		ft_putstr_fd(": is a directory\n", 2);
 		exit(126);
 	}
+}
+
+static char	*get_pathname(char *s, char **paths)
+{
+	char		*cmd;
+	int			i;
+
 	if (access(s, X_OK) == 0)
 		return (s);
 	i = -1;
