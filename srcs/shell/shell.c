@@ -6,7 +6,7 @@
 /*   By: min-kang <minguk.gaang@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 14:25:23 by min-kang          #+#    #+#             */
-/*   Updated: 2022/03/12 19:59:03 by min-kang         ###   ########.fr       */
+/*   Updated: 2022/03/13 18:34:50 by min-kang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,14 @@ static void	p_jump(t_token **tokens)
 	*tokens = (*tokens)->next;
 }
 
+static int	break_or_continue(int res, int token)
+{
+	if ((res && token == AND) || (!res && token == OR))
+		return (0);
+	else
+		return (1);
+}
+
 static int	subshell(t_app *app, t_token **tokens, char **envp)
 {
 	pid_t	pid;
@@ -55,14 +63,6 @@ static int	subshell(t_app *app, t_token **tokens, char **envp)
 		waitpid(pid, &res, 0);
 	p_jump(tokens);
 	return (WEXITSTATUS(res));
-}
-
-int	break_or_continue(int res, int token)
-{
-	if ((res && token == AND) || (!res && token == OR))
-		return (0);
-	else
-		return (1);
 }
 
 int	shell(t_app *app, t_token *tokens, int index, char **envp)
