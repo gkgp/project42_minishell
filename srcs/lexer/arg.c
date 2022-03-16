@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   arg.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
+/*   By: min-kang <minguk.gaang@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 17:02:06 by min-kang          #+#    #+#             */
-/*   Updated: 2022/03/16 17:11:54 by gphilipp         ###   ########.fr       */
+/*   Updated: 2022/03/16 19:26:06 by min-kang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*in_quote(char *s, int index, char **envp, char *res)
+static int in_quote(char *s, int index, char **envp, char **res)
 {
 	int		quote;
 
@@ -20,27 +20,22 @@ static char	*in_quote(char *s, int index, char **envp, char *res)
 	while (s[index] && s[++index] != quote)
 	{
 		if (s[index] == '$' && quote == '\"')
-			index = put_var(&res, s, index, envp);
+			index = put_var(res, s, index, envp);
 		else
-			res = ft_strfcat(res, s[index]);
+			*res = ft_strfcat(*res, s[index]);
 	}
-	if (!res)
-		res = ft_strdup("");
-	return (res);
+	return (index);
 }
 
 static char	*put_arg_n_var(char *s, int index, char **envp, int *wflag)
 {
 	char	*res;
 
-	res = NULL;
-	while (s[index] && s[index] != ' ' && is_arg(s[index]))
+	res = ft_strdup("");
+	while (s && s[index] && s[index] != ' ' && is_arg(s[index]))
 	{
 		if (s[index] == '\'' || s[index] == '\"')
-		{
-			res = in_quote(s, index, envp, res);
-			index += ft_strlen(res) + 1;
-		}
+			index = in_quote(s, index, envp, &res);
 		else if (s[index] == '$')
 			index = put_var(&res, s, index, envp);
 		else if (s[index] == '*' && (*wflag)++ >= 0)

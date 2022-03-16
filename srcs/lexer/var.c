@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   var.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgk <mgk@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: min-kang <minguk.gaang@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 16:56:06 by min-kang          #+#    #+#             */
-/*   Updated: 2022/03/12 19:45:11 by mgk              ###   ########.fr       */
+/*   Updated: 2022/03/16 19:27:29 by min-kang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ int	put_var(char **res, char *s, int i, char **envp)
 		i += 2;
 		*res = ft_strjoin(*res, var, 0);
 		free(var);
+		return (i - 1);
 	}
 	else
 	{
@@ -93,6 +94,7 @@ int	put_var(char **res, char *s, int i, char **envp)
 		i = len_varname(s, i + 1);
 		*res = ft_strjoin(*res, var, 0);
 		free(var);
+		return (i);
 	}
-	return (i - 1);
+	
 }
