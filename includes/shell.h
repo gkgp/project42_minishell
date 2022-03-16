@@ -6,7 +6,7 @@
 /*   By: min-kang <minguk.gaang@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 10:50:45 by gkgpteam          #+#    #+#             */
-/*   Updated: 2022/03/16 13:23:36 by min-kang         ###   ########.fr       */
+/*   Updated: 2022/03/16 15:36:13 by min-kang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,6 @@ void		put_begin(t_token **tokens);
 int			rewrite_wildcard(t_token **tokens, char *str);
 int			arg_len(char *s, int i, int flag);
 
-
 /* parser */
 void		parse_cmd(t_node **node, char *new_arg);
 void		parse_redir(t_node **node, t_token **tokens);
@@ -154,5 +153,6 @@ int			builtin_check(t_node *node);
 void		free_node(t_node *node);
 void		free_args(char **args);
 void		free_redir(t_node *node);
+void		print_error(char *s, int pid);
 
 #endif

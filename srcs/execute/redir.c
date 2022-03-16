@@ -6,7 +6,7 @@
 /*   By: min-kang <minguk.gaang@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 14:23:47 by min-kang          #+#    #+#             */
-/*   Updated: 2022/03/16 13:04:41 by min-kang         ###   ########.fr       */
+/*   Updated: 2022/03/16 15:25:35 by min-kang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,9 +103,7 @@ int	redir_define(t_redir *redir, char **name, int *type, int pid)
 			redir->output = open(name[i], O_CREAT | O_WRONLY | O_APPEND, 0644);
 		if (redir->input == -1 || redir->output == -1)
 		{
-			ft_putstr_fd("minshell: ", 2);
-			ft_putstr_fd(name[i], 2);
-			ft_putstr_fd(": No such file or directory.\n", 2);
+			print_error(name[i], 1);
 			if (pid)
 				return (1);
 			else

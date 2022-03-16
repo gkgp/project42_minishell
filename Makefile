@@ -6,7 +6,7 @@
 #    By: min-kang <minguk.gaang@gmail.com>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/18 14:24:46 by gkgpteam          #+#    #+#              #
-#    Updated: 2022/03/15 21:19:18 by min-kang         ###   ########.fr        #
+#    Updated: 2022/03/16 15:27:09 by min-kang         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,7 @@ SRC	  = main.c \
 		execute/path.c \
 		execute/redir.c \
 		execute/proc.c \
+		execute/error.c \
 		lexer/arg.c \
 		lexer/arg_utils.c \
 		lexer/free.c \
