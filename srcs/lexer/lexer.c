@@ -6,15 +6,17 @@
 /*   By: min-kang <minguk.gaang@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/23 19:28:00 by min-kang          #+#    #+#             */
-/*   Updated: 2022/03/16 18:51:23 by min-kang         ###   ########.fr       */
+/*   Updated: 2022/03/16 19:55:52 by min-kang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	str_err(char c)
+static int	str_err(char *s, int i)
 {
-	if (c == '|' || c == '&' || c == ')')
+	while (s[i] == ' ')
+		i++;
+	if (s[i] == '|' || s[i] == '&' || s[i] == ')')
 	{
 		ft_putstr_fd("Syntax error.\n", 2);
 		return (1);
@@ -64,12 +66,12 @@ t_token	*lexer(char *s, char **envp)
 
 	tokens = NULL;
 	i = 0;
+	if (str_err(s, i))
+		return (NULL);
 	while (i < ft_strlen(s))
 	{
 		while (s[i] == ' ')
 			i++;
-		if (str_err(s[i]))
-			return (NULL);
 		i = do_lexer(i, s, envp, &tokens);
 		if (i == -1)
 			return (free_tokens(tokens));
