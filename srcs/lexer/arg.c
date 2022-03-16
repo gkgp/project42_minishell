@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   arg.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: min-kang <minguk.gaang@gmail.com>          +#+  +:+       +#+        */
+/*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 17:02:06 by min-kang          #+#    #+#             */
-/*   Updated: 2022/03/16 16:16:01 by min-kang         ###   ########.fr       */
+/*   Updated: 2022/03/16 17:11:54 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ static char	*put_arg_n_var(char *s, int index, char **envp, int *wflag)
 		{
 			res = in_quote(s, index, envp, res);
 			index += ft_strlen(res) + 1;
-
 		}
 		else if (s[index] == '$')
 			index = put_var(&res, s, index, envp);
