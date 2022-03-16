@@ -6,7 +6,7 @@
 /*   By: min-kang <minguk.gaang@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 17:02:06 by min-kang          #+#    #+#             */
-/*   Updated: 2022/03/16 16:09:12 by min-kang         ###   ########.fr       */
+/*   Updated: 2022/03/16 16:16:01 by min-kang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ static char	*in_quote(char *s, int index, char **envp, char *res)
 		else
 			res = ft_strfcat(res, s[index]);
 	}
+	if (!res)
+		res = ft_strdup("");
 	return (res);
 }
 
@@ -38,6 +40,7 @@ static char	*put_arg_n_var(char *s, int index, char **envp, int *wflag)
 		{
 			res = in_quote(s, index, envp, res);
 			index += ft_strlen(res) + 1;
+
 		}
 		else if (s[index] == '$')
 			index = put_var(&res, s, index, envp);
