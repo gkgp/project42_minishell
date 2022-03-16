@@ -6,7 +6,7 @@
 /*   By: min-kang <minguk.gaang@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 17:02:06 by min-kang          #+#    #+#             */
-/*   Updated: 2022/03/16 16:06:07 by min-kang         ###   ########.fr       */
+/*   Updated: 2022/03/16 16:09:12 by min-kang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static char	*put_arg_n_var(char *s, int index, char **envp, int *wflag)
 		if (s[index] == '\'' || s[index] == '\"')
 		{
 			res = in_quote(s, index, envp, res);
-			index += ft_strlen(res) + 2;
+			index += ft_strlen(res) + 1;
 		}
 		else if (s[index] == '$')
 			index = put_var(&res, s, index, envp);
