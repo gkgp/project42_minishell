@@ -6,7 +6,7 @@
 /*   By: min-kang <minguk.gaang@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/11 11:07:54 by gphilipp          #+#    #+#             */
-/*   Updated: 2022/03/15 22:23:38 by min-kang         ###   ########.fr       */
+/*   Updated: 2022/03/16 12:54:07 by min-kang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ static int	arg_len(char *s, int i, int flag)
 	count = 0;
 	while (s[i] == ' ')
 		i++;
+	if (!s[i] || !is_arg(s[i]))
+		return (-1);
 	while (s[i] && s[i] != ' ' && is_arg(s[i]))
 	{
 		if (s[i] == '\'' || s[i] == '\"')
@@ -58,7 +60,8 @@ char	*put_arg(char *s, int *index)
 	int		quote;
 
 	len = arg_len(s, *index, 1);
-	printf("%d-----", len);
+	if (len == -1)
+		return (NULL);
 	result = ft_calloc(1, sizeof(char) * (len + 1));
 	while (s[*index] == ' ')
 		(*index)++;
