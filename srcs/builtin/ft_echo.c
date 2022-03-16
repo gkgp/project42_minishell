@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
+/*   By: min-kang <minguk.gaang@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/23 08:37:45 by gkgpteam          #+#    #+#             */
-/*   Updated: 2022/03/14 20:19:41 by gphilipp         ###   ########.fr       */
+/*   Updated: 2022/03/16 16:17:24 by min-kang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,16 +32,14 @@ int	ft_echo(char **args)
 	int			flag_n;
 	int			i;
 
-	if (!args || !*args)
-		return (0);
 	i = -1;
 	flag_n = 0;
-	while (args[i + 1] && is_n_argument(args[i + 1]))
+	while (args && args[i + 1] && is_n_argument(args[i + 1]))
 	{
 		flag_n = 1;
 		i++;
 	}
-	while (args[++i])
+	while (args && args[++i])
 	{
 		ft_putstr_fd(args[i], 1);
 		if (args[i + 1])
