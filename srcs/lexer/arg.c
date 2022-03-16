@@ -6,7 +6,7 @@
 /*   By: min-kang <minguk.gaang@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 17:02:06 by min-kang          #+#    #+#             */
-/*   Updated: 2022/03/16 15:42:29 by min-kang         ###   ########.fr       */
+/*   Updated: 2022/03/16 16:06:07 by min-kang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,10 @@ int	get_arg(t_token **tokens, char *s, int index, char **envp)
 	wflag = 0;
 	str = put_arg_n_var(s, index, envp, &wflag);
 	if (wflag > 0 && rewrite_wildcard(tokens, str))
+	{
 		free(str);
+		return (arg_len(s, index, 0));
+	}
 	else
 	{
 		i = -1;
