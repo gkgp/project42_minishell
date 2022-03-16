@@ -6,7 +6,7 @@
 /*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/19 09:17:56 by gkgpteam          #+#    #+#             */
-/*   Updated: 2022/03/16 17:18:54 by gphilipp         ###   ########.fr       */
+/*   Updated: 2022/03/16 17:27:58 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static void	ft_signal_handler(int sig)
 	{
 		rl_on_new_line();
 		rl_redisplay();
-		g_res = 128 + SIGINT;
+		g_res = 128 + SIGQUIT;
 	}
 }
 
