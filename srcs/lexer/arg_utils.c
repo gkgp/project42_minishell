@@ -6,7 +6,7 @@
 /*   By: min-kang <minguk.gaang@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/11 11:07:54 by gphilipp          #+#    #+#             */
-/*   Updated: 2022/03/16 12:54:07 by min-kang         ###   ########.fr       */
+/*   Updated: 2022/03/16 13:23:26 by min-kang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	is_arg(char c)
 	return (0);
 }
 
-static int	arg_len(char *s, int i, int flag)
+int	arg_len(char *s, int i, int flag)
 {
 	int		count;
 	int		quote;
@@ -32,7 +32,7 @@ static int	arg_len(char *s, int i, int flag)
 	count = 0;
 	while (s[i] == ' ')
 		i++;
-	if (!s[i] || !is_arg(s[i]))
+	if ((!s[i] || !is_arg(s[i])) && flag)
 		return (-1);
 	while (s[i] && s[i] != ' ' && is_arg(s[i]))
 	{
@@ -52,31 +52,33 @@ static int	arg_len(char *s, int i, int flag)
 	return (i);
 }
 
-char	*put_arg(char *s, int *index)
+char	*put_arg(char *s, int index)
 {
+	int		i;
 	int		j;
 	int		len;
 	char	*result;
-	int		quote;
 
-	len = arg_len(s, *index, 1);
+	len = arg_len(s, index, 1);
 	if (len == -1)
 		return (NULL);
 	result = ft_calloc(1, sizeof(char) * (len + 1));
-	while (s[*index] == ' ')
-		(*index)++;
+	i = index;
+	while (s[i] == ' ')
+		i++;
 	j = 0;
 	while (j < len)
 	{
-		if (s[*index] == '\'' || s[*index] == '\"')
-		{
-			quote = s[*index];
-			while (s[*index] && s[++(*index)] != quote)
-				result[j++] = s[*index];
-		}
+		if (s[i] == '\'')
+			while (s[++i] != '\'')
+				result[j++] = s[i];
+		else if (s[i] == '\"')
+			while (s[++i] != '\"')
+				result[j++] = s[i];
 		else
-			result[j++] = s[(*index)++];
+			result[j++] = s[i++];
 	}
 	result[j] = '\0';
 	return (result);
 }
+
