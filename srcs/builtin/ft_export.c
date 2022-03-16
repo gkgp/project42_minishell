@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
+/*   By: min-kang <minguk.gaang@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/14 14:06:21 by gkgpteam          #+#    #+#             */
-/*   Updated: 2022/03/16 18:59:56 by gphilipp         ###   ########.fr       */
+/*   Updated: 2022/03/16 20:54:26 by min-kang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,11 @@ int	ft_export(t_app *app, char **args)
 		if (x == str || (*str && !ft_export_is_valid_identifier(*str)))
 			return (ft_export_error(str));
 		else if (x == 0)
-			return (ft_setenv(app, str, "\0", 1) && 0);
+		{
+			ft_setenv(app, str, "\0", 1);
+			free(str);
+			return (0);
+		}
 		*x = '\0';
 		ft_setenv(app, str, x + 1, 0);
 		free(str);

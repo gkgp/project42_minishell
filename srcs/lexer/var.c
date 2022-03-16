@@ -6,7 +6,7 @@
 /*   By: min-kang <minguk.gaang@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 16:56:06 by min-kang          #+#    #+#             */
-/*   Updated: 2022/03/16 20:08:27 by min-kang         ###   ########.fr       */
+/*   Updated: 2022/03/16 21:01:43 by min-kang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,18 +87,15 @@ int	put_var(char **res, char *s, int i, char **envp)
 	{
 		var = ft_itoa(g_res);
 		i += 2;
-		*res = ft_strjoin(*res, var, 0);
+		*res = ft_strjoin(*res, var, 1);
 		free(var);
 	}
 	else
 	{
 		var = get_var(s, i + 1, envp);
 		i = len_varname(s, i + 1);
-		if (var)
-		{
-			*res = ft_strjoin(*res, var, 0);
-			free(var);
-		}
+		*res = ft_strjoin(*res, var, 1);
+		free(var);
 	}
 	return (i - 1);
 }

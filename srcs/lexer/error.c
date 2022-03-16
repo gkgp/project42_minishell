@@ -6,7 +6,7 @@
 /*   By: min-kang <minguk.gaang@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 21:18:47 by min-kang          #+#    #+#             */
-/*   Updated: 2022/03/16 18:51:45 by min-kang         ###   ########.fr       */
+/*   Updated: 2022/03/16 21:07:35 by min-kang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ static int	check_error(t_token *tokens)
 			&& ((tokens->next->token >= PIPE && tokens->next->token <= AND)
 				|| tokens->next->token == P_CLOSE))
 			return (5);
+		if (!tokens->next && (tokens->token >= PIPE && tokens->token <= P_OPEN))
+			return (6);
 		tokens = tokens->next;
 	}
 	return (0);
