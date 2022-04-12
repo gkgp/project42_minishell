@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   proc.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: min-kang <minguk.gaang@gmail.com>          +#+  +:+       +#+        */
+/*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 16:20:11 by min-kang          #+#    #+#             */
-/*   Updated: 2022/03/16 17:52:25 by min-kang         ###   ########.fr       */
+/*   Updated: 2022/04/12 13:01:51 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,10 @@ int	proc_parent(t_app *app, t_node *node, int *fd, pid_t pid)
 	res = execute_loop(app, node->right, fd[0]);
 	close(fd[0]);
 	waitpid(pid, &res_child, 0);
-	res_child = WEXITSTATUS(res_child);
+	if (res_child == 2)
+		res_child += 128;
+	else
+		res_child = WEXITSTATUS(res_child);
 	if (node->right && node->right->node_type > 1)
 		return (res);
 	return (res_child);
