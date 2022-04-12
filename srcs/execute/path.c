@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: min-kang <minguk.gaang@gmail.com>          +#+  +:+       +#+        */
+/*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 14:23:42 by min-kang          #+#    #+#             */
-/*   Updated: 2022/03/16 15:28:19 by min-kang         ###   ########.fr       */
+/*   Updated: 2022/04/12 14:23:21 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void	check_isdir(char *s)
 
 	if (stat(s, &stats) == 0 && S_ISDIR(stats.st_mode))
 	{
-		print_error(s, 3);
+		print_error(s, EISDIR);
 		exit(126);
 	}
 }
@@ -28,24 +28,24 @@ static char	*get_pathname(char *s, char **paths)
 	char		*cmd;
 	int			i;
 
+	cmd = "";
 	check_isdir(s);
 	if (access(s, X_OK) == 0)
 		return (s);
 	i = -1;
-	while (paths && paths[++i] && s[0] != '/')
+	while (paths && paths[++i] && s[0] != '/' && s[0] != '.' && s[1] != '/')
 	{
 		cmd = ft_strjoin(paths[i], "/", 0);
 		cmd = ft_strjoin(cmd, s, 1);
 		if (access(cmd, X_OK) == 0)
 			return (cmd);
-		else
-			free(cmd);
+		free(cmd);
 	}
-	if (s[0] == '/')
-		print_error(s, 1);
+	if ((s[0] == '/' || (s[0] == '.' && s[1] == '/')) && access(s, F_OK) >= 0)
+		print_error(s, errno);
 	else
-		print_error(s, 2);
-	exit(127);
+		print_error(s, -2);
+	exit(126);
 }
 
 static char	**get_paths(char **envp)

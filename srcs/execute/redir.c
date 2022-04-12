@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: min-kang <minguk.gaang@gmail.com>          +#+  +:+       +#+        */
+/*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 14:23:47 by min-kang          #+#    #+#             */
-/*   Updated: 2022/03/16 21:28:44 by min-kang         ###   ########.fr       */
+/*   Updated: 2022/04/12 13:48:03 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ int	redir_define(t_redir *redir, char **name, int *type, int pid)
 			redir->output = open(name[i], O_CREAT | O_WRONLY | O_APPEND, 0644);
 		if (redir->input == -1 || redir->output == -1)
 		{
-			print_error(name[i], 1);
+			print_error(name[i], ENOENT);
 			if (pid)
 				return (1);
 			else
