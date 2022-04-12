@@ -6,7 +6,7 @@
 /*   By: gphilipp <gphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 14:02:10 by gkgpteam          #+#    #+#             */
-/*   Updated: 2022/04/12 13:12:55 by gphilipp         ###   ########.fr       */
+/*   Updated: 2022/04/12 14:27:04 by gphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,19 +68,25 @@ static int	ft_isnumeric(char *str)
 
 int	ft_exit(int pid, char **args)
 {
+	int			exit_code;
+
+	exit_code = 0;
 	if (!ft_isnumeric(*args))
 	{
 		ft_putstr("minshell: exit: ");
 		ft_putstr(*args);
 		ft_putstr(": numeric argument required\n");
+		exit_code = 255;
 	}
 	else if (args[0] && args[1])
 	{
 		ft_putstr_fd("minshell: exit: too many arguments\n", 2);
 		return (0);
 	}
+	else if (*args && *args[0])
+		exit(ft_atoi(*args) % 256);
 	if (pid != 0)
 		ft_putstr("exit\n");
-	exit(ft_atoi(*args) % 256);
+	exit(exit_code);
 	return (0);
 }
